@@ -33,3 +33,43 @@ El proyecto surge como una propuesta académica para explorar cómo la inteligen
 - **Modelo IA:** Python + scikit-learn / Hugging Face  
 - **Base de datos:** MySQL / MariaDB  
 - **Hosting:** Firebase Hosting / Render
+
+---
+
+## 🖼️ Vista general
+
+### Interfaz principal de Mentally 
+
+![ip](/interfaz_principal.png)
+
+---
+
+![ip](/interfaz_principal1.png)
+
+---
+
+![ip](/interfaz_principal2.png)
+
+---
+
+![ip](/interfaz_principal3.png)
+
+---
+
+![ip](/interfaz_principal4.png)
+
+---
+
+![ip](/interfaz_principal5.png)
+
+---
+
+![ip](/interfaz_principal6.png)
+
+---
+
+![ip](/interfaz_principal7.png)
+
+---
+
+![ip](/interfaz_principal8.png)
