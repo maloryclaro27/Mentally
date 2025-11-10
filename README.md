@@ -31,5 +31,5 @@ El proyecto surge como una propuesta académica para explorar cómo la inteligen
 - **Frontend:** Laravel (Blade + Tailwind)  
 - **Backend / API:** Laravel REST API (OpenAPI)  
 - **Modelo IA:** Python + scikit-learn / Hugging Face  
-- **Base de datos:** Firebase / PostgreSQL  
+- **Base de datos:** MySQL / MariaDB  
 - **Hosting:** Firebase Hosting / Render
