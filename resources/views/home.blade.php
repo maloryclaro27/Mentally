@@ -2273,29 +2273,29 @@
 
         <ul class="nav-links">
             <li class="nav-item">
-                <a class="nav-link">Servicios</a>
+                <a class="nav-link require-auth">Servicios</a>
                 <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Diario Emocional</a>
-                    <a href="#" class="dropdown-item">Chatbot: Habla con Cereon 🧠</a>
+                    <a class="dropdown-item require-auth" data-page="diary">Diario Emocional</a>
+                    <a class="dropdown-item require-auth" data-page="chatbot">Chatbot: Habla con Cereon 🧠</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Tests</a>
+                <a class="nav-link require-auth">Tests</a>
                 <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Test de Depresión</a>
-                    <a href="#" class="dropdown-item">Test de Ansiedad</a>
-                    <a href="#" class="dropdown-item">Test de Esquizofrenia</a>
+                    <a class="dropdown-item require-auth" data-page="depression-test">Test de Depresión</a>
+                    <a class="dropdown-item require-auth" data-page="anxiety-test">Test de Ansiedad</a>
+                    <a class="dropdown-item require-auth" data-page="schizophrenia-test">Test de Esquizofrenia</a>
                 </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link">Blog</a>
                 <div class="dropdown-menu">
                     <a href="#" class="dropdown-item">Artículos</a>
-                    <a href="#" class="dropdown-item">Postea tu Historia</a>
+                    <a class="dropdown-item require-auth" data-page="post-story">Postea tu Historia</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">Directorio de especialistas</a>
+                <a class="nav-link require-auth" data-page="specialists-directory">Directorio de especialistas</a>
             </li>
         </ul>
 
@@ -3480,6 +3480,76 @@
                 }
             });
         });
+
+        // Sistema de verificación de autenticación
+        function initAuthSystem() {
+            function isUserAuthenticated() {
+        // Por ahora, simulamos que NO está autenticado
+                return false;
+        
+        // Cuando implementes la autenticación real, podría ser:
+        // return localStorage.getItem('userToken') !== null;
+        // ó
+        // return document.cookie.includes('auth_token');
+            }
+    
+    // Función para redirigir al login
+            function redirectToLogin(redirectTo = '') {
+        // Guardar la página a la que quería acceder
+                if (redirectTo) {
+                    sessionStorage.setItem('redirectAfterLogin', redirectTo);
+                }
+        
+        // Redirigir a la página de login
+                window.location.href = '/login'; // Cambia esta ruta según tu estructura
+        }
+    
+    // Función para manejar clics en enlaces que requieren autenticación
+    function handleAuthRequiredClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Verificar si el usuario está autenticado
+        if (!isUserAuthenticated()) {
+            // Obtener la página a la que quiere acceder
+            const page = this.getAttribute('data-page') || 
+                        this.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+            
+            // Mostrar mensaje (opcional)
+            console.log(`Redirigiendo a login para acceder a: ${page}`);
+            
+            // Redirigir al login
+            redirectToLogin(page);
+        } else {
+            // Si está autenticado, proceder normalmente
+            // Aquí iría la navegación normal a la página solicitada
+            const page = this.getAttribute('data-page');
+            console.log(`Usuario autenticado, navegando a: ${page}`);
+            // window.location.href = `/${page}`; // Descomenta cuando tengas las rutas
+        }
+    }
+    
+    // Agregar event listeners a todos los enlaces que requieren autenticación
+    document.querySelectorAll('.require-auth').forEach(link => {
+        link.addEventListener('click', handleAuthRequiredClick);
+    });
+    
+    // También manejar los botones de login/signup del navbar para que funcionen normalmente
+    document.querySelectorAll('.btn-login, .btn-signup').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Estos ya tienen href="#" que podemos mantener o modificar
+            window.location.href = this.getAttribute('href') || '/login';
+        });
+    });
+}
+
+// Inicializar el sistema de autenticación cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAuthSystem);
+} else {
+    initAuthSystem();
+}
     </script>
 </body>
 </html>
