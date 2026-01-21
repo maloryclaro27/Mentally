@@ -1835,12 +1835,13 @@
             }
         }
 
-                /* Footer Section */
+                /* Footer Section - Improved */
         .footer-section {
-            background: linear-gradient(135deg, #2c5f5d 0%, #1e4a47 100%);
-            color: white;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5f3 50%, #d4f1f9 100%);
+            color: #2c5f5d;
             position: relative;
             overflow: hidden;
+            border-top: 1px solid rgba(77, 184, 168, 0.2);
         }
 
         .footer-container {
@@ -1849,14 +1850,20 @@
             padding: 4rem 3rem 2rem;
         }
 
-        /* Carrusel de Emergencias */
+        /* Carrusel de Emergencias Mejorado */
         .emergency-section {
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(77, 184, 168, 0.1);
+            border: 1px solid rgba(77, 184, 168, 0.1);
         }
 
         .emergency-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .emergency-title {
@@ -1864,22 +1871,20 @@
             font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: white;
+            color: #2c5f5d;
+            background: linear-gradient(135deg, #2c5f5d, #4db8a8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .emergency-subtitle {
             font-size: 1.1rem;
-            opacity: 0.9;
-            color: #a8d5d0;
+            color: #5a7c7a;
         }
 
         .emergency-carousel {
             position: relative;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
         }
 
         .emergency-track {
@@ -1896,43 +1901,64 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 2px solid rgba(77, 184, 168, 0.2);
         }
 
         .city-flag {
             font-size: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
         .city-name {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
+            color: #2c5f5d;
         }
 
         .emergency-lines {
             display: grid;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .emergency-line {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.2rem;
-            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 252, 251, 0.9));
+            padding: 1.5rem;
+            border-radius: 15px;
             border-left: 4px solid #4db8a8;
+            box-shadow: 0 5px 15px rgba(77, 184, 168, 0.1);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emergency-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(77, 184, 168, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .emergency-line:hover::before {
+            left: 100%;
         }
 
         .emergency-line:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(5px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(77, 184, 168, 0.15);
         }
 
         .line-name {
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: #4db8a8;
+            font-size: 1.1rem;
         }
 
         .line-numbers {
@@ -1942,12 +1968,44 @@
         }
 
         .line-number {
-            background: rgba(77, 184, 168, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            border: 1px solid rgba(77, 184, 168, 0.3);
+            background: linear-gradient(135deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.2));
+            padding: 0.7rem 1.2rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            border: 1px solid rgba(77, 184, 168, 0.2);
+            color: #2c5f5d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .line-number:hover {
+            background: linear-gradient(135deg, rgba(77, 184, 168, 0.2), rgba(91, 196, 179, 0.3));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(77, 184, 168, 0.2);
+        }
+
+        .line-number::after {
+            content: '📋 Copiar';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .line-number:hover::after {
+            opacity: 1;
         }
 
         .emergency-nav {
@@ -1955,7 +2013,7 @@
             justify-content: center;
             align-items: center;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .emergency-dots {
@@ -1964,10 +2022,10 @@
         }
 
         .emergency-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(77, 184, 168, 0.3);
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -1975,43 +2033,59 @@
         .emergency-dot.active {
             background: #4db8a8;
             transform: scale(1.2);
+            box-shadow: 0 2px 8px rgba(77, 184, 168, 0.3);
         }
 
         .emergency-arrow {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #4db8a8;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            color: white;
+            color: #4db8a8;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(77, 184, 168, 0.2);
         }
 
         .emergency-arrow:hover {
             background: #4db8a8;
-            border-color: #4db8a8;
+            color: white;
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(77, 184, 168, 0.3);
         }
 
-        /* Información del Footer */
+        /* Información del Footer Mejorada */
         .footer-info {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 3rem;
             padding: 3rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(77, 184, 168, 0.2);
+            border-bottom: 1px solid rgba(77, 184, 168, 0.2);
         }
 
         .footer-column h3 {
             font-family: 'Quicksand', sans-serif;
             font-size: 1.3rem;
             margin-bottom: 1.5rem;
-            color: #4db8a8;
+            color: #2c5f5d;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #4db8a8, #5bc4b3);
+            border-radius: 2px;
         }
 
         .footer-links {
@@ -2023,7 +2097,7 @@
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: #5a7c7a;
             text-decoration: none;
             transition: all 0.3s ease;
             display: flex;
@@ -2033,7 +2107,17 @@
 
         .footer-links a:hover {
             color: #4db8a8;
-            transform: translateX(5px);
+            transform: translateX(8px);
+        }
+
+        .footer-links a i {
+            color: #4db8a8;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links a:hover i {
+            transform: translateX(3px);
         }
 
         .contact-info {
@@ -2046,63 +2130,90 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #5a7c7a;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: #4db8a8;
+            transform: translateX(5px);
         }
 
         .contact-item i {
             color: #4db8a8;
             width: 20px;
+            font-size: 1.1rem;
         }
 
         .social-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.2));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            color: white;
+            color: #4db8a8;
             text-decoration: none;
+            border: 1px solid rgba(77, 184, 168, 0.2);
         }
 
         .social-link:hover {
-            background: #4db8a8;
-            transform: translateY(-3px);
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+            color: white;
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(77, 184, 168, 0.3);
         }
 
-        /* Copyright */
+        /* Copyright Mejorado */
         .footer-bottom {
             padding: 2rem 0 1rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
+            color: #5a7c7a;
             font-size: 0.9rem;
         }
 
         .footer-logo {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: white;
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, #2c5f5d, #4db8a8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .footer-description {
+            color: #5a7c7a;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Elementos decorativos */
-        .footer-wave {
+        .footer-decoration {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.05)"/></svg>');
-            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .footer-brain {
+            font-size: 8rem;
+            bottom: -20px;
+            right: -20px;
+            color: #4db8a8;
+            animation: gentleFloat 6s ease-in-out infinite;
         }
 
         /* Responsive */
@@ -2111,17 +2222,21 @@
                 padding: 3rem 1.5rem 1rem;
             }
 
+            .emergency-section {
+                padding: 2rem 1.5rem;
+            }
+
             .emergency-title {
                 font-size: 1.8rem;
             }
 
             .emergency-carousel {
-                padding: 1.5rem;
+                padding: 0;
             }
 
             .line-numbers {
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 0.8rem;
             }
 
             .footer-info {
@@ -2132,6 +2247,10 @@
             .emergency-city {
                 flex-direction: column;
                 text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
             }
         }
     </style>
@@ -2157,7 +2276,7 @@
                 <a class="nav-link">Servicios</a>
                 <div class="dropdown-menu">
                     <a href="#" class="dropdown-item">Diario Emocional</a>
-                    <a href="#" class="dropdown-item">Predictor de Crisis</a>
+                    <a href="#" class="dropdown-item">Chatbot: Habla con Cereon 🧠</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -2672,15 +2791,18 @@
         </div>
     </section>
 
-        <!-- Footer Section -->
+        <!-- Footer Section - Improved -->
     <footer class="footer-section">
-        <div class="footer-wave"></div>
+        <div class="footer-decoration footer-brain">
+            <i class="fas fa-brain"></i>
+        </div>
+        
         <div class="footer-container">
             <!-- Carrusel de Emergencias -->
             <div class="emergency-section">
                 <div class="emergency-header">
                     <h2 class="emergency-title">Líneas de emergencia de salud mental</h2>
-                    <p class="emergency-subtitle">Ayuda inmediata cuando más la necesitas</p>
+                    <p class="emergency-subtitle">Ayuda profesional disponible 24/7 cuando más la necesitas</p>
                 </div>
 
                 <div class="emergency-carousel">
@@ -2693,7 +2815,7 @@
                             </div>
                             <div class="emergency-lines">
                                 <div class="emergency-line">
-                                    <div class="line-name">Línea de Emergencias</div>
+                                    <div class="line-name">Línea de Emergencias General</div>
                                     <div class="line-numbers">
                                         <span class="line-number">106</span>
                                         <span class="line-number">123</span>
@@ -2707,22 +2829,16 @@
                                     </div>
                                 </div>
                                 <div class="emergency-line">
-                                    <div class="line-name">Línea Púrpura (Mujeres)</div>
+                                    <div class="line-name">Línea Púrpura - Mujeres</div>
                                     <div class="line-numbers">
                                         <span class="line-number">01 8000 112 137</span>
                                         <span class="line-number">WhatsApp: 300 755 1846</span>
                                     </div>
                                 </div>
-                                <div class="emergency-line">
-                                    <div class="line-name">Línea Calma (Hombres)</div>
-                                    <div class="line-numbers">
-                                        <span class="line-number">01 8000 423 614</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
-                        <!-- Slide 2: Medellín y Cali -->
+                        <!-- Slide 2: Otras Ciudades Principales -->
                         <div class="emergency-slide">
                             <div class="emergency-city">
                                 <div class="city-flag">🇨🇴</div>
@@ -2730,33 +2846,33 @@
                             </div>
                             <div class="emergency-lines">
                                 <div class="emergency-line">
-                                    <div class="line-name">Medellín - Línea Amiga Saludable</div>
+                                    <div class="line-name">Medellín - Línea Amiga</div>
                                     <div class="line-numbers">
                                         <span class="line-number">(604) 444 44 48</span>
                                         <span class="line-number">WhatsApp: 300 723 1123</span>
                                     </div>
                                 </div>
                                 <div class="emergency-line">
-                                    <div class="line-name">Emergencias Nacional</div>
+                                    <div class="line-name">Cali - Emergencias</div>
                                     <div class="line-numbers">
                                         <span class="line-number">106</span>
                                         <span class="line-number">192</span>
                                     </div>
                                 </div>
                                 <div class="emergency-line">
-                                    <div class="line-name">Atención EPS</div>
+                                    <div class="line-name">Línea Calma - Hombres</div>
                                     <div class="line-numbers">
-                                        <span class="line-number">Contacta tu EPS</span>
+                                        <span class="line-number">01 8000 423 614</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slide 3: Otras Ciudades -->
+                        <!-- Slide 3: Más Ciudades -->
                         <div class="emergency-slide">
                             <div class="emergency-city">
                                 <div class="city-flag">🇨🇴</div>
-                                <h3 class="city-name">Otras Ciudades</h3>
+                                <h3 class="city-name">Más Ciudades</h3>
                             </div>
                             <div class="emergency-lines">
                                 <div class="emergency-line">
@@ -2766,24 +2882,17 @@
                                     </div>
                                 </div>
                                 <div class="emergency-line">
-                                    <div class="line-name">Cartagena - Línea de la Vida</div>
+                                    <div class="line-name">Cartagena - CRUE</div>
                                     <div class="line-numbers">
+                                        <span class="line-number">125</span>
                                         <span class="line-number">(605) 3399999</span>
-                                        <span class="line-number">WhatsApp: 310 442 0195</span>
                                     </div>
                                 </div>
                                 <div class="emergency-line">
-                                    <div class="line-name">Bucaramanga - Hospital Psiquiátrico</div>
+                                    <div class="line-name">Bucaramanga - Hospital</div>
                                     <div class="line-numbers">
                                         <span class="line-number">6978111</span>
                                         <span class="line-number">314 482 5847</span>
-                                    </div>
-                                </div>
-                                <div class="emergency-line">
-                                    <div class="line-name">Emergencias Generales</div>
-                                    <div class="line-numbers">
-                                        <span class="line-number">123</span>
-                                        <span class="line-number">125 (CRUE)</span>
                                     </div>
                                 </div>
                             </div>
@@ -2810,35 +2919,34 @@
             <div class="footer-info">
                 <div class="footer-column">
                     <h3>Mentally</h3>
-                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
-                        Tu espacio digital para comprenderte, cuidarte y fortalecer 
-                        tu bienestar emocional. Juntos en el camino hacia una mejor 
-                        salud mental.
+                    <p class="footer-description">
+                        Tu compañero digital en el camino hacia el bienestar emocional. 
+                        Herramientas profesionales accesibles para todos.
                     </p>
                     <div class="social-links">
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link" title="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link" title="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="social-link">
+                        <a href="#" class="social-link" title="LinkedIn">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div>
                 </div>
 
                 <div class="footer-column">
-                    <h3>Enlaces Rápidos</h3>
+                    <h3>Navegación</h3>
                     <ul class="footer-links">
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Inicio</a></li>
-                        <li><a href="#tests"><i class="fas fa-chevron-right"></i> Tests</a></li>
+                        <li><a href="#tests"><i class="fas fa-chevron-right"></i> Tests de Bienestar</a></li>
                         <li><a href="#diary"><i class="fas fa-chevron-right"></i> Diario Emocional</a></li>
                         <li><a href="#specialists"><i class="fas fa-chevron-right"></i> Especialistas</a></li>
-                        <li><a href="#app"><i class="fas fa-chevron-right"></i> Descargar App</a></li>
+                        <li><a href="#app"><i class="fas fa-chevron-right"></i> App Móvil</a></li>
                     </ul>
                 </div>
 
@@ -2855,7 +2963,7 @@
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>Bogotá, Colombia</span>
+                            <span>Bucaramanga, Colombia</span>
                         </div>
                     </div>
                 </div>
@@ -2865,9 +2973,9 @@
                     <ul class="footer-links">
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Blog de Salud Mental</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Preguntas Frecuentes</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Para Especialistas</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Política de Privacidad</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Términos de Servicio</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Para Especialistas</a></li>
                     </ul>
                 </div>
             </div>
@@ -2875,7 +2983,7 @@
             <!-- Copyright -->
             <div class="footer-bottom">
                 <div class="footer-logo">Mentally</div>
-                <p>&copy; 2024 Mentally. Todos los derechos reservados. | Cuidando tu bienestar emocional</p>
+                <p>&copy; 2025 Mentally. Todos los derechos reservados. | Cuidando tu bienestar emocional, siempre.</p>
             </div>
         </div>
     </footer>
@@ -3266,7 +3374,7 @@
             }, 1500);
         });
 
-                // Carrusel de líneas de emergencia
+                // Carrusel de emergencias mejorado
         const emergencyTrack = document.getElementById('emergencyTrack');
         const emergencyDots = document.querySelectorAll('.emergency-dot');
         const emergencyPrev = document.querySelector('.emergency-prev');
@@ -3279,9 +3387,18 @@
             const translateX = -currentEmergencyIndex * 100;
             emergencyTrack.style.transform = `translateX(${translateX}%)`;
             
-            // Actualizar dots
+            // Actualizar dots con animación
             emergencyDots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentEmergencyIndex);
+                if (index === currentEmergencyIndex) {
+                    dot.classList.add('active');
+                    dot.animate([
+                        { transform: 'scale(1)' },
+                        { transform: 'scale(1.3)' },
+                        { transform: 'scale(1.2)' }
+                    ], { duration: 300 });
+                } else {
+                    dot.classList.remove('active');
+                }
             });
         }
 
@@ -3302,27 +3419,65 @@
             });
         });
 
-        // Auto-avance cada 8 segundos
-        setInterval(() => {
+        // Auto-avance cada 7 segundos
+        let emergencyInterval = setInterval(() => {
             currentEmergencyIndex = (currentEmergencyIndex + 1) % totalEmergencySlides;
             updateEmergencyCarousel();
-        }, 8000);
+        }, 7000);
 
-        // Efecto de copiar número al hacer clic
+        // Pausar al interactuar
+        const emergencyCarousel = document.querySelector('.emergency-carousel');
+        emergencyCarousel.addEventListener('mouseenter', () => {
+            clearInterval(emergencyInterval);
+        });
+
+        emergencyCarousel.addEventListener('mouseleave', () => {
+            emergencyInterval = setInterval(() => {
+                currentEmergencyIndex = (currentEmergencyIndex + 1) % totalEmergencySlides;
+                updateEmergencyCarousel();
+            }, 7000);
+        });
+
+        // Efecto de copiar número mejorado
         const lineNumbers = document.querySelectorAll('.line-number');
         lineNumbers.forEach(number => {
-            number.addEventListener('click', function() {
-                const textToCopy = this.textContent;
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    const originalText = this.textContent;
-                    this.textContent = '¡Copiado!';
-                    this.style.background = 'rgba(77, 184, 168, 0.4)';
+            number.addEventListener('click', async function() {
+                const textToCopy = this.textContent.replace('📋 Copiar', '').trim();
+                
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    
+                    // Efecto visual de copiado
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '✓ Copiado!';
+                    this.style.background = 'linear-gradient(135deg, #4db8a8, #5bc4b3)';
+                    this.style.color = 'white';
+                    this.style.transform = 'translateY(-2px) scale(1.05)';
                     
                     setTimeout(() => {
-                        this.textContent = originalText;
-                        this.style.background = 'rgba(77, 184, 168, 0.2)';
+                        this.innerHTML = originalHTML;
+                        this.style.background = 'linear-gradient(135deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.2))';
+                        this.style.color = '#2c5f5d';
+                        this.style.transform = 'translateY(0) scale(1)';
                     }, 2000);
-                });
+                    
+                } catch (err) {
+                    console.error('Error al copiar: ', err);
+                }
+            });
+        });
+
+        // Smooth scroll para enlaces internos
+        document.querySelectorAll('.footer-links a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
     </script>
