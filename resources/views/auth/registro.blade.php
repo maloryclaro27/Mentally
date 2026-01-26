@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Mentally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -35,10 +38,23 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(10px, -8px); }
-            50% { transform: translate(5px, 12px); }
-            75% { transform: translate(-8px, 6px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(10px, -8px);
+            }
+
+            50% {
+                transform: translate(5px, 12px);
+            }
+
+            75% {
+                transform: translate(-8px, 6px);
+            }
         }
 
         /* Contenedor principal horizontal */
@@ -179,12 +195,15 @@
                 transform: translateY(100%) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.7;
             }
+
             90% {
                 opacity: 0.7;
             }
+
             100% {
                 transform: translateY(-100%) rotate(360deg);
                 opacity: 0;
@@ -243,8 +262,15 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         .register-subtitle {
@@ -331,7 +357,7 @@
             transition: color 0.3s ease;
         }
 
-        .form-input:focus + .input-icon {
+        .form-input:focus+.input-icon {
             color: #4db8a8;
         }
 
@@ -348,6 +374,7 @@
                 opacity: 0;
                 transform: translateY(-5px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -517,7 +544,8 @@
         }
 
         /* Animaciones de entrada */
-        .register-card, .image-panel {
+        .register-card,
+        .image-panel {
             opacity: 0;
             transform: translateX(-30px);
             animation: slideInLeft 0.8s ease 0.2s forwards;
@@ -577,9 +605,11 @@
             0% {
                 transform: scale(0);
             }
+
             50% {
                 transform: scale(1.2);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -605,8 +635,9 @@
             .register-container {
                 max-width: 900px;
             }
-            
-            .register-card, .image-panel {
+
+            .register-card,
+            .image-panel {
                 min-width: 400px;
             }
         }
@@ -619,7 +650,8 @@
                 border-radius: 20px;
             }
 
-            .register-card, .image-panel {
+            .register-card,
+            .image-panel {
                 min-width: 100%;
                 width: 100%;
                 border-radius: 20px;
@@ -713,6 +745,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Partículas flotantes -->
     <div class="floating-particle" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
@@ -725,14 +758,15 @@
         <div class="image-panel">
             <!-- Corazones flotantes -->
             <div class="floating-hearts" id="floatingHearts"></div>
-            
+
             <!-- Marco de la imagen -->
             <div class="image-frame">
                 <div class="image-placeholder">
                     <i class="fas fa-heart image-icon"></i>
                     <h2 class="image-title">Mentally</h2>
-                    <p class="image-subtitle">Únete a nuestra comunidad y comienza tu viaje hacia el equilibrio emocional</p>
-                    
+                    <p class="image-subtitle">Únete a nuestra comunidad y comienza tu viaje hacia el equilibrio
+                        emocional</p>
+
                     <div class="image-features">
                         <div class="feature-tag">
                             <i class="fas fa-check-circle"></i> Auto-reflexión
@@ -762,8 +796,22 @@
                 <p class="register-subtitle">Comienza tu camino hacia el bienestar emocional</p>
             </div>
 
+            @if ($errors->any())
+                <div
+                    style="background:#ffe5e5;border:1px solid #ff9b9b;padding:12px;border-radius:10px;margin-bottom:15px;color:#8a1f1f;">
+                    <strong>Hay errores en el formulario:</strong>
+                    <ul style="margin:8px 0 0 18px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+
             <!-- Formulario -->
-            <form class="register-form" id="registerForm">
+            <form class="register-form" id="registerForm" method="POST" action="{{ route('registro.post') }}">
+                @csrf
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">
@@ -771,7 +819,8 @@
                             Nombre
                         </label>
                         <div class="input-container">
-                            <input type="text" class="form-input" id="firstName" placeholder="Ingresa tu nombre">
+                            <input type="text" class="form-input" id="firstName" name="firstName"
+                                placeholder="Ingresa tu nombre" value="{{ old('firstName') }}">
                             <i class="fas fa-user input-icon"></i>
                         </div>
                         <div class="error-message" id="firstNameError">Por favor ingresa tu nombre</div>
@@ -783,7 +832,8 @@
                             Apellido
                         </label>
                         <div class="input-container">
-                            <input type="text" class="form-input" id="lastName" placeholder="Ingresa tu apellido">
+                            <input type="text" class="form-input" id="lastName" name="lastName"
+                                placeholder="Ingresa tu apellido" value="{{ old('lastName') }}">
                             <i class="fas fa-user-friends input-icon"></i>
                         </div>
                         <div class="error-message" id="lastNameError">Por favor ingresa tu apellido</div>
@@ -796,7 +846,8 @@
                         Correo electrónico
                     </label>
                     <div class="input-container">
-                        <input type="email" class="form-input" id="email" placeholder="ejemplo@correo.com">
+                        <input type="email" class="form-input" id="email" name="email"
+                            placeholder="ejemplo@correo.com" value="{{ old('email') }}">
                         <i class="fas fa-envelope input-icon"></i>
                     </div>
                     <div class="error-message" id="emailError">Por favor ingresa un correo válido</div>
@@ -808,24 +859,36 @@
                         Contraseña
                     </label>
                     <div class="input-container">
-                        <input type="password" class="form-input" id="password" placeholder="Mínimo 8 caracteres">
+                        <input type="password" class="form-input" id="password" name="password"
+                            placeholder="Mínimo 8 caracteres">
                         <i class="fas fa-key input-icon"></i>
                     </div>
                     <div class="error-message" id="passwordError">La contraseña debe tener al menos 8 caracteres</div>
                 </div>
 
-                <div class="terms-group">
-                    <input type="checkbox" class="terms-checkbox" id="terms">
-                    <label class="terms-label">
-                        Acepto los <a href="#" class="terms-link">Términos de Servicio</a> y la 
-                        <a href="#" class="terms-link">Política de Privacidad</a> de Mentally
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-key"></i>
+                        Confirmar Contraseña
                     </label>
-                </div>
+                    <div class="input-container">
+                        <input type="password" class="form-input" id="password_confirmation"
+                            name="password_confirmation" placeholder="Repite tu contraseña">
+                        <i class="fas fa-key input-icon"></i>
+                    </div>
 
-                <button type="submit" class="register-button" id="submitButton">
-                    <i class="fas fa-user-plus"></i>
-                    Crear Cuenta
-                </button>
+                    <div class="terms-group">
+                        <input type="checkbox" class="terms-checkbox" id="terms" name="terms" value="1">
+                        <label class="terms-label">
+                            Acepto los <a href="#" class="terms-link">Términos de Servicio</a> y la
+                            <a href="#" class="terms-link">Política de Privacidad</a> de Mentally
+                        </label>
+                    </div>
+
+                    <button type="submit" class="register-button" id="submitButton">
+                        <i class="fas fa-user-plus"></i>
+                        Crear Cuenta
+                    </button>
             </form>
 
             <!-- Separador -->
@@ -836,7 +899,7 @@
             <!-- Enlace a login -->
             <div class="login-link-container">
                 <p class="login-text">Inicia sesión en tu cuenta existente</p>
-                <a href="#" class="login-button" id="loginButton">
+                <a href="{{ route('login') }}" class="login-button" id="loginButton">
                     <i class="fas fa-sign-in-alt"></i>
                     Iniciar Sesión
                 </a>
@@ -856,6 +919,7 @@
         </div>
     </div>
 
+
     <script>
         // Crear corazones flotantes
         function createFloatingHearts() {
@@ -874,7 +938,7 @@
         // Validación del formulario
         document.addEventListener('DOMContentLoaded', function() {
             createFloatingHearts();
-            
+
             const form = document.getElementById('registerForm');
             const inputs = {
                 firstName: document.getElementById('firstName'),
@@ -918,23 +982,23 @@
                 let isValid = false;
                 let message = '';
 
-                switch(fieldName) {
+                switch (fieldName) {
                     case 'firstName':
                         isValid = input.value.trim().length >= 2;
                         message = 'Por favor ingresa tu nombre';
                         break;
-                    
+
                     case 'lastName':
                         isValid = input.value.trim().length >= 2;
                         message = 'Por favor ingresa tu apellido';
                         break;
-                    
+
                     case 'email':
                         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                         isValid = emailRegex.test(input.value.trim());
                         message = 'Por favor ingresa un correo válido';
                         break;
-                    
+
                     case 'password':
                         isValid = input.value.length >= 8;
                         message = 'La contraseña debe tener al menos 8 caracteres';
@@ -957,7 +1021,7 @@
 
             // Actualizar estado del botón
             function updateSubmitButton() {
-                const isFormValid = 
+                const isFormValid =
                     validateField('firstName') &&
                     validateField('lastName') &&
                     validateField('email') &&
@@ -969,37 +1033,36 @@
 
             // Envío del formulario
             form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
                 // Validar todos los campos
-                const isValid = 
+                const isValid =
                     validateField('firstName') &&
                     validateField('lastName') &&
                     validateField('email') &&
                     validateField('password') &&
                     inputs.terms.checked;
 
-                if (isValid) {
-                    // Mostrar animación de éxito
-                    showSuccessAnimation();
-                    
-                    // En un caso real, aquí enviarías los datos al servidor
-                    // Simulamos una petición exitosa
-                    setTimeout(() => {
-                        // Redirigir al PHQ-9
-                        window.location.href = '/phq9';
-                    }, 3000);
+                // Si NO es válido, bloquea el envío
+                if (!isValid) {
+                    e.preventDefault();
+                    return;
                 }
+
+                // Si es válido, mostramos animación PERO dejamos que el form se envíe a Laravel
+                showSuccessAnimation();
+
+                // Importante: NO preventDefault aquí
+                // Importante: NO redirección window.location (Laravel redirige a test_bienestar)
             });
+
 
             // Animación de éxito
             function showSuccessAnimation() {
                 // Animación de confeti
                 createConfetti();
-                
+
                 // Mostrar overlay de éxito
                 successAnimation.classList.add('active');
-                
+
                 // Deshabilitar formulario
                 form.style.opacity = '0.5';
                 form.style.pointerEvents = 'none';
@@ -1008,7 +1071,7 @@
             // Efecto de confeti
             function createConfetti() {
                 const colors = ['#4db8a8', '#5bc4b3', '#2c5f5d', '#5a7c7a'];
-                
+
                 for (let i = 0; i < 50; i++) {
                     const confetti = document.createElement('div');
                     confetti.className = 'floating-particle';
@@ -1020,9 +1083,9 @@
                     confetti.style.top = '-20px';
                     confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
                     confetti.style.zIndex = '2';
-                    
+
                     document.body.appendChild(confetti);
-                    
+
                     // Remover después de la animación
                     setTimeout(() => {
                         confetti.remove();
@@ -1049,11 +1112,11 @@
             // Redirección a login
             loginButton.addEventListener('click', function(e) {
                 e.preventDefault();
-                
+
                 // Animación de transición
                 document.querySelector('.register-card').style.animation = 'fadeOut 0.6s ease forwards';
                 document.querySelector('.image-panel').style.animation = 'fadeOut 0.6s ease forwards';
-                
+
                 setTimeout(() => {
                     // Redirigir a login
                     window.location.href = '/login';
@@ -1077,7 +1140,7 @@
                 input.addEventListener('focus', function() {
                     this.parentElement.style.transform = 'scale(1.02)';
                 });
-                
+
                 input.addEventListener('blur', function() {
                     this.parentElement.style.transform = 'scale(1)';
                 });
@@ -1088,7 +1151,7 @@
             imageFrame.addEventListener('mouseenter', function() {
                 this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.35)';
             });
-            
+
             imageFrame.addEventListener('mouseleave', function() {
                 this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.25)';
             });
@@ -1101,4 +1164,5 @@
         });
     </script>
 </body>
+
 </html>

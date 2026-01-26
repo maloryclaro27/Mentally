@@ -2300,8 +2300,8 @@
         </ul>
 
         <div class="auth-buttons">
-            <a href="#" class="btn btn-login">Iniciar sesión</a>
-            <a href="#" class="btn btn-signup">Crear cuenta</a>
+            <a href="{{ route('login') }}" class="btn btn-login">Iniciar sesión</a>
+            <a href="{{ route('registro') }}" class="btn btn-signup">Crear cuenta</a>
         </div>
     </nav>
 
