@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión - Mentally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -35,10 +38,23 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(10px, -8px); }
-            50% { transform: translate(5px, 12px); }
-            75% { transform: translate(-8px, 6px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(10px, -8px);
+            }
+
+            50% {
+                transform: translate(5px, 12px);
+            }
+
+            75% {
+                transform: translate(-8px, 6px);
+            }
         }
 
         /* Contenedor principal horizontal */
@@ -179,12 +195,15 @@
                 transform: translateY(100%) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.7;
             }
+
             90% {
                 opacity: 0.7;
             }
+
             100% {
                 transform: translateY(-100%) rotate(360deg);
                 opacity: 0;
@@ -243,8 +262,15 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         .login-subtitle {
@@ -325,7 +351,7 @@
             transition: color 0.3s ease;
         }
 
-        .form-input:focus + .input-icon {
+        .form-input:focus+.input-icon {
             color: #4db8a8;
         }
 
@@ -342,6 +368,7 @@
                 opacity: 0;
                 transform: translateY(-5px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -514,9 +541,6 @@
             color: #DB4437;
         }
 
-        .social-button.facebook {
-            color: #4267B2;
-        }
 
         .social-button i {
             font-size: 1.2rem;
@@ -554,7 +578,8 @@
         }
 
         /* Animaciones de entrada */
-        .login-card, .image-panel {
+        .login-card,
+        .image-panel {
             opacity: 0;
             transform: translateX(-30px);
             animation: slideInLeft 0.8s ease 0.2s forwards;
@@ -614,9 +639,11 @@
             0% {
                 transform: scale(0);
             }
+
             50% {
                 transform: scale(1.2);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -642,8 +669,9 @@
             .login-container {
                 max-width: 900px;
             }
-            
-            .login-card, .image-panel {
+
+            .login-card,
+            .image-panel {
                 min-width: 400px;
             }
         }
@@ -656,7 +684,8 @@
                 border-radius: 20px;
             }
 
-            .login-card, .image-panel {
+            .login-card,
+            .image-panel {
                 min-width: 100%;
                 width: 100%;
                 border-radius: 20px;
@@ -751,6 +780,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Partículas flotantes -->
     <div class="floating-particle" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
@@ -763,14 +793,15 @@
         <div class="image-panel">
             <!-- Corazones flotantes -->
             <div class="floating-hearts" id="floatingHearts"></div>
-            
+
             <!-- Marco de la imagen -->
             <div class="image-frame">
                 <div class="image-placeholder">
                     <i class="fas fa-heart image-icon"></i>
                     <h2 class="image-title">Bienvenido de Nuevo</h2>
-                    <p class="image-subtitle">Únete a nuestra comunidad y continua tu viaje hacia el equilibrio emocional</p>
-                    
+                    <p class="image-subtitle">Únete a nuestra comunidad y continua tu viaje hacia el equilibrio
+                        emocional</p>
+
                     <div class="image-features">
                         <div class="feature-tag">
                             <i class="fas fa-heartbeat"></i> Bienestar Emocional
@@ -794,15 +825,30 @@
                 <p class="login-subtitle">Continúa tu camino hacia el bienestar emocional</p>
             </div>
 
+            @if ($errors->any())
+                <div
+                    style="background:#ffe5e5;border:1px solid #ff9b9b;padding:12px;border-radius:10px;margin-bottom:15px;color:#8a1f1f;">
+                    <strong>Hay errores en el login:</strong>
+                    <ul style="margin:8px 0 0 18px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+
             <!-- Formulario -->
-            <form class="login-form" id="loginForm">
+            <form class="login-form" id="loginForm" method="POST" action="{{ route('login.post') }}">
+                @csrf
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-envelope"></i>
                         Correo electrónico
                     </label>
                     <div class="input-container">
-                        <input type="email" class="form-input" id="email" placeholder="ejemplo@correo.com">
+                        <input type="email" class="form-input" id="email" name="email"
+                            placeholder="ejemplo@correo.com" value="{{ old('email') }}">
                         <i class="fas fa-envelope input-icon"></i>
                     </div>
                     <div class="error-message" id="emailError">Por favor ingresa un correo válido</div>
@@ -814,7 +860,8 @@
                         Contraseña
                     </label>
                     <div class="input-container">
-                        <input type="password" class="form-input" id="password" placeholder="Ingresa tu contraseña">
+                        <input type="password" class="form-input" id="password" name="password"
+                            placeholder="Ingresa tu contraseña">
                         <i class="fas fa-key input-icon"></i>
                     </div>
                     <div class="error-message" id="passwordError">Por favor ingresa tu contraseña</div>
@@ -822,7 +869,8 @@
 
                 <div class="login-options">
                     <label class="remember-me">
-                        <input type="checkbox" class="remember-checkbox" id="remember">
+                        <input type="checkbox" class="remember-checkbox" id="remember" name="remember" value="1"
+                            {{ old('remember') ? 'checked' : '' }}>
                         Recordarme
                     </label>
                     <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
@@ -845,10 +893,7 @@
                     <i class="fab fa-google"></i>
                     Google
                 </button>
-                <button type="button" class="social-button facebook" id="facebookLogin">
-                    <i class="fab fa-facebook-f"></i>
-                    Facebook
-                </button>
+
             </div>
 
             <!-- Separador -->
@@ -897,7 +942,7 @@
         // Validación del formulario
         document.addEventListener('DOMContentLoaded', function() {
             createFloatingHearts();
-            
+
             const form = document.getElementById('loginForm');
             const inputs = {
                 email: document.getElementById('email'),
@@ -914,7 +959,7 @@
             const successAnimation = document.getElementById('successAnimation');
             const registerButton = document.getElementById('registerButton');
             const googleLogin = document.getElementById('googleLogin');
-            const facebookLogin = document.getElementById('facebookLogin');
+
             const forgotPassword = document.querySelector('.forgot-password');
 
             // Validación en tiempo real
@@ -938,13 +983,13 @@
                 let isValid = false;
                 let message = '';
 
-                switch(fieldName) {
+                switch (fieldName) {
                     case 'email':
                         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                         isValid = emailRegex.test(input.value.trim());
                         message = 'Por favor ingresa un correo válido';
                         break;
-                    
+
                     case 'password':
                         isValid = input.value.length >= 6;
                         message = 'La contraseña debe tener al menos 6 caracteres';
@@ -967,7 +1012,7 @@
 
             // Actualizar estado del botón
             function updateSubmitButton() {
-                const isFormValid = 
+                const isFormValid =
                     validateField('email') &&
                     validateField('password');
 
@@ -976,78 +1021,61 @@
 
             // Envío del formulario
             form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Validar todos los campos
-                const isValid = 
+                const isValid =
                     validateField('email') &&
                     validateField('password');
 
-                if (isValid) {
-                    // Mostrar animación de éxito
-                    showSuccessAnimation();
-                    
-                    // En un caso real, aquí enviarías los datos al servidor
-                    // Simulamos una petición exitosa
-                    setTimeout(() => {
-                        // Redirigir al dashboard
-                        window.location.href = '/dashboard';
-                    }, 3000);
+                if (!isValid) {
+                    e.preventDefault();
+                    return;
                 }
+
+                // Mostrar animación de éxito, pero dejar que el form se envíe a Laravel
+                showSuccessAnimation();
             });
+
 
             // Login con Google
             googleLogin.addEventListener('click', function() {
                 this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando...';
                 this.disabled = true;
-                
+
                 setTimeout(() => {
                     // Simular éxito de login con Google
                     showSuccessAnimation('Google');
                 }, 1500);
             });
 
-            // Login con Facebook
-            facebookLogin.addEventListener('click', function() {
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando...';
-                this.disabled = true;
-                
-                setTimeout(() => {
-                    // Simular éxito de login con Facebook
-                    showSuccessAnimation('Facebook');
-                }, 1500);
-            });
+
 
             // Animación de éxito
             function showSuccessAnimation(provider = '') {
                 // Animación de confeti
                 createConfetti();
-                
+
                 // Mostrar overlay de éxito
                 successAnimation.classList.add('active');
-                
+
                 // Cambiar mensaje si es login social
                 if (provider) {
                     document.querySelector('.success-message').textContent = `¡Conectado con ${provider}!`;
                 }
-                
+
                 // Deshabilitar formulario
                 form.style.opacity = '0.5';
                 form.style.pointerEvents = 'none';
-                
+
                 // Restaurar botones sociales
                 setTimeout(() => {
                     googleLogin.innerHTML = '<i class="fab fa-google"></i> Google';
                     googleLogin.disabled = false;
-                    facebookLogin.innerHTML = '<i class="fab fa-facebook-f"></i> Facebook';
-                    facebookLogin.disabled = false;
                 }, 3000);
             }
 
             // Efecto de confeti
             function createConfetti() {
                 const colors = ['#4db8a8', '#5bc4b3', '#2c5f5d', '#5a7c7a'];
-                
+
                 for (let i = 0; i < 40; i++) {
                     const confetti = document.createElement('div');
                     confetti.className = 'floating-particle';
@@ -1059,9 +1087,9 @@
                     confetti.style.top = '-20px';
                     confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
                     confetti.style.zIndex = '2';
-                    
+
                     document.body.appendChild(confetti);
-                    
+
                     // Remover después de la animación
                     setTimeout(() => {
                         confetti.remove();
@@ -1088,11 +1116,11 @@
             // Redirección a registro
             registerButton.addEventListener('click', function(e) {
                 e.preventDefault();
-                
+
                 // Animación de transición
                 document.querySelector('.login-card').style.animation = 'fadeOut 0.6s ease forwards';
                 document.querySelector('.image-panel').style.animation = 'fadeOut 0.6s ease forwards';
-                
+
                 setTimeout(() => {
                     // Redirigir a registro
                     window.location.href = '/registro';
@@ -1102,7 +1130,7 @@
             // Recuperación de contraseña
             forgotPassword.addEventListener('click', function(e) {
                 e.preventDefault();
-                
+
                 // Mostrar mensaje de recuperación
                 const email = inputs.email.value.trim();
                 if (email && validateField('email')) {
@@ -1132,7 +1160,7 @@
                 input.addEventListener('focus', function() {
                     this.parentElement.style.transform = 'scale(1.02)';
                 });
-                
+
                 input.addEventListener('blur', function() {
                     this.parentElement.style.transform = 'scale(1)';
                 });
@@ -1143,7 +1171,7 @@
             imageFrame.addEventListener('mouseenter', function() {
                 this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.35)';
             });
-            
+
             imageFrame.addEventListener('mouseleave', function() {
                 this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.25)';
             });
@@ -1156,4 +1184,5 @@
         });
     </script>
 </body>
+
 </html>

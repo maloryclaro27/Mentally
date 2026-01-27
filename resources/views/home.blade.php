@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mentally - Tu espacio digital de bienestar emocional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -205,8 +208,15 @@
         }
 
         @keyframes floatImage {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         .image-placeholder {
@@ -251,6 +261,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -315,9 +326,11 @@
                 opacity: 0;
                 transform: translate(0, 0) scale(0.3);
             }
+
             20% {
                 opacity: 1;
             }
+
             100% {
                 opacity: 1;
                 transform: translate(var(--bx, 0), var(--by, 0)) scale(1);
@@ -329,19 +342,34 @@
         }
 
         @keyframes winkEye {
-            0%, 100% { transform: scaleY(1); }
-            45%, 55% { transform: scaleY(0.1); }
+
+            0%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            45%,
+            55% {
+                transform: scaleY(0.1);
+            }
         }
 
         /* Pequeña animación de flotación después del guiño */
         .brain.wink {
             animation: flyToCTA 2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards,
-                       gentleFloat 3s ease-in-out 3s infinite;
+                gentleFloat 3s ease-in-out 3s infinite;
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translate(var(--bx, 0), var(--by, 0)) translateY(0px); }
-            50% { transform: translate(var(--bx, 0), var(--by, 0)) translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translate(var(--bx, 0), var(--by, 0)) translateY(0px);
+            }
+
+            50% {
+                transform: translate(var(--bx, 0), var(--by, 0)) translateY(-5px);
+            }
         }
 
         /* Decorative Elements */
@@ -370,8 +398,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(30px, 30px);
+            }
         }
 
         /* Ventajas Section */
@@ -466,8 +501,15 @@
         }
 
         @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .card-icon i {
@@ -525,10 +567,23 @@
         }
 
         @keyframes floatBrain {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(20px, -15px) rotate(90deg); }
-            50% { transform: translate(10px, 20px) rotate(180deg); }
-            75% { transform: translate(-15px, 10px) rotate(270deg); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, -15px) rotate(90deg);
+            }
+
+            50% {
+                transform: translate(10px, 20px) rotate(180deg);
+            }
+
+            75% {
+                transform: translate(-15px, 10px) rotate(270deg);
+            }
         }
 
         /* Connecting Lines */
@@ -609,7 +664,7 @@
             }
         }
 
-                /* Tests Section */
+        /* Tests Section */
         .tests-section {
             padding: 6rem 3rem;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 250, 249, 0.95) 100%);
@@ -838,10 +893,23 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(20px, -15px); }
-            50% { transform: translate(10px, 20px); }
-            75% { transform: translate(-15px, 10px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(20px, -15px);
+            }
+
+            50% {
+                transform: translate(10px, 20px);
+            }
+
+            75% {
+                transform: translate(-15px, 10px);
+            }
         }
 
         /* Responsive */
@@ -872,7 +940,7 @@
             }
         }
 
-                /* Diary Section */
+        /* Diary Section */
         .diary-section {
             padding: 6rem 3rem;
             background: linear-gradient(135deg, #e0f7f4 0%, #d4f1f9 50%, #e8f5f3 100%);
@@ -1027,17 +1095,22 @@
         }
 
         @keyframes floatNote {
-            0%, 100% { 
-                transform: translate(0, 0) rotate(0deg); 
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
             }
-            25% { 
-                transform: translate(10px, -15px) rotate(5deg); 
+
+            25% {
+                transform: translate(10px, -15px) rotate(5deg);
             }
-            50% { 
-                transform: translate(-5px, 10px) rotate(-3deg); 
+
+            50% {
+                transform: translate(-5px, 10px) rotate(-3deg);
             }
-            75% { 
-                transform: translate(15px, 5px) rotate(2deg); 
+
+            75% {
+                transform: translate(15px, 5px) rotate(2deg);
             }
         }
 
@@ -1132,7 +1205,7 @@
             }
         }
 
-                /* Specialists Section */
+        /* Specialists Section */
         .specialists-section {
             padding: 6rem 3rem;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 250, 249, 0.95) 100%);
@@ -1323,6 +1396,97 @@
             margin-top: 2rem;
         }
 
+        /* Perfil del usuario (extraído) */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(77, 184, 168, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(77, 184, 168, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #2c5f5d;
+        }
+
+        .user-role {
+            font-size: 0.9rem;
+            color: #5a7c7a;
+        }
+
+        /* Dropdown del perfil */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 1rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+            z-index: 1000;
+        }
+
+        /* Mostrar dropdown al hover */
+        .user-profile:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 0.8rem 1.5rem;
+            color: #2c5f5d;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(90deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.1));
+            color: #4db8a8;
+            padding-left: 2rem;
+        }
+
+
         /* Join Section */
         .join-section {
             background: linear-gradient(135deg, #4db8a8, #5bc4b3);
@@ -1448,7 +1612,7 @@
             }
         }
 
-                /* App Download Section */
+        /* App Download Section */
         .app-section {
             padding: 6rem 3rem;
             background: linear-gradient(135deg, #e0f7f4 0%, #d4f1f9 50%, #e8f5f3 100%);
@@ -1479,7 +1643,7 @@
             border-radius: 40px;
             padding: 15px;
             position: relative;
-            box-shadow: 
+            box-shadow:
                 0 20px 60px rgba(0, 0, 0, 0.3),
                 inset 0 0 0 2px rgba(255, 255, 255, 0.1);
         }
@@ -1670,6 +1834,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -1681,6 +1846,7 @@
                 opacity: 0;
                 transform: translateX(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -1691,6 +1857,7 @@
             from {
                 width: 0%;
             }
+
             to {
                 width: 65%;
             }
@@ -1835,7 +2002,7 @@
             }
         }
 
-                /* Footer Section - Improved */
+        /* Footer Section - Improved */
         .footer-section {
             background: linear-gradient(135deg, #f5f7fa 0%, #e8f5f3 50%, #d4f1f9 100%);
             color: #2c5f5d;
@@ -1908,7 +2075,7 @@
 
         .city-flag {
             font-size: 2rem;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .city-name {
@@ -2256,87 +2423,52 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Decorative Circles -->
     <div class="floating-circle circle-1"></div>
     <div class="floating-circle circle-2"></div>
 
     <!-- Navigation -->
-    <nav>
-        <div class="logo-section">
-            <div class="logo-placeholder">
-                <!-- Espacio para el logo en miniatura -->
-                <img src="{{ asset('logo_pg.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
-            </div>
-            <span class="brand-name">Mentally</span>
-        </div>
+    @include('partials.navbar')
 
-        <ul class="nav-links">
-            <li class="nav-item">
-                <a class="nav-link require-auth">Servicios</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item require-auth" data-page="diary">Diario Emocional</a>
-                    <a class="dropdown-item require-auth" data-page="chatbot">Chatbot: Habla con Cereon 🧠</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link require-auth">Tests</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item require-auth" data-page="depression-test">Test de Depresión</a>
-                    <a class="dropdown-item require-auth" data-page="anxiety-test">Test de Ansiedad</a>
-                    <a class="dropdown-item require-auth" data-page="schizophrenia-test">Test de Esquizofrenia</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">Blog</a>
-                <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Artículos</a>
-                    <a class="dropdown-item require-auth" data-page="post-story">Postea tu Historia</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link require-auth" data-page="specialists-directory">Directorio de especialistas</a>
-            </li>
-        </ul>
-
-        <div class="auth-buttons">
-            <a href="{{ route('login') }}" class="btn btn-login">Iniciar sesión</a>
-            <a href="{{ route('registro') }}" class="btn btn-signup">Crear cuenta</a>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-image">
             <div class="image-placeholder">
                 <!-- Espacio para la imagen del mockup -->
-                <img src="{{ asset('rompecabezas.png') }}" alt="Mentally Ilustración" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="{{ asset('rompecabezas.png') }}" alt="Mentally Ilustración"
+                    style="width: 100%; height: 100%; object-fit: contain;">
             </div>
         </div>
 
         <div class="hero-content">
             <!-- CEREBRO ANIMADO -->
-            <svg class="brain" id="brainMascot" viewBox="0 0 64 64" fill="none" role="img" aria-label="Cerebro animado">
+            <svg class="brain" id="brainMascot" viewBox="0 0 64 64" fill="none" role="img"
+                aria-label="Cerebro animado">
                 <defs>
                     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0" stop-color="#ffc7d8"/>
-                        <stop offset="1" stop-color="#ff9fc0"/>
+                        <stop offset="0" stop-color="#ffc7d8" />
+                        <stop offset="1" stop-color="#ff9fc0" />
                     </linearGradient>
                 </defs>
                 <!-- cerebro -->
                 <path d="M20 18c0-6 6-10 12-10s12 4 12 10c4 0 8 4 8 9s-2 9-8 9H20c-6 0-10-4-10-9s4-9 10-9Z"
-                      fill="url(#g)" stroke="#e68aa8" stroke-width="2" />
+                    fill="url(#g)" stroke="#e68aa8" stroke-width="2" />
                 <!-- surcos -->
-                <path d="M18 23c3-3 8-3 11 0M35 18c4 1 7 4 8 8" stroke="#e68aa8" stroke-width="2" stroke-linecap="round" />
+                <path d="M18 23c3-3 8-3 11 0M35 18c4 1 7 4 8 8" stroke="#e68aa8" stroke-width="2"
+                    stroke-linecap="round" />
                 <!-- ojos -->
-                <circle id="eye-left" class="eye" cx="26" cy="30" r="3" fill="#253138"/>
-                <circle id="eye-right" class="eye" cx="38" cy="30" r="3" fill="#253138"/>
+                <circle id="eye-left" class="eye" cx="26" cy="30" r="3" fill="#253138" />
+                <circle id="eye-right" class="eye" cx="38" cy="30" r="3" fill="#253138" />
                 <!-- pequeña sonrisa -->
-                <path d="M28 36c2 2 6 2 8 0" stroke="#253138" stroke-width="2" stroke-linecap="round"/>
+                <path d="M28 36c2 2 6 2 8 0" stroke="#253138" stroke-width="2" stroke-linecap="round" />
             </svg>
 
             <h1 class="hero-title">Mentally</h1>
-            <p class="hero-subtitle">Un espacio digital para comprenderte, cuidarte y fortalecer tu bienestar emocional.</p>
+            <p class="hero-subtitle">Un espacio digital para comprenderte, cuidarte y fortalecer tu bienestar emocional.
+            </p>
             <a href="#" class="cta-button" id="ctaBtn">
                 Habla con Cereon
             </a>
@@ -2354,9 +2486,9 @@
         <div class="parallax-brain brain-3">
             <i class="fas fa-brain"></i>
         </div>
-        
+
         <h2 class="section-title">Ventajas de Mentally</h2>
-        
+
         <div class="advantages-container">
             <!-- Evaluaciones confiables -->
             <div class="advantage-card">
@@ -2365,10 +2497,11 @@
                 </div>
                 <h3 class="card-title">Evaluaciones confiables</h3>
                 <p class="card-description">
-                    Evalúa la presencia y la severidad de los síntomas depresivos durante las últimas dos semanas con herramientas validadas científicamente.
+                    Evalúa la presencia y la severidad de los síntomas depresivos durante las últimas dos semanas con
+                    herramientas validadas científicamente.
                 </p>
             </div>
-            
+
             <!-- Seguimiento visible -->
             <div class="advantage-card">
                 <div class="card-icon">
@@ -2376,10 +2509,11 @@
                 </div>
                 <h3 class="card-title">Seguimiento visible</h3>
                 <p class="card-description">
-                    Analiza la evolución de tu estado emocional para ofrecerte acompañamiento personalizado en momentos de mayor vulnerabilidad.
+                    Analiza la evolución de tu estado emocional para ofrecerte acompañamiento personalizado en momentos
+                    de mayor vulnerabilidad.
                 </p>
             </div>
-            
+
             <!-- Diario emocional -->
             <div class="advantage-card">
                 <div class="card-icon">
@@ -2387,23 +2521,25 @@
                 </div>
                 <h3 class="card-title">Diario emocional</h3>
                 <p class="card-description">
-                    Registra tus pensamientos y emociones cada día. Observa tu progreso y aprende a comprenderte mejor con herramientas de autoconocimiento.
+                    Registra tus pensamientos y emociones cada día. Observa tu progreso y aprende a comprenderte mejor
+                    con herramientas de autoconocimiento.
                 </p>
             </div>
         </div>
     </section>
 
-        <!-- Tests Section -->
+    <!-- Tests Section -->
     <section class="tests-section" id="tests">
         <!-- Partículas flotantes decorativas -->
         <div class="floating-particle" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
         <div class="floating-particle" style="top: 60%; right: 15%; animation-delay: 1s;"></div>
         <div class="floating-particle" style="bottom: 30%; left: 20%; animation-delay: 2s;"></div>
-        
+
         <div class="tests-container">
             <div class="tests-header">
                 <h2 class="tests-title">Explora nuestros tests</h2>
-                <p class="tests-subtitle">Descubre qué test es ideal para ti y comienza tu camino hacia el bienestar emocional</p>
+                <p class="tests-subtitle">Descubre qué test es ideal para ti y comienza tu camino hacia el bienestar
+                    emocional</p>
             </div>
 
             <div class="carousel">
@@ -2416,7 +2552,7 @@
                         <h3 class="test-name">Depresión</h3>
                         <span class="test-acronym">PHQ-9</span>
                         <p class="test-description">
-                            Evalúa la presencia y severidad de síntomas depresivos durante las últimas dos semanas. 
+                            Evalúa la presencia y severidad de síntomas depresivos durante las últimas dos semanas.
                             Este test validado científicamente te ayuda a comprender mejor tu estado emocional.
                         </p>
                         <a href="#" class="test-button">
@@ -2433,7 +2569,7 @@
                         <h3 class="test-name">Ansiedad</h3>
                         <span class="test-acronym">GAD-7</span>
                         <p class="test-description">
-                            Identifica patrones de ansiedad y preocupación excesiva. Obtén insights valiosos 
+                            Identifica patrones de ansiedad y preocupación excesiva. Obtén insights valiosos
                             sobre tu bienestar mental y recibe recomendaciones personalizadas.
                         </p>
                         <a href="#" class="test-button">
@@ -2450,7 +2586,7 @@
                         <h3 class="test-name">Estrés Percibido</h3>
                         <span class="test-acronym">PSS</span>
                         <p class="test-description">
-                            Mide tu nivel de estrés percibido y cómo afecta tu vida diaria. Descubre herramientas 
+                            Mide tu nivel de estrés percibido y cómo afecta tu vida diaria. Descubre herramientas
                             efectivas para manejar situaciones estresantes de manera saludable.
                         </p>
                         <a href="#" class="test-button">
@@ -2466,13 +2602,13 @@
                 <button class="carousel-arrow prev-arrow">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                
+
                 <div class="carousel-dots">
                     <div class="carousel-dot active" data-index="0"></div>
                     <div class="carousel-dot" data-index="1"></div>
                     <div class="carousel-dot" data-index="2"></div>
                 </div>
-                
+
                 <button class="carousel-arrow next-arrow">
                     <i class="fas fa-chevron-right"></i>
                 </button>
@@ -2480,22 +2616,22 @@
         </div>
     </section>
 
-        <!-- Diary Section -->
+    <!-- Diary Section -->
     <section class="diary-section" id="diary">
         <!-- Olas decorativas -->
         <div class="wave-decoration"></div>
-        
+
         <!-- Notas flotantes decorativas -->
         <div class="floating-note note-1"></div>
         <div class="floating-note note-2"></div>
         <div class="floating-note note-3"></div>
-        
+
         <div class="diary-container">
             <div class="diary-content">
                 <h2 class="diary-title">Lleva tu diario emocional</h2>
                 <p class="diary-description">
-                    Escribe libremente tus pensamientos cada día y observa cómo evoluciona 
-                    tu bienestar emocional con el tiempo. Reflexiona sobre tus emociones, 
+                    Escribe libremente tus pensamientos cada día y observa cómo evoluciona
+                    tu bienestar emocional con el tiempo. Reflexiona sobre tus emociones,
                     identifica patrones y celebra tu progreso en el camino del autoconocimiento.
                 </p>
                 <a href="#" class="diary-button">
@@ -2503,17 +2639,18 @@
                     Abrir diario emocional
                 </a>
             </div>
-            
+
             <div class="diary-visual">
                 <div class="diary-image-placeholder">
                     <!-- Espacio para la imagen del diario -->
-                    <img src="{{ asset('diario_emocional.png') }}" alt="Diario Emocional" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                    <img src="{{ asset('diario_emocional.png') }}" alt="Diario Emocional"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
                 </div>
             </div>
         </div>
     </section>
 
-        <!-- Specialists Section -->
+    <!-- Specialists Section -->
     <section class="specialists-section" id="specialists">
         <div class="specialists-container">
             <div class="specialists-header">
@@ -2526,7 +2663,8 @@
                     <!-- Especialista 1 -->
                     <div class="specialist-card">
                         <div class="specialist-image">
-                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Dra. Sofia Ramirez">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                alt="Dra. Sofia Ramirez">
                         </div>
                         <h3 class="specialist-name">Dra. Sofia Ramirez</h3>
                         <p class="specialist-title">Psiquiatra y Psicoterapeuta</p>
@@ -2536,7 +2674,7 @@
                             <span class="specialty-tag">Psicofarmacología</span>
                         </div>
                         <p class="specialist-description">
-                            Especializada en el tratamiento integral de trastornos del estado de ánimo. 
+                            Especializada en el tratamiento integral de trastornos del estado de ánimo.
                             Más de 10 años de experiencia acompañando procesos de cambio y crecimiento personal.
                         </p>
                         <div class="specialist-actions">
@@ -2548,7 +2686,8 @@
                     <!-- Especialista 2 -->
                     <div class="specialist-card">
                         <div class="specialist-image">
-                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Dr. Carlos Mendoza">
+                            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                alt="Dr. Carlos Mendoza">
                         </div>
                         <h3 class="specialist-name">Dr. Carlos Mendoza</h3>
                         <p class="specialist-title">Psicólogo Clínico</p>
@@ -2558,7 +2697,7 @@
                             <span class="specialty-tag">Mindfulness</span>
                         </div>
                         <p class="specialist-description">
-                            Experto en terapia sistémica y familiar. Enfoque humanista con amplia experiencia 
+                            Experto en terapia sistémica y familiar. Enfoque humanista con amplia experiencia
                             en intervención en crisis y desarrollo de resiliencia emocional.
                         </p>
                         <div class="specialist-actions">
@@ -2570,7 +2709,8 @@
                     <!-- Especialista 3 -->
                     <div class="specialist-card">
                         <div class="specialist-image">
-                            <img src="https://images.unsplash.com/photo-1594824947933-d0501ba2fe65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Dra. Elena Torres">
+                            <img src="https://images.unsplash.com/photo-1594824947933-d0501ba2fe65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80"
+                                alt="Dra. Elena Torres">
                         </div>
                         <h3 class="specialist-name">Dra. Elena Torres</h3>
                         <p class="specialist-title">Neuropsicóloga</p>
@@ -2580,8 +2720,8 @@
                             <span class="specialty-tag">Demencias</span>
                         </div>
                         <p class="specialist-description">
-                            Especialista en evaluación y rehabilitación neuropsicológica. 
-                            Investigadora en procesos cognitivos y desarrollo de intervenciones 
+                            Especialista en evaluación y rehabilitación neuropsicológica.
+                            Investigadora en procesos cognitivos y desarrollo de intervenciones
                             personalizadas para trastornos neurológicos.
                         </p>
                         <div class="specialist-actions">
@@ -2610,8 +2750,9 @@
             <div class="join-section">
                 <div class="join-content">
                     <h2 class="join-title">¿Eres psiquiatra o psicoterapeuta?</h2>
-                    <p class="join-subtitle">Únete a Mentally y forma parte de nuestra red de especialistas en salud mental</p>
-                    
+                    <p class="join-subtitle">Únete a Mentally y forma parte de nuestra red de especialistas en salud
+                        mental</p>
+
                     <div class="join-features">
                         <div class="join-feature">
                             <i class="fas fa-users"></i>
@@ -2639,7 +2780,7 @@
         </div>
     </section>
 
-        <!-- App Download Section -->
+    <!-- App Download Section -->
     <section class="app-section" id="app">
         <div class="app-container">
             <div class="app-phone">
@@ -2651,7 +2792,7 @@
                                 <div class="app-logo">Mentally</div>
                                 <div class="app-time">14:30</div>
                             </div>
-                            
+
                             <div class="app-stats">
                                 <div class="stat-card">
                                     <div class="stat-value">7d</div>
@@ -2662,7 +2803,7 @@
                                     <div class="stat-label">Bienestar</div>
                                 </div>
                             </div>
-                            
+
                             <div class="app-features">
                                 <div class="feature-item">
                                     <div class="feature-icon">
@@ -2693,14 +2834,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Pantalla 2: Diario -->
                         <div class="app-content app-diary" id="screen2">
                             <div class="app-header">
                                 <div class="app-logo">Diario</div>
                                 <div class="app-time">14:32</div>
                             </div>
-                            
+
                             <div class="diary-entry">
                                 <div class="diary-date">Hoy, 14:30</div>
                                 <div class="diary-text">
@@ -2713,7 +2854,7 @@
                                     <div class="mood-option">😄</div>
                                 </div>
                             </div>
-                            
+
                             <div class="diary-entry">
                                 <div class="diary-date">Ayer, 20:15</div>
                                 <div class="diary-text">
@@ -2727,14 +2868,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Pantalla 3: Tests -->
                         <div class="app-content app-tests" id="screen3">
                             <div class="app-header">
                                 <div class="app-logo">Tests</div>
                                 <div class="app-time">14:35</div>
                             </div>
-                            
+
                             <div class="test-card-app">
                                 <h4>Test de Ansiedad (GAD-7)</h4>
                                 <p>Evalúa tu nivel de ansiedad</p>
@@ -2743,7 +2884,7 @@
                                 </div>
                                 <div>Completado: 65%</div>
                             </div>
-                            
+
                             <div class="test-card-app">
                                 <h4>Test de Depresión (PHQ-9)</h4>
                                 <p>Analiza tu estado de ánimo</p>
@@ -2756,19 +2897,19 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="app-content-text">
                 <h2 class="app-title">Tu bienestar emocional en tu bolsillo</h2>
                 <p class="app-description">
-                    Lleva el poder de Mentally contigo a todas partes. Accede a tu diario emocional, 
+                    Lleva el poder de Mentally contigo a todas partes. Accede a tu diario emocional,
                     realiza tests de bienestar y conecta con especialistas desde la palma de tu mano.
                 </p>
-                
+
                 <a href="#" class="download-button">
                     <i class="fab fa-google-play"></i>
                     Descárgala desde Play Store
                 </a>
-                
+
                 <div class="app-features-list">
                     <div class="app-feature">
                         <i class="fas fa-sync-alt"></i>
@@ -2791,12 +2932,12 @@
         </div>
     </section>
 
-        <!-- Footer Section - Improved -->
+    <!-- Footer Section - Improved -->
     <footer class="footer-section">
         <div class="footer-decoration footer-brain">
             <i class="fas fa-brain"></i>
         </div>
-        
+
         <div class="footer-container">
             <!-- Carrusel de Emergencias -->
             <div class="emergency-section">
@@ -2920,7 +3061,7 @@
                 <div class="footer-column">
                     <h3>Mentally</h3>
                     <p class="footer-description">
-                        Tu compañero digital en el camino hacia el bienestar emocional. 
+                        Tu compañero digital en el camino hacia el bienestar emocional.
                         Herramientas profesionales accesibles para todos.
                     </p>
                     <div class="social-links">
@@ -2988,10 +3129,15 @@
         </div>
     </footer>
 
+
     <script>
+        window.MENTALLY_AUTH = {
+            isAuthenticated: @json(auth()->check()),
+            loginUrl: @json(route('login')),
+        };
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -3031,34 +3177,44 @@
             const brain = document.getElementById('brainMascot');
             const btn = document.getElementById('ctaBtn');
             const hero = document.querySelector('.hero-section');
-            
+
             if (!brain || !btn || !hero) return;
-            
+
             // Pequeño delay para asegurar que todo esté renderizado
             setTimeout(() => {
                 // origen: cerca del título
                 const content = hero.querySelector('.hero-content').getBoundingClientRect();
                 const target = btn.getBoundingClientRect();
-                
+
                 // Calcular posición relativa al contenedor
                 const bx = (target.left + target.width * 0.5) - (content.left + 22) - 22;
                 const by = (target.top + target.height * 0.5) - (content.top + 40) - 22;
-                
+
                 brain.style.setProperty('--bx', bx + 'px');
                 brain.style.setProperty('--by', by + 'px');
-                
+
                 // Cuando termine el viaje -> guiño
                 brain.addEventListener('animationend', (e) => {
                     if (e.animationName === 'flyToCTA') {
                         brain.classList.add('wink');
                         // Leve vibración divertida y profesional
-                        btn.animate([
-                            { transform: 'translateY(0)' },
-                            { transform: 'translateY(-2px)' },
-                            { transform: 'translateY(0)' }
-                        ], { duration: 300, iterations: 2 });
+                        btn.animate([{
+                                transform: 'translateY(0)'
+                            },
+                            {
+                                transform: 'translateY(-2px)'
+                            },
+                            {
+                                transform: 'translateY(0)'
+                            }
+                        ], {
+                            duration: 300,
+                            iterations: 2
+                        });
                     }
-                }, { once: true });
+                }, {
+                    once: true
+                });
             }, 100);
         });
 
@@ -3088,7 +3244,7 @@
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const parallaxBrains = document.querySelectorAll('.parallax-brain');
-            
+
             parallaxBrains.forEach(brain => {
                 const speed = 0.5;
                 const yPos = -(scrolled * speed);
@@ -3096,13 +3252,13 @@
             });
         });
 
-                // Carrusel de tests
+        // Carrusel de tests
         const carouselTrack = document.querySelector('.carousel-track');
         const carouselDots = document.querySelectorAll('.carousel-dot');
         const prevArrow = document.querySelector('.prev-arrow');
         const nextArrow = document.querySelector('.next-arrow');
         const testCards = document.querySelectorAll('.test-card');
-        
+
         let currentIndex = 0;
         const totalSlides = testCards.length;
 
@@ -3110,12 +3266,12 @@
         function updateCarousel() {
             const translateX = -currentIndex * 100;
             carouselTrack.style.transform = `translateX(${translateX}%)`;
-            
+
             // Actualizar dots
             carouselDots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentIndex);
             });
-            
+
             // Animación de entrada para la tarjeta actual
             testCards.forEach((card, index) => {
                 if (index === currentIndex) {
@@ -3176,7 +3332,9 @@
                     testsObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 });
+        }, {
+            threshold: 0.3
+        });
 
         testsObserver.observe(document.getElementById('tests'));
 
@@ -3208,13 +3366,13 @@
                 updateCarousel();
             }
         }
-                // Animación de entrada para la sección del diario
+        // Animación de entrada para la sección del diario
         const diaryObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                     diaryObserver.unobserve(entry.target);
-                    
+
                     // Animación adicional para las notas flotantes
                     const notes = document.querySelectorAll('.floating-note');
                     notes.forEach((note, index) => {
@@ -3222,7 +3380,9 @@
                     });
                 }
             });
-        }, { threshold: 0.3 });
+        }, {
+            threshold: 0.3
+        });
 
         diaryObserver.observe(document.getElementById('diary'));
 
@@ -3231,7 +3391,7 @@
             const title = document.querySelector('.diary-title');
             const text = title.textContent;
             title.textContent = '';
-            
+
             let i = 0;
             const typeInterval = setInterval(() => {
                 if (i < text.length) {
@@ -3252,16 +3412,18 @@
                     diaryTitleObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
+        }, {
+            threshold: 0.5
+        });
 
         diaryTitleObserver.observe(diarySection);
 
-                // Carrusel de especialistas
+        // Carrusel de especialistas
         const specialistsTrack = document.getElementById('specialistsTrack');
         const specialistsDots = document.querySelectorAll('.specialists-dots .carousel-dot');
         const specialistsPrev = document.querySelector('.specialists-prev');
         const specialistsNext = document.querySelector('.specialists-next');
-        
+
         let currentSpecialistIndex = 0;
         const cardsPerView = Math.floor(window.innerWidth / 400); // Ajuste responsivo
 
@@ -3269,7 +3431,7 @@
             const cardWidth = 350 + 32; // ancho + gap
             const translateX = -currentSpecialistIndex * cardWidth;
             specialistsTrack.style.transform = `translateX(${translateX}px)`;
-            
+
             // Actualizar dots
             specialistsDots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSpecialistIndex);
@@ -3302,7 +3464,9 @@
                     specialistsObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 });
+        }, {
+            threshold: 0.3
+        });
 
         specialistsObserver.observe(document.getElementById('specialists'));
 
@@ -3314,25 +3478,25 @@
             }
         });
 
-                // Animación del teléfono con la app
+        // Animación del teléfono con la app
         function initPhoneAnimation() {
             const screens = document.querySelectorAll('.app-content');
             let currentScreen = 0;
-            
+
             function showNextScreen() {
                 // Ocultar pantalla actual
                 screens[currentScreen].classList.remove('active');
-                
+
                 // Avanzar a la siguiente pantalla
                 currentScreen = (currentScreen + 1) % screens.length;
-                
+
                 // Mostrar nueva pantalla
                 screens[currentScreen].classList.add('active');
             }
-            
+
             // Cambiar pantalla cada 4 segundos
             setInterval(showNextScreen, 4000);
-            
+
             // Efectos de interacción en las pantallas
             const moodOptions = document.querySelectorAll('.mood-option');
             moodOptions.forEach(option => {
@@ -3352,7 +3516,9 @@
                     appObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 });
+        }, {
+            threshold: 0.3
+        });
 
         appObserver.observe(document.getElementById('app'));
 
@@ -3360,42 +3526,50 @@
         const downloadButton = document.querySelector('.download-button');
         downloadButton.addEventListener('click', function(e) {
             e.preventDefault();
-            
+
             // Efecto de descarga
             this.innerHTML = '<i class="fas fa-download"></i> Descargando...';
             this.style.background = 'linear-gradient(135deg, #3a9c8c, #4db8a8)';
-            
+
             setTimeout(() => {
                 this.innerHTML = '<i class="fab fa-google-play"></i> ¡Descargada!';
                 setTimeout(() => {
-                    this.innerHTML = '<i class="fab fa-google-play"></i> Descárgala desde Play Store';
+                    this.innerHTML =
+                        '<i class="fab fa-google-play"></i> Descárgala desde Play Store';
                     this.style.background = 'linear-gradient(135deg, #4db8a8, #5bc4b3)';
                 }, 2000);
             }, 1500);
         });
 
-                // Carrusel de emergencias mejorado
+        // Carrusel de emergencias mejorado
         const emergencyTrack = document.getElementById('emergencyTrack');
         const emergencyDots = document.querySelectorAll('.emergency-dot');
         const emergencyPrev = document.querySelector('.emergency-prev');
         const emergencyNext = document.querySelector('.emergency-next');
-        
+
         let currentEmergencyIndex = 0;
         const totalEmergencySlides = 3;
 
         function updateEmergencyCarousel() {
             const translateX = -currentEmergencyIndex * 100;
             emergencyTrack.style.transform = `translateX(${translateX}%)`;
-            
+
             // Actualizar dots con animación
             emergencyDots.forEach((dot, index) => {
                 if (index === currentEmergencyIndex) {
                     dot.classList.add('active');
-                    dot.animate([
-                        { transform: 'scale(1)' },
-                        { transform: 'scale(1.3)' },
-                        { transform: 'scale(1.2)' }
-                    ], { duration: 300 });
+                    dot.animate([{
+                            transform: 'scale(1)'
+                        },
+                        {
+                            transform: 'scale(1.3)'
+                        },
+                        {
+                            transform: 'scale(1.2)'
+                        }
+                    ], {
+                        duration: 300
+                    });
                 } else {
                     dot.classList.remove('active');
                 }
@@ -3443,24 +3617,25 @@
         lineNumbers.forEach(number => {
             number.addEventListener('click', async function() {
                 const textToCopy = this.textContent.replace('📋 Copiar', '').trim();
-                
+
                 try {
                     await navigator.clipboard.writeText(textToCopy);
-                    
+
                     // Efecto visual de copiado
                     const originalHTML = this.innerHTML;
                     this.innerHTML = '✓ Copiado!';
                     this.style.background = 'linear-gradient(135deg, #4db8a8, #5bc4b3)';
                     this.style.color = 'white';
                     this.style.transform = 'translateY(-2px) scale(1.05)';
-                    
+
                     setTimeout(() => {
                         this.innerHTML = originalHTML;
-                        this.style.background = 'linear-gradient(135deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.2))';
+                        this.style.background =
+                            'linear-gradient(135deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.2))';
                         this.style.color = '#2c5f5d';
                         this.style.transform = 'translateY(0) scale(1)';
                     }, 2000);
-                    
+
                 } catch (err) {
                     console.error('Error al copiar: ', err);
                 }
@@ -3469,7 +3644,7 @@
 
         // Smooth scroll para enlaces internos
         document.querySelectorAll('.footer-links a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -3484,72 +3659,75 @@
         // Sistema de verificación de autenticación
         function initAuthSystem() {
             function isUserAuthenticated() {
-        // Por ahora, simulamos que NO está autenticado
-                return false;
-        
-        // Cuando implementes la autenticación real, podría ser:
-        // return localStorage.getItem('userToken') !== null;
-        // ó
-        // return document.cookie.includes('auth_token');
+                return !!(window.MENTALLY_AUTH && window.MENTALLY_AUTH.isAuthenticated);
             }
-    
-    // Función para redirigir al login
+
+            // Función para redirigir al login
             function redirectToLogin(redirectTo = '') {
-        // Guardar la página a la que quería acceder
+                // Guardar la página a la que quería acceder (opcional, por si luego lo usas)
                 if (redirectTo) {
                     sessionStorage.setItem('redirectAfterLogin', redirectTo);
                 }
-        
-        // Redirigir a la página de login
-                window.location.href = '/login'; // Cambia esta ruta según tu estructura
-        }
-    
-    // Función para manejar clics en enlaces que requieren autenticación
-    function handleAuthRequiredClick(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Verificar si el usuario está autenticado
-        if (!isUserAuthenticated()) {
-            // Obtener la página a la que quiere acceder
-            const page = this.getAttribute('data-page') || 
-                        this.textContent.trim().toLowerCase().replace(/\s+/g, '-');
-            
-            // Mostrar mensaje (opcional)
-            console.log(`Redirigiendo a login para acceder a: ${page}`);
-            
-            // Redirigir al login
-            redirectToLogin(page);
-        } else {
-            // Si está autenticado, proceder normalmente
-            // Aquí iría la navegación normal a la página solicitada
-            const page = this.getAttribute('data-page');
-            console.log(`Usuario autenticado, navegando a: ${page}`);
-            // window.location.href = `/${page}`; // Descomenta cuando tengas las rutas
-        }
-    }
-    
-    // Agregar event listeners a todos los enlaces que requieren autenticación
-    document.querySelectorAll('.require-auth').forEach(link => {
-        link.addEventListener('click', handleAuthRequiredClick);
-    });
-    
-    // También manejar los botones de login/signup del navbar para que funcionen normalmente
-    document.querySelectorAll('.btn-login, .btn-signup').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Estos ya tienen href="#" que podemos mantener o modificar
-            window.location.href = this.getAttribute('href') || '/login';
-        });
-    });
-}
 
-// Inicializar el sistema de autenticación cuando el DOM esté listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAuthSystem);
-} else {
-    initAuthSystem();
-}
+                const loginUrl =
+                    (window.MENTALLY_AUTH && window.MENTALLY_AUTH.loginUrl) ?
+                    window.MENTALLY_AUTH.loginUrl :
+                    '/login';
+
+                // Enviar a login con redirect (para volver después de loguearse)
+                const url = new URL(loginUrl, window.location.origin);
+
+                if (redirectTo) {
+                    // Aquí puedes guardar una ruta real tipo "/diary" o el "slug"
+                    url.searchParams.set('redirect', redirectTo);
+                }
+
+                window.location.href = url.toString();
+            }
+
+
+            // Función para manejar clics en enlaces que requieren autenticación
+            function handleAuthRequiredClick(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Verificar si el usuario está autenticado
+                if (!isUserAuthenticated()) {
+                    // Obtener la página a la que quiere acceder
+                    const urlToGo = this.getAttribute('data-url') || '/';
+                    redirectToLogin(urlToGo);
+
+
+                    // Mostrar mensaje (opcional)
+                    console.log(`Redirigiendo a login para acceder a: ${page}`);
+
+                    // Redirigir al login
+                    redirectToLogin(page);
+                } else {
+                    // Si está autenticado, proceder normalmente
+                    // Aquí iría la navegación normal a la página solicitada
+                    const urlToGo = this.getAttribute('data-url') || '/';
+                    window.location.href = urlToGo;
+
+                    // window.location.href = `/${page}`; // Descomenta cuando tengas las rutas
+                }
+            }
+
+            // Agregar event listeners a todos los enlaces que requieren autenticación
+            document.querySelectorAll('.require-auth').forEach(link => {
+                link.addEventListener('click', handleAuthRequiredClick);
+            });
+
+            // También manejar los botones de login/signup del navbar para que funcionen normalmente
+
+        }
+        // Inicializar el sistema de autenticación cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAuthSystem);
+        } else {
+            initAuthSystem();
+        }
     </script>
 </body>
+
 </html>

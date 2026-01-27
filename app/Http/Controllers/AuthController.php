@@ -80,8 +80,36 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // Este método lo implementaremos en el paso siguiente
-        return redirect()->route('login');
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ], [
+            'email.required' => 'El correo es obligatorio.',
+            'email.email' => 'El correo no es válido.',
+            'password.required' => 'La contraseña es obligatoria.',
+        ]);
+
+        $remember = $request->boolean('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+
+            // 1) Tomar el redirect que viene del login?redirect=/ruta
+            $redirect = $request->query('redirect');
+
+            // 2) Seguridad: solo permitir rutas internas (que empiecen por "/")
+            if ($redirect && str_starts_with($redirect, '/')) {
+                return redirect($redirect)->with('success', '¡Bienvenido de vuelta!');
+            }
+
+            // 3) Si no hay redirect válido, ir al dashboard
+            return redirect()->route('dashboard.paciente')->with('success', '¡Bienvenido de vuelta!');
+        }
+
+
+        return back()->withErrors([
+            'email' => 'Credenciales incorrectas.',
+        ])->withInput($request->only('email', 'remember'));
     }
 
     /**
@@ -92,7 +120,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect()->route('home');
     }
 }

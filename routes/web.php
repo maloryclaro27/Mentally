@@ -28,16 +28,31 @@ Route::get('/test_bienestar', function () {
 
 Route::get('/test_depresion', function () {
     return view('test_depresion');
-});
+})->middleware('auth')->name('test.depresion');
 
 Route::get('/test_ansiedad', function () {
     return view('test_ansiedad');
-});
+})->middleware('auth')->name('test.ansiedad');
 
 Route::get('/listado_psiquiatras', function () {
     return view('listado_psiquiatras');
-});
+})->middleware('auth')->name('psiquiatras');
+
+Route::get('/diario_emocional', function () {
+    return view('diario_emocional');
+})->middleware('auth')->name('diario.emocional');
+
+
+Route::get('/chatbot', function () {
+    return view('chatbot');
+})->middleware('auth')->name('chatbot');
+
 
 Route::get('/dashboard_paciente', function () {
     return view('dashboard_paciente');
-});
+})->name('dashboard.paciente');
+
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
