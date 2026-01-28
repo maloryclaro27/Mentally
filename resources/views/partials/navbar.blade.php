@@ -10,24 +10,24 @@
 
         <ul class="nav-links">
             <li class="nav-item">
-                <a class="nav-link">Servicios</a>
+                <a href="#" class="nav-link">Servicios</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item require-auth" data-url="/diario_emocional">Diario Emocional</a>
                     <a class="dropdown-item require-auth" data-url="/chatbot">Chatbot: Habla con Cereon 🧠</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Tests</a>
+                <a href="#" class="nav-link">Tests</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item require-auth" data-url="/test_depresion">Test de Depresión</a>
                     <a class="dropdown-item require-auth" data-url="/test_ansiedad">Test de Ansiedad</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Blog</a>
+                <a href="#" class="nav-link">Blog</a>
                 <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Artículos</a>
-                    <a class="dropdown-item" data-page="post-story">Postea tu Historia</a>
+                    <a href="/blog" class="dropdown-item">Artículos</a>
+                    <a href="/blog/postear" class="dropdown-item">Postea tu Historia</a>
                 </div>
             </li>
             <li class="nav-item">

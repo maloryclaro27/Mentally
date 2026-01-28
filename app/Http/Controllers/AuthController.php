@@ -95,7 +95,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // 1) Tomar el redirect que viene del login?redirect=/ruta
-            $redirect = $request->query('redirect');
+            $redirect = $request->input('redirect');
 
             // 2) Seguridad: solo permitir rutas internas (que empiecen por "/")
             if ($redirect && str_starts_with($redirect, '/')) {

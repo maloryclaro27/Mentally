@@ -841,6 +841,7 @@
             <!-- Formulario -->
             <form class="login-form" id="loginForm" method="POST" action="{{ route('login.post') }}">
                 @csrf
+                <input type="hidden" name="redirect" id="redirectInput" value="{{ request('redirect') }}">
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-envelope"></i>
@@ -939,6 +940,27 @@
             }
         }
 
+        // ===== Redirect after login (from ?redirect=... or sessionStorage) =====
+        (function setRedirectField() {
+            const input = document.getElementById('redirectInput');
+            if (!input) return;
+
+            const params = new URLSearchParams(window.location.search);
+            const fromQuery = params.get('redirect');
+            const fromStorage = sessionStorage.getItem('redirectAfterLogin');
+
+            const redirect = fromQuery || fromStorage || '';
+
+            // Seguridad: solo rutas internas
+            if (redirect && redirect.startsWith('/')) {
+                input.value = redirect;
+                sessionStorage.setItem('redirectAfterLogin', redirect);
+            } else {
+                input.value = '';
+            }
+        })();
+
+
         // Validación del formulario
         document.addEventListener('DOMContentLoaded', function() {
             createFloatingHearts();
@@ -1032,6 +1054,7 @@
 
                 // Mostrar animación de éxito, pero dejar que el form se envíe a Laravel
                 showSuccessAnimation();
+                submitButton.disabled = true;
             });
 
 
@@ -1181,6 +1204,26 @@
             setInterval(() => {
                 heartIcon.style.opacity = Math.random() * 0.3 + 0.7;
             }, 2000);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hidden = document.querySelector('input[name="redirect"]');
+            if (!hidden) return;
+
+            if (!hidden.value) {
+                const s = sessionStorage.getItem('redirectAfterLogin');
+                if (s && s.startsWith('/')) hidden.value = s;
+            }
+
+            // Limpieza al enviar
+            const form = document.getElementById('loginForm');
+            if (form) {
+                form.addEventListener('submit', () => {
+                    sessionStorage.removeItem('redirectAfterLogin');
+                });
+            }
         });
     </script>
 </body>

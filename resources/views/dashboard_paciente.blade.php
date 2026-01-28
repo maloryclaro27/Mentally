@@ -1027,55 +1027,8 @@
     <div class="floating-circle circle-2"></div>
 
     <!-- Navbar actualizado -->
-    <nav>
-        <div class="logo-section">
-            <div class="logo-placeholder">
-                <img src="{{ asset('logo_pg.png') }}" alt="Logo Mentally">
-            </div>
-            <span class="brand-name">Mentally</span>
-        </div>
-
-        <ul class="nav-links">
-            <li class="nav-item">
-                <a href="#" class="nav-link">Mi Terapia</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Mi Diario</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Mis Recursos</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Comunidad</a>
-            </li>
-        </ul>
-
-        <div class="user-profile">
-            <div class="user-avatar">MV</div>
-            <div class="user-info">
-                <div class="user-name">Málory V.</div>
-                <div class="user-role">Paciente</div>
-            </div>
-            <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-user"></i>
-                    Mi Perfil
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-cog"></i>
-                    Configuración
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-question-circle"></i>
-                    Ayuda
-                </a>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Cerrar Sesión
-                </a>
-            </div>
-        </div>
-    </nav>
+    <!-- Navigation -->
+    @include('partials.navbar')
 
     <!-- Contenido principal -->
     <main class="main-content">
