@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentally - Tu espacio digital de bienestar emocional</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <!-- CSS del navbar (GLOBAL) -->
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-    <style>
+@section('title', 'Mentally - Tu espacio digital de bienestar emocional')
+
+@push('styles')
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -2170,16 +2163,12 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-
-<body>
+    @endpush
+    
+@section('content')
     <!-- Decorative Circles -->
     <div class="floating-circle circle-1"></div>
     <div class="floating-circle circle-2"></div>
-
-    <!-- Navigation -->
-    @include('partials.navbar')
 
 
     <!-- Hero Section -->
@@ -2877,6 +2866,9 @@
             </div>
         </div>
     </footer>
+@endsection
+
+@push('scripts')
 
     <script>
         (function() {
@@ -2885,9 +2877,6 @@
             }
         })();
     </script>
-
-
-    <script src="{{ asset('js/navbar.js') }}"></script>
 
     <script>
         (function() {
@@ -3471,7 +3460,6 @@
             });
         })();
     </script>
-
+    @endpush
 </body>
 
-</html>

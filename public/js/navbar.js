@@ -91,12 +91,42 @@
   }
 
   // =========================
+  // 4) User profile dropdown (AUTH) — click toggle
+  // =========================
+  function initUserProfileDropdown() {
+    const userProfile = document.querySelector('.user-profile');
+    const userDropdown = document.querySelector('.user-profile .user-dropdown');
+
+    if (!userProfile || !userDropdown) return;
+
+    // Toggle al hacer click
+    userProfile.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userProfile.classList.toggle('active');
+    });
+
+    // Cerrar al hacer click fuera
+    document.addEventListener('click', () => {
+      userProfile.classList.remove('active');
+    });
+
+    // Cerrar con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        userProfile.classList.remove('active');
+      }
+    });
+  }
+
+
+  // =========================
   // Init (DOM ready safe)
   // =========================
   function initNavbar() {
     initSmoothScroll();
     initNavbarScrollEffect();
     initAuthSystem();
+    initUserProfileDropdown();
   }
 
   if (document.readyState === 'loading') {

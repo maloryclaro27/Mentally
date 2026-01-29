@@ -1,40 +1,49 @@
 <nav>
     <div class="logo-section">
-            <div class="logo-placeholder">
-                <!-- Espacio para el logo en miniatura -->
-                <img src="{{ asset('logo_pg.png') }}" alt="Logo"
-                    style="width: 100%; height: 100%; object-fit: contain;">
-            </div>
-            <span class="brand-name">Mentally</span>
+        <div class="logo-placeholder">
+            <img src="{{ asset('logo_pg.png') }}" alt="Logo"
+                 style="width: 100%; height: 100%; object-fit: contain;">
         </div>
+        <span class="brand-name">Mentally</span>
+    </div>
 
-        <ul class="nav-links">
-            <li class="nav-item">
-                <a href="#" class="nav-link">Servicios</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item require-auth" data-url="/diario_emocional">Diario Emocional</a>
-                    <a class="dropdown-item require-auth" data-url="/chatbot">Chatbot: Habla con Cereon 🧠</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Tests</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item require-auth" data-url="/test_depresion">Test de Depresión</a>
-                    <a class="dropdown-item require-auth" data-url="/test_ansiedad">Test de Ansiedad</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Blog</a>
-                <div class="dropdown-menu">
-                    <a href="/blog" class="dropdown-item">Artículos</a>
-                    <a href="/blog/postear" class="dropdown-item">Postea tu Historia</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link require-auth" data-url="/listado_psiquiatras">Directorio de especialistas</a>
-            </li>
-        </ul>
+    <ul class="nav-links">
+        <li class="nav-item">
+            <a href="#" class="nav-link">Servicios</a>
+            <div class="dropdown-menu nav-dropdown">
+                <a href="#" class="dropdown-item require-auth" data-url="/diario_emocional">Diario Emocional</a>
+                <a href="#" class="dropdown-item require-auth" data-url="/chatbot">
+                    Chatbot: Habla con Cereon 🧠
+                </a>
+            </div>
+        </li>
 
+        <li class="nav-item">
+            <a href="#" class="nav-link">Tests</a>
+            <div class="dropdown-menu nav-dropdown">
+                <a href="#" class="dropdown-item require-auth" data-url="/test_depresion">
+                    Test de Depresión
+                </a>
+                <a href="#" class="dropdown-item require-auth" data-url="/test_ansiedad">
+                    Test de Ansiedad
+                </a>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">Blog</a>
+            <div class="dropdown-menu nav-dropdown">
+                <a href="/blog" class="dropdown-item">Artículos</a>
+                <a href="/blog/postear" class="dropdown-item">Postea tu Historia</a>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link require-auth" data-url="/listado_psiquiatras">
+                Directorio de especialistas
+            </a>
+        </li>
+    </ul>
 
     {{-- DERECHA: guest -> botones / auth -> perfil --}}
     @guest
@@ -59,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="dropdown-menu">
+            <div class="dropdown-menu user-dropdown">
                 <a href="#" class="dropdown-item">
                     <i class="fas fa-user"></i>
                     Mi Perfil
@@ -75,7 +84,6 @@
                     Ayuda
                 </a>
 
-                {{-- Logout recomendado con POST --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="dropdown-item dropdown-button">

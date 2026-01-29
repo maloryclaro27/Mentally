@@ -1,4 +1,7 @@
-/* Navbar */
+/* =========================
+   NAVBAR
+========================= */
+
 nav {
     position: fixed;
     top: 0;
@@ -11,7 +14,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
@@ -43,6 +46,10 @@ nav:hover {
     letter-spacing: 0.5px;
 }
 
+/* =========================
+   LINKS NAV
+========================= */
+
 .nav-links {
     display: flex;
     gap: 2.5rem;
@@ -50,8 +57,10 @@ nav:hover {
     align-items: center;
 }
 
+/* IMPORTANT: zona “puente” para que no se cierre el dropdown al bajar el mouse */
 .nav-item {
     position: relative;
+    padding-bottom: 12px;
 }
 
 .nav-link {
@@ -63,7 +72,7 @@ nav:hover {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    padding: 0.5rem 0;
+    padding: 1.4rem 0 0.6rem;
 }
 
 .nav-link::after {
@@ -85,47 +94,62 @@ nav:hover {
     color: #4db8a8;
 }
 
-/* Dropdown Menu (para navbar items) */
+/* =========================
+   DROPDOWN (BASE)
+   - aplica tanto al nav como al perfil
+========================= */
+
 nav .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 6px); /* evita huecos */
     left: 0;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     min-width: 220px;
     padding: 0.8rem 0;
+
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
+
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin-top: 1rem;
-    z-index: 1000;
+    z-index: 2500;
 }
 
+/* Mostrar dropdown cuando se hace hover en el item */
 nav .nav-item:hover > .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
+/* Items dropdown */
 nav .dropdown-item {
     padding: 0.8rem 1.5rem;
     color: #2c5f5d;
     text-decoration: none;
     display: block;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     font-size: 0.95rem;
+    cursor: pointer;
 }
 
 nav .dropdown-item:hover {
-    background: linear-gradient(90deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.1));
+    background: linear-gradient(
+        90deg,
+        rgba(77, 184, 168, 0.1),
+        rgba(91, 196, 179, 0.1)
+    );
     color: #4db8a8;
     padding-left: 2rem;
 }
 
-/* Auth buttons (guest) */
+/* =========================
+   BOTONES AUTH (GUEST)
+========================= */
+
 .auth-buttons {
     display: flex;
     gap: 1rem;
@@ -166,13 +190,19 @@ nav .dropdown-item:hover {
     box-shadow: 0 6px 20px rgba(77, 184, 168, 0.4);
 }
 
-/* User profile (auth) */
+/* =========================
+   PERFIL (AUTH)
+========================= */
+
 .user-profile {
     display: flex;
     align-items: center;
     gap: 1rem;
     position: relative;
     cursor: pointer;
+
+    /* zona puente para bajar al dropdown sin que se cierre */
+    padding-bottom: 12px;
 }
 
 .user-avatar {
@@ -210,25 +240,62 @@ nav .dropdown-item:hover {
     color: #5a7c7a;
 }
 
-/* Dropdown del perfil (auth) */
-.user-profile > .dropdown-menu {
+/* Dropdown del perfil: alineado a la derecha */
+.user-profile > .user-dropdown {
     left: auto;
     right: 0;
     min-width: 200px;
     padding: 1rem 0;
 }
 
-.user-profile:hover > .dropdown-menu {
+/* Mostrar dropdown del perfil con hover */
+.user-profile:hover > .user-dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* Dropdown item como button (logout) */
+/* Logout button estilo link */
 .dropdown-button {
     background: transparent;
     border: none;
     width: 100%;
     text-align: left;
     cursor: pointer;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    color: #2c5f5d;
+}
+
+.dropdown-button:hover {
+    background: linear-gradient(
+        90deg,
+        rgba(77, 184, 168, 0.1),
+        rgba(91, 196, 179, 0.1)
+    );
+    color: #4db8a8;
+    padding-left: 2rem;
+}
+
+/* =========================
+   RESPONSIVE (opcional mínimo)
+========================= */
+
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-links {
+        gap: 1.5rem;
+    }
+
+    .brand-name {
+        font-size: 1.6rem;
+    }
+
+    .logo-placeholder {
+        width: 56px;
+        height: 56px;
+    }
 }
