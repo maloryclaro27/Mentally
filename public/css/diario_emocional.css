@@ -1,0 +1,12 @@
+/* Espacio para que el contenido no quede tapado por el navbar fijo */
+main {
+  padding-top: 110px;
+}
+
+/* Mantén el fondo del diario (antes lo tenías en body) */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7f4 0%, #d4f1f9 50%, #e8f5f3 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}

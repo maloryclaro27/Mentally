@@ -1,13 +1,18 @@
 <nav>
     <div class="logo-section">
         <div class="logo-placeholder">
-            <img src="{{ asset('logo_pg.png') }}" alt="Logo"
-                 style="width: 100%; height: 100%; object-fit: contain;">
+            <img src="{{ asset('logo_pg.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <span class="brand-name">Mentally</span>
     </div>
 
     <ul class="nav-links">
+        @auth
+            <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link">Inicio</a>
+            </li>
+        @endauth
+
         <li class="nav-item">
             <a href="#" class="nav-link">Servicios</a>
             <div class="dropdown-menu nav-dropdown">
@@ -40,9 +45,15 @@
 
         <li class="nav-item">
             <a class="nav-link require-auth" data-url="/listado_psiquiatras">
-                Directorio de especialistas
+                Especialistas
             </a>
         </li>
+
+        @auth
+            <li class="nav-item">
+                <a href="{{ route('dashboard.paciente') }}" class="nav-link">Mi proceso</a>
+            </li>
+        @endauth
     </ul>
 
     {{-- DERECHA: guest -> botones / auth -> perfil --}}

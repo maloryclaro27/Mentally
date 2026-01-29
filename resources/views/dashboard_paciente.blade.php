@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mentally - Dashboard de Paciente</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -172,6 +175,20 @@
             z-index: 1000;
         }
 
+        /* Dropdowns del navbar (Servicios/Tests/Blog) */
+        .nav-item:hover .nav-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Ubicación del dropdown debajo del link */
+        .nav-dropdown {
+            left: 0;
+            right: auto;
+        }
+
+
         .user-profile:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
@@ -255,7 +272,7 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             opacity: 0.3;
         }
 
@@ -910,18 +927,40 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(30px, 30px);
+            }
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
         }
 
         @keyframes blink {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.1); }
+
+            0%,
+            90%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            95% {
+                transform: scaleY(0.1);
+            }
         }
 
         @keyframes slideInUp {
@@ -929,6 +968,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -1021,6 +1061,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Elementos decorativos flotantes -->
     <div class="floating-circle circle-1"></div>
@@ -1035,161 +1076,11 @@
         <!-- Encabezado de bienvenida -->
         <section class="welcome-header">
             <h1 class="welcome-title">¡Hola, Málory!</h1>
-            <p class="welcome-subtitle">Nos alegra que estés aquí. Hoy es un buen día para cuidar de tu bienestar emocional.</p>
+            <p class="welcome-subtitle">Nos alegra que estés aquí. Hoy es un buen día para cuidar de tu bienestar
+                emocional.</p>
             <div class="current-date">
                 <i class="fas fa-calendar-alt"></i>
                 <span id="currentDate"></span>
-            </div>
-        </section>
-
-        <!-- Banner de paquetes -->
-        <section class="package-banner">
-            <div class="package-content">
-                <div class="package-text">
-                    <h2 class="package-title">Ahorra hasta 12% en cada cita</h2>
-                    <p class="package-subtitle">Compra un paquete de sesiones y obtén descuentos exclusivos en terapia individual y otros servicios.</p>
-                </div>
-                <a href="#" class="package-button">
-                    Explorar paquetes
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </section>
-
-        <!-- Carrusel interactivo -->
-        <section class="carousel-section">
-            <div class="carousel-container">
-                <div class="carousel-track" id="carouselTrack">
-                    <!-- Slide 1: Diario emocional -->
-                    <div class="carousel-slide">
-                        <div class="slide-content">
-                            <div class="slide-text">
-                                <h2 class="slide-title">Diario Emocional Inteligente</h2>
-                                <p class="slide-description">
-                                    Registra tus pensamientos y emociones diariamente con nuestra herramienta guiada. 
-                                    Identifica patrones, celebra tus progresos y desarrolla mayor consciencia emocional 
-                                    con análisis automáticos y reflexiones personalizadas.
-                                </p>
-                                <a href="#" class="slide-button">
-                                    <i class="fas fa-book-open"></i>
-                                    Abrir mi diario
-                                </a>
-                            </div>
-                            <div class="slide-image">
-                                <div class="slide-visual">
-                                    <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Diario Emocional">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: Registro de sintomatología -->
-                    <div class="carousel-slide">
-                        <div class="slide-content">
-                            <div class="slide-text">
-                                <h2 class="slide-title">Registro de Sintomatología</h2>
-                                <p class="slide-description">
-                                    Monitorea tu bienestar con nuestro sistema de seguimiento diario. 
-                                    Visualiza tu progreso, identifica desencadenantes y comparte informes 
-                                    detallados con tu especialista para un tratamiento más personalizado.
-                                </p>
-                                <a href="#" class="slide-button">
-                                    <i class="fas fa-chart-line"></i>
-                                    Registrar síntomas
-                                </a>
-                            </div>
-                            <div class="slide-image">
-                                <div class="slide-visual">
-                                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Registro de síntomas">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3: Chatbot Cereon -->
-                    <div class="carousel-slide">
-                        <div class="slide-content">
-                            <div class="slide-text">
-                                <h2 class="slide-title">Habla con Cereon 🧠</h2>
-                                <p class="slide-description">
-                                    Nuestro asistente virtual está disponible 24/7 para escucharte, 
-                                    ofrecerte recursos personalizados y guiarte en ejercicios de mindfulness. 
-                                    Cereon aprende de tus conversaciones para brindarte apoyo cada vez más relevante.
-                                </p>
-                                <a href="#" class="slide-button">
-                                    <i class="fas fa-comments"></i>
-                                    Conversar con Cereon
-                                </a>
-                            </div>
-                            <div class="slide-image">
-                                <div class="slide-visual">
-                                    <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chatbot Cereon">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 4: Gestión de medicación -->
-                    <div class="carousel-slide">
-                        <div class="slide-content">
-                            <div class="slide-text">
-                                <h2 class="slide-title">Adherencia a Tratamiento</h2>
-                                <p class="slide-description">
-                                    Mantén tu racha de medicación y celebra cada logro. Nuestro sistema 
-                                    de recordatorios inteligentes y seguimiento de adherencia te ayuda a 
-                                    mantener la consistencia en tu tratamiento médico.
-                                </p>
-                                <a href="#" class="slide-button">
-                                    <i class="fas fa-pills"></i>
-                                    Gestionar medicación
-                                </a>
-                            </div>
-                            <div class="slide-image">
-                                <div class="slide-visual">
-                                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gestión de medicación">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 5: Artículos y blog -->
-                    <div class="carousel-slide">
-                        <div class="slide-content">
-                            <div class="slide-text">
-                                <h2 class="slide-title">Comunidad y Recursos</h2>
-                                <p class="slide-description">
-                                    Accede a artículos basados en evidencia científica, historias inspiradoras 
-                                    de nuestra comunidad y herramientas prácticas para tu bienestar emocional. 
-                                    Aprende y crece junto a otros en su camino de salud mental.
-                                </p>
-                                <a href="#" class="slide-button">
-                                    <i class="fas fa-newspaper"></i>
-                                    Explorar recursos
-                                </a>
-                            </div>
-                            <div class="slide-image">
-                                <div class="slide-visual">
-                                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Comunidad y recursos">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Navegación del carrusel -->
-            <div class="carousel-nav">
-                <button class="carousel-arrow" id="prevSlide">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                
-                <div class="carousel-dots" id="carouselDots">
-                    <!-- Los puntos se generarán dinámicamente -->
-                </div>
-                
-                <button class="carousel-arrow" id="nextSlide">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
         </section>
 
@@ -1204,7 +1095,7 @@
                     <h3 class="access-name">Agendar sesión</h3>
                     <p class="access-description">Programa una cita con tu especialista</p>
                 </a>
-                
+
                 <a href="#" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-calendar-alt"></i>
@@ -1212,7 +1103,7 @@
                     <h3 class="access-name">Mis citas</h3>
                     <p class="access-description">Revisa tus próximas citas programadas</p>
                 </a>
-                
+
                 <a href="#" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-clipboard-check"></i>
@@ -1220,15 +1111,15 @@
                     <h3 class="access-name">Mis chequeos</h3>
                     <p class="access-description">Resultados de tus evaluaciones recientes</p>
                 </a>
-                
-                <a href="#" class="access-card">
+
+                <a href="{{ route('diario.emocional') }}" class="access-card">
                     <div class="access-icon">
-                        <i class="fas fa-book-open"></i>
+                        <i class="fas fa-calendar-plus"></i>
                     </div>
                     <h3 class="access-name">Diario emocional</h3>
                     <p class="access-description">Continúa tu registro personal</p>
                 </a>
-                
+
                 <a href="#" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-chart-line"></i>
@@ -1236,15 +1127,16 @@
                     <h3 class="access-name">Mi registro diario</h3>
                     <p class="access-description">Seguimiento de síntomas y estado de ánimo</p>
                 </a>
-                
-                <a href="#" class="access-card">
+
+                <a href="{{ route('chatbot') }}" class="access-card">
                     <div class="access-icon">
-                        <i class="fas fa-robot"></i>
+                        <i class="fas fa-calendar-plus"></i>
                     </div>
                     <h3 class="access-name">Chatea con Cereon</h3>
                     <p class="access-description">Asistente virtual disponible 24/7</p>
                 </a>
-                
+
+
                 <a href="#" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-bell"></i>
@@ -1252,7 +1144,7 @@
                     <h3 class="access-name">Recordatorios</h3>
                     <p class="access-description">Configura alertas personalizadas</p>
                 </a>
-                
+
                 <a href="#" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-capsules"></i>
@@ -1263,13 +1155,154 @@
             </div>
         </section>
 
+        <section class="carousel-section">
+            <div class="carousel-container">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slide 1: Diario emocional -->
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <div class="slide-text">
+                                <h2 class="slide-title">Diario Emocional Inteligente</h2>
+                                <p class="slide-description">
+                                    Registra tus pensamientos y emociones diariamente con nuestra herramienta guiada.
+                                    Identifica patrones, celebra tus progresos y desarrolla mayor consciencia emocional
+                                    con análisis automáticos y reflexiones personalizadas.
+                                </p>
+                                <a href="#" class="slide-button">
+                                    <i class="fas fa-book-open"></i>
+                                    Abrir mi diario
+                                </a>
+                            </div>
+                            <div class="slide-image">
+                                <div class="slide-visual">
+                                    <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        alt="Diario Emocional">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Registro de sintomatología -->
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <div class="slide-text">
+                                <h2 class="slide-title">Registro de Sintomatología</h2>
+                                <p class="slide-description">
+                                    Monitorea tu bienestar con nuestro sistema de seguimiento diario.
+                                    Visualiza tu progreso, identifica desencadenantes y comparte informes
+                                    detallados con tu especialista para un tratamiento más personalizado.
+                                </p>
+                                <a href="#" class="slide-button">
+                                    <i class="fas fa-chart-line"></i>
+                                    Registrar síntomas
+                                </a>
+                            </div>
+                            <div class="slide-image">
+                                <div class="slide-visual">
+                                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        alt="Registro de síntomas">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Chatbot Cereon -->
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <div class="slide-text">
+                                <h2 class="slide-title">Habla con Cereon 🧠</h2>
+                                <p class="slide-description">
+                                    Nuestro asistente virtual está disponible 24/7 para escucharte,
+                                    ofrecerte recursos personalizados y guiarte en ejercicios de mindfulness.
+                                    Cereon aprende de tus conversaciones para brindarte apoyo cada vez más relevante.
+                                </p>
+                                <a href="#" class="slide-button">
+                                    <i class="fas fa-comments"></i>
+                                    Conversar con Cereon
+                                </a>
+                            </div>
+                            <div class="slide-image">
+                                <div class="slide-visual">
+                                    <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        alt="Chatbot Cereon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Gestión de medicación -->
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <div class="slide-text">
+                                <h2 class="slide-title">Adherencia a Tratamiento</h2>
+                                <p class="slide-description">
+                                    Mantén tu racha de medicación y celebra cada logro. Nuestro sistema
+                                    de recordatorios inteligentes y seguimiento de adherencia te ayuda a
+                                    mantener la consistencia en tu tratamiento médico.
+                                </p>
+                                <a href="#" class="slide-button">
+                                    <i class="fas fa-pills"></i>
+                                    Gestionar medicación
+                                </a>
+                            </div>
+                            <div class="slide-image">
+                                <div class="slide-visual">
+                                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        alt="Gestión de medicación">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5: Artículos y blog -->
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <div class="slide-text">
+                                <h2 class="slide-title">Comunidad y Recursos</h2>
+                                <p class="slide-description">
+                                    Accede a artículos basados en evidencia científica, historias inspiradoras
+                                    de nuestra comunidad y herramientas prácticas para tu bienestar emocional.
+                                    Aprende y crece junto a otros en su camino de salud mental.
+                                </p>
+                                <a href="#" class="slide-button">
+                                    <i class="fas fa-newspaper"></i>
+                                    Explorar recursos
+                                </a>
+                            </div>
+                            <div class="slide-image">
+                                <div class="slide-visual">
+                                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        alt="Comunidad y recursos">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegación del carrusel -->
+            <div class="carousel-nav">
+                <button class="carousel-arrow" id="prevSlide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="carousel-dots" id="carouselDots">
+                    <!-- Los puntos se generarán dinámicamente -->
+                </div>
+
+                <button class="carousel-arrow" id="nextSlide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
         <!-- Mascota de adherencia -->
         <section class="adherence-pet">
             <div class="pet-header">
                 <h2 class="pet-title">¡Empieza la racha para cuidar tu salud mental!</h2>
                 <p class="pet-subtitle">Tu compañero de bienestar necesita tu compromiso diario</p>
             </div>
-            
+
             <div class="pet-container">
                 <div class="pet-visual">
                     <div class="pet-character">
@@ -1280,7 +1313,7 @@
                         </div>
                         <div class="pet-mouth"></div>
                     </div>
-                    
+
                     <div class="pet-stats">
                         <div class="stat">
                             <span class="stat-value" id="streakDays">7</span>
@@ -1296,13 +1329,13 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="pet-info">
                     <div class="streak-info">
                         <h3 class="streak-title">Tu compromiso hace la diferencia</h3>
                         <p class="streak-description">
-                            Cada día que registras tu medicación, tu compañero de bienestar se fortalece. 
-                            Mantén la racha para verlo crecer y desarrollarse, reflejando tu propio progreso 
+                            Cada día que registras tu medicación, tu compañero de bienestar se fortalece.
+                            Mantén la racha para verlo crecer y desarrollarse, reflejando tu propio progreso
                             en el camino hacia una mejor salud mental.
                         </p>
                         <div class="streak-progress">
@@ -1310,7 +1343,7 @@
                         </div>
                         <small>Progreso hacia el siguiente nivel: 7/10 días</small>
                     </div>
-                    
+
                     <div class="medication-form">
                         <h3 class="form-title">Registrar medicación de hoy</h3>
                         <div class="form-group">
@@ -1349,13 +1382,14 @@
                 <!-- Artículo 1 -->
                 <div class="article-card">
                     <div class="article-image">
-                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Estrategias de afrontamiento">
+                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Estrategias de afrontamiento">
                     </div>
                     <div class="article-content">
                         <span class="article-category">Estrategias</span>
                         <h3 class="article-title">5 Estrategias para Manejar la Ansiedad en el Día a Día</h3>
                         <p class="article-excerpt">
-                            Técnicas prácticas basadas en terapia cognitivo-conductual que puedes 
+                            Técnicas prácticas basadas en terapia cognitivo-conductual que puedes
                             aplicar inmediatamente para reducir los síntomas de ansiedad.
                         </p>
                         <a href="#" class="article-button">
@@ -1368,13 +1402,14 @@
                 <!-- Artículo 2 -->
                 <div class="article-card">
                     <div class="article-image">
-                        <img src="https://images.unsplash.com/photo-1593115057322-e94b77572f20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mindfulness">
+                        <img src="https://images.unsplash.com/photo-1593115057322-e94b77572f20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Mindfulness">
                     </div>
                     <div class="article-content">
                         <span class="article-category">Mindfulness</span>
                         <h3 class="article-title">Introducción a la Meditación Mindfulness para Principiantes</h3>
                         <p class="article-excerpt">
-                            Una guía paso a paso para comenzar tu práctica de meditación, 
+                            Una guía paso a paso para comenzar tu práctica de meditación,
                             con ejercicios de 5 minutos que puedes hacer en cualquier lugar.
                         </p>
                         <a href="#" class="article-button">
@@ -1387,13 +1422,14 @@
                 <!-- Artículo 3 -->
                 <div class="article-card">
                     <div class="article-image">
-                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Comunidad">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Comunidad">
                     </div>
                     <div class="article-content">
                         <span class="article-category">Comunidad</span>
                         <h3 class="article-title">Historias de Recuperación: Cómo Superé la Depresión</h3>
                         <p class="article-excerpt">
-                            Testimonio anónimo de un miembro de nuestra comunidad sobre su 
+                            Testimonio anónimo de un miembro de nuestra comunidad sobre su
                             camino hacia la recuperación y las herramientas que le ayudaron.
                         </p>
                         <a href="#" class="article-button">
@@ -1412,15 +1448,20 @@
             // Establecer fecha actual
             const currentDateElement = document.getElementById('currentDate');
             const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
             currentDateElement.textContent = now.toLocaleDateString('es-ES', options);
-            
+
             // Inicializar carrusel
             initCarousel();
-            
+
             // Inicializar mascota de adherencia
             initAdherencePet();
-            
+
             // Configurar interacciones
             setupInteractions();
         });
@@ -1432,11 +1473,11 @@
             const dotsContainer = document.getElementById('carouselDots');
             const prevButton = document.getElementById('prevSlide');
             const nextButton = document.getElementById('nextSlide');
-            
+
             let currentSlide = 0;
             const totalSlides = slides.length;
             let autoSlideInterval;
-            
+
             // Crear puntos de navegación
             slides.forEach((_, index) => {
                 const dot = document.createElement('div');
@@ -1445,71 +1486,71 @@
                 dot.addEventListener('click', () => goToSlide(index));
                 dotsContainer.appendChild(dot);
             });
-            
+
             // Función para ir a un slide específico
             function goToSlide(index) {
                 currentSlide = index;
                 track.style.transform = `translateX(-${currentSlide * 100}%)`;
-                
+
                 // Actualizar puntos activos
                 document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
                     dot.classList.toggle('active', i === currentSlide);
                 });
-                
+
                 // Reiniciar intervalo
                 restartAutoSlide();
             }
-            
+
             // Navegación
             prevButton.addEventListener('click', () => {
                 goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
             });
-            
+
             nextButton.addEventListener('click', () => {
                 goToSlide((currentSlide + 1) % totalSlides);
             });
-            
+
             // Auto-avance
             function startAutoSlide() {
                 autoSlideInterval = setInterval(() => {
                     goToSlide((currentSlide + 1) % totalSlides);
                 }, 5000); // Cambia cada 5 segundos
             }
-            
+
             function restartAutoSlide() {
                 clearInterval(autoSlideInterval);
                 startAutoSlide();
             }
-            
+
             // Iniciar auto-avance
             startAutoSlide();
-            
+
             // Pausar al interactuar
             track.addEventListener('mouseenter', () => {
                 clearInterval(autoSlideInterval);
             });
-            
+
             track.addEventListener('mouseleave', () => {
                 startAutoSlide();
             });
-            
+
             // Soporte para touch (móviles)
             let startX = 0;
             let endX = 0;
-            
+
             track.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
             });
-            
+
             track.addEventListener('touchend', (e) => {
                 endX = e.changedTouches[0].clientX;
                 handleSwipe();
             });
-            
+
             function handleSwipe() {
                 const swipeThreshold = 50;
                 const diff = startX - endX;
-                
+
                 if (Math.abs(diff) > swipeThreshold) {
                     if (diff > 0) {
                         // Swipe izquierda - siguiente
@@ -1529,13 +1570,13 @@
             const petMoodElement = document.getElementById('petMood');
             const adherenceRateElement = document.getElementById('adherenceRate');
             const streakProgressElement = document.getElementById('streakProgress');
-            
+
             // Estado inicial
             let streakDays = 7;
             let petMood = 85;
             let adherenceRate = 92;
             let progress = 70;
-            
+
             // Actualizar visualización
             function updatePetStats() {
                 streakDaysElement.textContent = streakDays;
@@ -1543,102 +1584,103 @@
                 adherenceRateElement.textContent = `${adherenceRate}%`;
                 streakProgressElement.style.width = `${progress}%`;
             }
-            
+
             // Registrar medicación
             medicationButton.addEventListener('click', function() {
                 const medicationSelect = document.getElementById('medicationSelect');
                 const timeSelect = document.getElementById('timeSelect');
-                
+
                 // Validación
                 if (!medicationSelect.value || !timeSelect.value) {
                     showNotification('Por favor, completa todos los campos', 'warning');
                     return;
                 }
-                
+
                 // Simular carga
                 this.disabled = true;
                 this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
-                
+
                 setTimeout(() => {
                     // Actualizar estadísticas
                     streakDays++;
                     petMood = Math.min(100, petMood + 3);
                     adherenceRate = Math.min(100, adherenceRate + 2);
                     progress = Math.min(100, progress + 10);
-                    
+
                     // Si la racha llega a un hito
                     if (streakDays % 10 === 0) {
-                        showNotification(`¡Felicidades! Has alcanzado ${streakDays} días de racha`, 'success');
+                        showNotification(`¡Felicidades! Has alcanzado ${streakDays} días de racha`,
+                            'success');
                         animatePetCelebration();
                     } else {
                         showNotification('Medicación registrada exitosamente', 'success');
                         animatePetHappiness();
                     }
-                    
+
                     // Actualizar interfaz
                     updatePetStats();
-                    
+
                     // Restaurar botón
                     this.disabled = false;
                     this.innerHTML = '<i class="fas fa-check-circle"></i> Confirmar toma';
-                    
+
                     // Resetear formulario
                     medicationSelect.value = '';
                     timeSelect.value = '';
-                    
+
                 }, 1500);
             });
-            
+
             // Animaciones de la mascota
             function animatePetHappiness() {
                 const petBody = document.querySelector('.pet-body');
                 const eyes = document.querySelectorAll('.eye');
                 const mouth = document.querySelector('.pet-mouth');
-                
+
                 // Efecto de felicidad
                 petBody.style.animation = 'none';
                 petBody.style.transform = 'scale(1.05)';
-                
+
                 // Ojos felices
                 eyes.forEach(eye => {
                     eye.style.borderRadius = '50% 50% 50% 50%';
                 });
-                
+
                 // Sonrisa
                 mouth.style.borderBottom = '8px solid #253138';
                 mouth.style.borderRadius = '0 0 40px 40px';
-                
+
                 setTimeout(() => {
                     petBody.style.animation = 'gentleFloat 6s ease-in-out infinite';
                     petBody.style.transform = '';
-                    
+
                     eyes.forEach(eye => {
                         eye.style.borderRadius = '';
                     });
-                    
+
                     mouth.style.borderBottom = '6px solid #253138';
                     mouth.style.borderRadius = '0 0 30px 30px';
                 }, 1000);
             }
-            
+
             function animatePetCelebration() {
                 const petBody = document.querySelector('.pet-body');
-                
+
                 // Efecto especial de celebración
                 petBody.style.animation = 'none';
                 petBody.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-                
+
                 // Crear partículas de celebración
                 for (let i = 0; i < 20; i++) {
                     createCelebrationParticle();
                 }
-                
+
                 setTimeout(() => {
                     petBody.style.animation = 'gentleFloat 6s ease-in-out infinite';
                     petBody.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
                 }, 2000);
             }
-            
+
             function createCelebrationParticle() {
                 const particle = document.createElement('div');
                 particle.style.cssText = `
@@ -1652,37 +1694,37 @@
                     pointer-events: none;
                     z-index: 10;
                 `;
-                
+
                 document.querySelector('.pet-character').appendChild(particle);
-                
+
                 // Animación de partícula
                 const angle = Math.random() * Math.PI * 2;
                 const velocity = 2 + Math.random() * 3;
                 const vx = Math.cos(angle) * velocity;
                 const vy = Math.sin(angle) * velocity;
-                
+
                 let x = 150;
                 let y = 150;
                 let opacity = 1;
-                
+
                 function animateParticle() {
                     x += vx;
                     y += vy;
                     opacity -= 0.02;
-                    
+
                     particle.style.transform = `translate(${x - 150}px, ${y - 150}px)`;
                     particle.style.opacity = opacity;
-                    
+
                     if (opacity > 0) {
                         requestAnimationFrame(animateParticle);
                     } else {
                         particle.remove();
                     }
                 }
-                
+
                 animateParticle();
             }
-            
+
             // Inicializar estadísticas
             updatePetStats();
         }
@@ -1708,7 +1750,7 @@
                     gap: 1rem;
                     max-width: 350px;
                 `;
-                
+
                 const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
                 notification.innerHTML = `
                     <i class="fas ${icon}" style="font-size: 1.3rem;"></i>
@@ -1717,9 +1759,9 @@
                         <span>${message}</span>
                     </div>
                 `;
-                
+
                 document.body.appendChild(notification);
-                
+
                 setTimeout(() => {
                     notification.style.animation = 'slideOutRight 0.3s ease forwards';
                     setTimeout(() => {
@@ -1727,7 +1769,7 @@
                     }, 300);
                 }, 4000);
             };
-            
+
             // Agregar estilos para animaciones de notificación
             const style = document.createElement('style');
             style.textContent = `
@@ -1754,7 +1796,7 @@
                 }
             `;
             document.head.appendChild(style);
-            
+
             // Efectos hover para tarjetas de acceso rápido
             const accessCards = document.querySelectorAll('.access-card');
             accessCards.forEach(card => {
@@ -1762,13 +1804,13 @@
                     const icon = this.querySelector('.access-icon');
                     icon.style.transform = 'scale(1.1) rotate(5deg)';
                 });
-                
+
                 card.addEventListener('mouseleave', function() {
                     const icon = this.querySelector('.access-icon');
                     icon.style.transform = '';
                 });
             });
-            
+
             // Efectos hover para artículos
             const articleCards = document.querySelectorAll('.article-card');
             articleCards.forEach(card => {
@@ -1776,13 +1818,13 @@
                     const image = this.querySelector('.article-image img');
                     image.style.transform = 'scale(1.05)';
                 });
-                
+
                 card.addEventListener('mouseleave', function() {
                     const image = this.querySelector('.article-image img');
                     image.style.transform = '';
                 });
             });
-            
+
             // Interacción con el perfil de usuario
             const userAvatar = document.querySelector('.user-avatar');
             userAvatar.addEventListener('click', function() {
@@ -1794,4 +1836,5 @@
         }
     </script>
 </body>
+
 </html>

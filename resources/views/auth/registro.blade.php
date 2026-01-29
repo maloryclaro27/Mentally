@@ -911,7 +911,7 @@
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <h2 class="success-message">¡Cuenta Creada!</h2>
-                <p class="success-text">Te redireccionaremos al cuestionario PHQ-9 en unos segundos...</p>
+                <p class="success-text">Te redireccionaremos al test de bienestar emocional en unos segundos...</p>
                 <div class="spinner">
                     <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #4db8a8;"></i>
                 </div>
