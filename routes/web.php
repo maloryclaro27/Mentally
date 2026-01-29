@@ -24,6 +24,10 @@ Route::get('/registro', function () {
 Route::post('/registro', [AuthController::class, 'register'])->name('registro.post');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+Route::get('/registro_especialista', function () {
+    return view('auth.registro_especialista');
+})->name('registro.especialista.post');
+
 // Protegidas
 Route::middleware('auth')->group(function () {
     Route::get('/test_depresion', function () {

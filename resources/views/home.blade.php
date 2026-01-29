@@ -3,7 +3,7 @@
 @section('title', 'Mentally - Tu espacio digital de bienestar emocional')
 
 @push('styles')
-<style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -2163,8 +2163,8 @@
             }
         }
     </style>
-    @endpush
-    
+@endpush
+
 @section('content')
     <!-- Decorative Circles -->
     <div class="floating-circle circle-1"></div>
@@ -2192,11 +2192,10 @@
                     </linearGradient>
                 </defs>
                 <!-- cerebro -->
-                <path d="M20 18c0-6 6-10 12-10s12 4 12 10c4 0 8 4 8 9s-2 9-8 9H20c-6 0-10-4-10-9s4-9 10-9Z"
-                    fill="url(#g)" stroke="#e68aa8" stroke-width="2" />
+                <path d="M20 18c0-6 6-10 12-10s12 4 12 10c4 0 8 4 8 9s-2 9-8 9H20c-6 0-10-4-10-9s4-9 10-9Z" fill="url(#g)"
+                    stroke="#e68aa8" stroke-width="2" />
                 <!-- surcos -->
-                <path d="M18 23c3-3 8-3 11 0M35 18c4 1 7 4 8 8" stroke="#e68aa8" stroke-width="2"
-                    stroke-linecap="round" />
+                <path d="M18 23c3-3 8-3 11 0M35 18c4 1 7 4 8 8" stroke="#e68aa8" stroke-width="2" stroke-linecap="round" />
                 <!-- ojos -->
                 <circle id="eye-left" class="eye" cx="26" cy="30" r="3" fill="#253138" />
                 <circle id="eye-right" class="eye" cx="38" cy="30" r="3" fill="#253138" />
@@ -2207,9 +2206,16 @@
             <h1 class="hero-title">Mentally</h1>
             <p class="hero-subtitle">Un espacio digital para comprenderte, cuidarte y fortalecer tu bienestar emocional.
             </p>
-            <a href="#" class="cta-button" id="ctaBtn">
-                Habla con Cereon
-            </a>
+            @auth
+                <a href="{{ route('chatbot') }}" class="cta-button" id="ctaBtn">
+                    Habla con Cereon
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="cta-button" id="ctaBtn">
+                    Habla con Cereon
+                </a>
+            @endauth
+
         </div>
     </section>
 
@@ -2293,10 +2299,17 @@
                             Evalúa la presencia y severidad de síntomas depresivos durante las últimas dos semanas.
                             Este test validado científicamente te ayuda a comprender mejor tu estado emocional.
                         </p>
-                        <a href="#" class="test-button">
-                            <i class="fas fa-play-circle"></i>
-                            Empezar test
-                        </a>
+                        @auth
+                            <a href="{{ route('test.depresion') }}" class="test-button">
+                                <i class="fas fa-play-circle"></i>
+                                Empezar test
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="test-button">
+                                <i class="fas fa-play-circle"></i>
+                                Empezar test
+                            </a>
+                        @endauth
                     </div>
 
                     <!-- Test 2: GAD-7 -->
@@ -2310,10 +2323,17 @@
                             Identifica patrones de ansiedad y preocupación excesiva. Obtén insights valiosos
                             sobre tu bienestar mental y recibe recomendaciones personalizadas.
                         </p>
-                        <a href="#" class="test-button">
-                            <i class="fas fa-play-circle"></i>
-                            Empezar test
-                        </a>
+                        @auth
+                            <a href="{{ route('test.ansiedad') }}" class="test-button">
+                                <i class="fas fa-play-circle"></i>
+                                Empezar test
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="test-button">
+                                <i class="fas fa-play-circle"></i>
+                                Empezar test
+                            </a>
+                        @endauth
                     </div>
 
                     <!-- Test 3: PSS -->
@@ -2321,16 +2341,24 @@
                         <div class="test-icon">
                             <i class="fas fa-bolt"></i>
                         </div>
-                        <h3 class="test-name">Estrés Percibido</h3>
+                        <h3 class="test-name">Test de Bienestar emocional</h3>
                         <span class="test-acronym">PSS</span>
                         <p class="test-description">
-                            Mide tu nivel de estrés percibido y cómo afecta tu vida diaria. Descubre herramientas
-                            efectivas para manejar situaciones estresantes de manera saludable.
+                            El Test OMS-5 de la Organización Mundial de la Salud evalúa tu bienestar subjetivo
+                            durante las últimas dos semanas. Tus respuestas nos ayudarán a comprender mejor tu
+                            estado emocional actual.
                         </p>
-                        <a href="#" class="test-button">
-                            <i class="fas fa-play-circle"></i>
-                            Empezar test
-                        </a>
+                        @auth
+                            <a href="{{ route('test.bienestar') }}" class="test-button">
+                                <i class="fas fa-play-circle"></i>
+                                Empezar test
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="test-button">
+                                <i class="fas fa-play-circle"></i>
+                                Empezar test
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -2372,10 +2400,17 @@
                     tu bienestar emocional con el tiempo. Reflexiona sobre tus emociones,
                     identifica patrones y celebra tu progreso en el camino del autoconocimiento.
                 </p>
-                <a href="#" class="diary-button">
-                    <i class="fas fa-book-open"></i>
-                    Abrir diario emocional
-                </a>
+                @auth
+                    <a href="{{ route('diario.emocional') }}" class="diary-button">
+                        <i class="fas fa-book-open"></i>
+                        Abrir diario emocional
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="diary-button">
+                        <i class="fas fa-book-open"></i>
+                        Abrir diario emocional
+                    </a>
+                @endauth
             </div>
 
             <div class="diary-visual">
@@ -2509,7 +2544,7 @@
                         </div>
                     </div>
 
-                    <a href="#" class="join-button">
+                    <a href="{{ route('registro.especialista.post') }}" class="join-button">
                         <i class="fas fa-user-plus"></i>
                         Unirse como Especialista
                     </a>
@@ -2806,22 +2841,12 @@
                         <a href="#" class="social-link" title="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="social-link" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" title="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
                     </div>
                 </div>
 
                 <div class="footer-column">
                     <h3>Navegación</h3>
                     <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Inicio</a></li>
                         <li><a href="#tests"><i class="fas fa-chevron-right"></i> Tests de Bienestar</a></li>
                         <li><a href="#diary"><i class="fas fa-chevron-right"></i> Diario Emocional</a></li>
                         <li><a href="#specialists"><i class="fas fa-chevron-right"></i> Especialistas</a></li>
@@ -2869,7 +2894,6 @@
 @endsection
 
 @push('scripts')
-
     <script>
         (function() {
             if (window.MENTALLY_AUTH && window.MENTALLY_AUTH.isAuthenticated) {
@@ -3460,6 +3484,5 @@
             });
         })();
     </script>
-    @endpush
+@endpush
 </body>
-
