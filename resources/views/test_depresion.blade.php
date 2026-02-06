@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test PHQ-9 - Mentally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -36,10 +39,23 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(10px, -8px); }
-            50% { transform: translate(5px, 12px); }
-            75% { transform: translate(-8px, 6px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(10px, -8px);
+            }
+
+            50% {
+                transform: translate(5px, 12px);
+            }
+
+            75% {
+                transform: translate(-8px, 6px);
+            }
         }
 
         /* Contenedor principal */
@@ -98,8 +114,15 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .test-title {
@@ -189,8 +212,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .question-number {
@@ -594,11 +624,31 @@
         }
 
         /* Colores de la paleta correcta para niveles PHQ-9 */
-        .legend-minimal { background: #4db8a8; }      /* Turquesa */
-        .legend-mild { background: #8bd3c7; }        /* Turquesa claro */
-        .legend-moderate { background: #c6e6e0; }    /* Turquesa muy claro */
-        .legend-severe { background: #2c5f5d; }      /* Verde oscuro */
-        .legend-very-severe { background: #5a7c7a; } /* Verde grisáceo */
+        .legend-minimal {
+            background: #4db8a8;
+        }
+
+        /* Turquesa */
+        .legend-mild {
+            background: #8bd3c7;
+        }
+
+        /* Turquesa claro */
+        .legend-moderate {
+            background: #c6e6e0;
+        }
+
+        /* Turquesa muy claro */
+        .legend-severe {
+            background: #2c5f5d;
+        }
+
+        /* Verde oscuro */
+        .legend-very-severe {
+            background: #5a7c7a;
+        }
+
+        /* Verde grisáceo */
 
         /* Información de impacto funcional */
         .impact-info {
@@ -859,7 +909,7 @@
             .results-content {
                 flex-direction: column;
             }
-            
+
             .progress-chart,
             .results-interpretation {
                 width: 100%;
@@ -871,7 +921,9 @@
                 gap: 1rem;
             }
 
-            .test-header, .carousel-container, .results-container {
+            .test-header,
+            .carousel-container,
+            .results-container {
                 padding: 1.5rem;
             }
 
@@ -905,7 +957,8 @@
                 font-size: 1.8rem;
             }
 
-            .chart-title, .interpretation-title {
+            .chart-title,
+            .interpretation-title {
                 font-size: 1.3rem;
             }
 
@@ -997,6 +1050,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Partículas flotantes -->
     <div class="floating-particle" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
@@ -1014,18 +1068,19 @@
             </div>
             <h1 class="test-title">Patient Health Questionnaire (PHQ-9)</h1>
             <p class="test-subtitle">
-                Este cuestionario evalúa la presencia y severidad de síntomas depresivos 
-                durante las últimas 2 semanas. Es una herramienta validada internacionalmente 
+                Este cuestionario evalúa la presencia y severidad de síntomas depresivos
+                durante las últimas 2 semanas. Es una herramienta validada internacionalmente
                 para el screening de depresión.
             </p>
-            
+
             <div class="test-instructions">
                 <h3 class="instructions-title">
                     <i class="fas fa-info-circle"></i>
                     Instrucciones
                 </h3>
                 <ul class="instructions-list">
-                    <li>Para cada pregunta, selecciona la respuesta que mejor describa cómo te has sentido en las últimas 2 semanas</li>
+                    <li>Para cada pregunta, selecciona la respuesta que mejor describa cómo te has sentido en las
+                        últimas 2 semanas</li>
                     <li>Considera la frecuencia con la que has experimentado cada síntoma</li>
                     <li>Responde todas las preguntas para obtener un resultado preciso</li>
                     <li>Tus respuestas son completamente confidenciales</li>
@@ -1076,7 +1131,7 @@
                             <div class="grid-line"></div>
                             <div class="grid-line"></div>
                         </div>
-                        
+
                         <div class="chart-labels-y">
                             <span>27</span>
                             <span>20</span>
@@ -1182,8 +1237,7 @@
 
     <script>
         // Preguntas del test PHQ-9
-        const phqQuestions = [
-            {
+        const phqQuestions = [{
                 id: 1,
                 text: "Poco interés o placer en hacer cosas",
                 period: "En las últimas 2 semanas..."
@@ -1231,42 +1285,100 @@
         ];
 
         // Opciones de respuesta PHQ-9 (0-3 puntos)
-        const phqOptions = [
-            { value: 0, label: "Ningún día", frequency: "0 días" },
-            { value: 1, label: "Varios días", frequency: "1-6 días" },
-            { value: 2, label: "Más de la mitad de los días", frequency: "7-11 días" },
-            { value: 3, label: "Casi todos los días", frequency: "12-14 días" }
+        const phqOptions = [{
+                value: 0,
+                label: "Ningún día",
+                frequency: "0 días"
+            },
+            {
+                value: 1,
+                label: "Varios días",
+                frequency: "1-6 días"
+            },
+            {
+                value: 2,
+                label: "Más de la mitad de los días",
+                frequency: "7-11 días"
+            },
+            {
+                value: 3,
+                label: "Casi todos los días",
+                frequency: "12-14 días"
+            }
         ];
 
         // Opciones para la pregunta adicional de impacto funcional
-        const impactOptions = [
-            { value: 0, label: "Nada difícil", description: "No interfiere" },
-            { value: 1, label: "Algo difícil", description: "Interfiere ligeramente" },
-            { value: 2, label: "Muy difícil", description: "Interfiere significativamente" },
-            { value: 3, label: "Extremadamente difícil", description: "Interfiere severamente" }
+        const impactOptions = [{
+                value: 0,
+                label: "Nada difícil",
+                description: "No interfiere"
+            },
+            {
+                value: 1,
+                label: "Algo difícil",
+                description: "Interfiere ligeramente"
+            },
+            {
+                value: 2,
+                label: "Muy difícil",
+                description: "Interfiere significativamente"
+            },
+            {
+                value: 3,
+                label: "Extremadamente difícil",
+                description: "Interfiere severamente"
+            }
         ];
 
         // Datos históricos para el gráfico (simulados)
-        const historicalData = [
-            { month: "May", score: 8 },
-            { month: "Jun", score: 10 },
-            { month: "Jul", score: 12 },
-            { month: "Aug", score: 15 },
-            { month: "Sep", score: 14 },
-            { month: "Oct", score: 16 },
-            { month: "Nov", score: 18 },
-            { month: "Dec", score: 16 },
-            { month: "2026", score: 14 },
-            { month: "Jan", score: 16 }
+        const historicalData = [{
+                month: "May",
+                score: 8
+            },
+            {
+                month: "Jun",
+                score: 10
+            },
+            {
+                month: "Jul",
+                score: 12
+            },
+            {
+                month: "Aug",
+                score: 15
+            },
+            {
+                month: "Sep",
+                score: 14
+            },
+            {
+                month: "Oct",
+                score: 16
+            },
+            {
+                month: "Nov",
+                score: 18
+            },
+            {
+                month: "Dec",
+                score: 16
+            },
+            {
+                month: "2026",
+                score: 14
+            },
+            {
+                month: "Jan",
+                score: 16
+            }
         ];
 
         // Interpretaciones de resultados PHQ-9 - CON COLORES DE NUESTRA PALETA
-        const phqInterpretations = [
-            {
+        const phqInterpretations = [{
                 minScore: 0,
                 maxScore: 4,
                 level: "Depresión Mínima",
-                color: "#4db8a8",      // Turquesa principal
+                color: "#4db8a8", // Turquesa principal
                 lightColor: "rgba(77, 184, 168, 0.1)",
                 description: "Tu puntuación indica síntomas depresivos mínimos o ausentes. Es probable que no necesites tratamiento específico para la depresión en este momento.",
                 recommendations: [
@@ -1281,7 +1393,7 @@
                 minScore: 5,
                 maxScore: 9,
                 level: "Depresión Leve",
-                color: "#8bd3c7",      // Turquesa claro
+                color: "#8bd3c7", // Turquesa claro
                 lightColor: "rgba(139, 211, 199, 0.1)",
                 description: "Tu puntuación sugiere síntomas depresivos leves. Puedes beneficiarte de intervenciones psicoeducativas o apoyo psicológico.",
                 recommendations: [
@@ -1296,7 +1408,7 @@
                 minScore: 10,
                 maxScore: 14,
                 level: "Depresión Moderada",
-                color: "#c6e6e0",      // Turquesa muy claro
+                color: "#c6e6e0", // Turquesa muy claro
                 lightColor: "rgba(198, 230, 224, 0.1)",
                 description: "Tu puntuación indica síntomas depresivos moderados. Se recomienda evaluación profesional y posible tratamiento.",
                 recommendations: [
@@ -1311,7 +1423,7 @@
                 minScore: 15,
                 maxScore: 19,
                 level: "Depresión Moderadamente Severa",
-                color: "#2c5f5d",      // Verde oscuro
+                color: "#2c5f5d", // Verde oscuro
                 lightColor: "rgba(44, 95, 93, 0.1)",
                 description: "Tu puntuación sugiere síntomas depresivos moderadamente severos. Se recomienda evaluación profesional urgente.",
                 recommendations: [
@@ -1326,7 +1438,7 @@
                 minScore: 20,
                 maxScore: 27,
                 level: "Depresión Severa",
-                color: "#5a7c7a",      // Verde grisáceo
+                color: "#5a7c7a", // Verde grisáceo
                 lightColor: "rgba(90, 124, 122, 0.1)",
                 description: "Tu puntuación indica síntomas depresivos severos. Se requiere evaluación y tratamiento profesional inmediato.",
                 recommendations: [
@@ -1351,15 +1463,15 @@
             updateProgressDots();
             updateNavigation();
             updateSubmitButton();
-            
+
             // Configurar eventos
             document.getElementById('submitButton').addEventListener('click', showImpactQuestion);
             document.getElementById('retakeButton').addEventListener('click', resetTest);
             document.getElementById('dashboardButton').addEventListener('click', goToDashboard);
-            
+
             // Inicializar gráfico
             renderChart();
-            
+
             // Configurar pregunta de impacto
             setupImpactQuestion();
         });
@@ -1382,14 +1494,14 @@
                     <p class="question-period">${question.period}</p>
                     <div class="options-container">
                         ${phqOptions.map(option => `
-                            <div class="option ${answers[index] === option.value ? 'selected' : ''}" 
-                                 data-value="${option.value}"
-                                 onclick="selectPHQOption(${index}, ${option.value})">
-                                <div class="option-value">${option.value}</div>
-                                <div class="option-label">${option.label}</div>
-                                <div class="option-frequency">${option.frequency}</div>
-                            </div>
-                        `).join('')}
+                                                    <div class="option ${answers[index] === option.value ? 'selected' : ''}" 
+                                                         data-value="${option.value}"
+                                                         onclick="selectPHQOption(${index}, ${option.value})">
+                                                        <div class="option-value">${option.value}</div>
+                                                        <div class="option-label">${option.label}</div>
+                                                        <div class="option-frequency">${option.frequency}</div>
+                                                    </div>
+                                                `).join('')}
                     </div>
                 `;
 
@@ -1416,7 +1528,7 @@
         // Seleccionar una opción PHQ-9
         window.selectPHQOption = function(questionIndex, value) {
             answers[questionIndex] = value;
-            
+
             // Actualizar la opción seleccionada
             const slide = document.querySelector(`.carousel-slide[data-question-id="${questionIndex + 1}"]`);
             const options = slide.querySelectorAll('.option');
@@ -1453,14 +1565,14 @@
             if (currentSlide) {
                 currentSlide.classList.remove('active');
             }
-            
+
             // Mostrar nueva pregunta
             const slides = document.querySelectorAll('.carousel-slide');
             if (slides[index]) {
                 slides[index].classList.add('active');
                 currentQuestion = index;
             }
-            
+
             updateNavigation();
         }
 
@@ -1468,10 +1580,10 @@
         function updateNavigation() {
             const prevButton = document.querySelector('.carousel-button.prev');
             const nextButton = document.querySelector('.carousel-button.next');
-            
+
             prevButton.disabled = currentQuestion === 0;
             nextButton.disabled = currentQuestion === phqQuestions.length - 1;
-            
+
             // Cambiar texto del último botón
             if (currentQuestion === phqQuestions.length - 1) {
                 nextButton.style.display = 'none';
@@ -1484,19 +1596,19 @@
         function updateProgressDots() {
             const indicator = document.getElementById('progressIndicator');
             if (!indicator) return;
-            
+
             indicator.innerHTML = '';
-            
+
             phqQuestions.forEach((_, index) => {
                 const dot = document.createElement('div');
                 dot.className = 'progress-dot';
-                
+
                 if (index === currentQuestion) {
                     dot.classList.add('active');
                 } else if (answers[index] !== null) {
                     dot.classList.add('completed');
                 }
-                
+
                 dot.onclick = () => changeQuestion(index);
                 indicator.appendChild(dot);
             });
@@ -1507,9 +1619,10 @@
             const container = document.getElementById('impactContainer');
             const question = document.getElementById('impactQuestion');
             const options = document.getElementById('impactOptions');
-            
-            question.textContent = "Si has marcado algún problema, ¿qué tan difícil te han hecho estos problemas hacer tu trabajo, ocuparte de las cosas en casa o llevarte bien con otras personas?";
-            
+
+            question.textContent =
+                "Si has marcado algún problema, ¿qué tan difícil te han hecho estos problemas hacer tu trabajo, ocuparte de las cosas en casa o llevarte bien con otras personas?";
+
             options.innerHTML = impactOptions.map(option => `
                 <div class="impact-option" data-value="${option.value}" onclick="selectImpactOption(${option.value})">
                     <div style="font-weight: 600; color: #2c5f5d; margin-bottom: 0.3rem;">${option.label}</div>
@@ -1521,7 +1634,7 @@
         // Seleccionar opción de impacto
         window.selectImpactOption = function(value) {
             impactAnswer = value;
-            
+
             // Actualizar opciones
             const options = document.querySelectorAll('.impact-option');
             options.forEach(option => {
@@ -1530,10 +1643,11 @@
                     option.classList.add('selected');
                 }
             });
-            
+
             // Mostrar botón para ver resultados
             document.getElementById('submitButton').disabled = false;
-            document.getElementById('submitButton').innerHTML = `<i class="fas fa-chart-bar"></i> Ver Resultados del PHQ-9`;
+            document.getElementById('submitButton').innerHTML =
+                `<i class="fas fa-chart-bar"></i> Ver Resultados del PHQ-9`;
         };
 
         // Mostrar pregunta de impacto
@@ -1544,28 +1658,30 @@
                 alert('Por favor, responde todas las preguntas antes de continuar.');
                 return;
             }
-            
+
             // Si ya se respondió la pregunta de impacto, mostrar resultados
             if (impactAnswer !== null) {
                 showResults();
                 return;
             }
-            
+
             // Mostrar pregunta de impacto
             document.getElementById('carouselContainer').style.display = 'none';
             document.getElementById('impactContainer').style.display = 'block';
             document.getElementById('submitButton').disabled = true;
             document.getElementById('submitButton').innerHTML = `<i class="fas fa-lock"></i> Selecciona una opción`;
-            
+
             // Scroll a la pregunta de impacto
-            document.getElementById('impactContainer').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('impactContainer').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
         // Actualizar botón de enviar
         function updateSubmitButton() {
             const answeredCount = answers.filter(answer => answer !== null).length;
             const submitButton = document.getElementById('submitButton');
-            
+
             if (answeredCount === phqQuestions.length) {
                 submitButton.disabled = false;
                 submitButton.innerHTML = `<i class="fas fa-chart-bar"></i> Ver Resultados del PHQ-9`;
@@ -1579,16 +1695,31 @@
         function showResults() {
             // Calcular puntuación total
             totalScore = answers.reduce((sum, answer) => sum + (answer || 0), 0);
-            
+
             // Determinar interpretación
-            const interpretation = phqInterpretations.find(int => 
+            const interpretation = phqInterpretations.find(int =>
                 totalScore >= int.minScore && totalScore <= int.maxScore
             ) || phqInterpretations[0];
-            
+
+            // Guardar payload para enviar al backend
+            window.phq9Payload = {
+                score: totalScore,
+                result: interpretation.level,
+                answers: {
+                    items: phqQuestions.map((q, idx) => ({
+                        id: q.id,
+                        text: q.text,
+                        value: answers[idx]
+                    })),
+                    impactAnswer: impactAnswer
+                }
+            };
+
+
             // Actualizar elementos de resultados
             document.getElementById('phqScore').textContent = totalScore;
             document.getElementById('resultDescription').textContent = interpretation.description;
-            
+
             // Actualizar nivel de depresión con colores de nuestra paleta
             const levelElement = document.getElementById('depressionLevel');
             levelElement.innerHTML = `
@@ -1598,13 +1729,13 @@
             levelElement.style.background = interpretation.lightColor;
             levelElement.style.border = `1px solid ${interpretation.color}40`;
             levelElement.style.color = interpretation.color;
-            
+
             // Actualizar lista de recomendaciones
             const recommendationsList = document.getElementById('recommendationsList');
-            recommendationsList.innerHTML = interpretation.recommendations.map(rec => 
+            recommendationsList.innerHTML = interpretation.recommendations.map(rec =>
                 `<li>${rec}</li>`
             ).join('');
-            
+
             // Actualizar círculo de puntuación
             const circleScore = document.querySelector('.circle-score');
             const circumference = 2 * Math.PI * 90;
@@ -1612,27 +1743,29 @@
             const offset = circumference - (percentage / 100) * circumference;
             circleScore.style.stroke = interpretation.color;
             circleScore.style.strokeDashoffset = offset;
-            
+
             // Actualizar gráfico con nuevo dato
             historicalData[historicalData.length - 1].score = totalScore;
             renderChart();
-            
+
             // Actualizar información de impacto funcional
             updateImpactInfo();
-            
+
             // Mostrar resultados y ocultar preguntas
             document.getElementById('carouselContainer').style.display = 'none';
             document.getElementById('impactContainer').style.display = 'none';
             document.getElementById('submitButton').style.display = 'none';
             document.getElementById('resultsContainer').style.display = 'block';
-            
+
             // Efecto de confeti para celebrar (solo si puntuación es baja)
             if (totalScore <= 9) {
                 createConfetti();
             }
-            
+
             // Scroll a resultados
-            document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('resultsContainer').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
         // Actualizar información de impacto funcional
@@ -1644,7 +1777,7 @@
                 "Los problemas te han dificultado mucho hacer tu trabajo, ocuparte de las cosas en casa o llevarte bien con otras personas.",
                 "Los problemas te han dificultado extremadamente hacer tu trabajo, ocuparte de las cosas en casa o llevarte bien con otras personas."
             ];
-            
+
             impactInfo.innerHTML = `
                 <h4 class="impact-title">
                     <i class="fas fa-clipboard-check"></i>
@@ -1658,41 +1791,41 @@
         function renderChart() {
             const svg = document.getElementById('chartLine');
             const labelsX = document.getElementById('chartLabelsX');
-            
+
             // Limpiar SVG
             svg.innerHTML = '';
-            
+
             // Configurar dimensiones
             const width = 500;
             const height = 200;
             const padding = 20;
-            
+
             // Calcular escalas
             const maxScore = 27;
             const xScale = (width - padding * 2) / (historicalData.length - 1);
             const yScale = (height - padding * 2) / maxScore;
-            
+
             // Crear línea
             let pathData = '';
             historicalData.forEach((data, index) => {
                 const x = padding + index * xScale;
                 const y = height - padding - (data.score * yScale);
-                
+
                 if (index === 0) {
                     pathData += `M ${x} ${y} `;
                 } else {
                     pathData += `L ${x} ${y} `;
                 }
-                
+
                 // Determinar color según nivel - usando nuestra paleta
                 let pointColor = "#4db8a8"; // Color por defecto
-                const interpretation = phqInterpretations.find(int => 
+                const interpretationPoint = phqInterpretations.find(int =>
                     data.score >= int.minScore && data.score <= int.maxScore
                 );
-                if (interpretation) {
-                    pointColor = interpretation.color;
+                if (interpretationPoint) {
+                    pointColor = interpretationPoint.color;
                 }
-                
+
                 // Agregar punto
                 const point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 point.setAttribute('class', 'chart-point');
@@ -1707,14 +1840,14 @@
                 point.setAttribute('title', `${data.month}: ${data.score} puntos`);
                 svg.appendChild(point);
             });
-            
+
             // Crear camino
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('class', 'chart-path');
             path.setAttribute('d', pathData);
             path.setAttribute('stroke', '#4db8a8');
             svg.appendChild(path);
-            
+
             // Actualizar etiquetas
             labelsX.innerHTML = '';
             historicalData.forEach(data => {
@@ -1731,50 +1864,57 @@
             answers = new Array(phqQuestions.length).fill(null);
             impactAnswer = null;
             totalScore = 0;
-            
+
             // Mostrar preguntas y ocultar resultados
             document.getElementById('carouselContainer').style.display = 'flex';
             document.getElementById('impactContainer').style.display = 'none';
             document.getElementById('submitButton').style.display = 'flex';
             document.getElementById('resultsContainer').style.display = 'none';
-            
+
             // Recrear carrusel
             createCarousel();
             updateProgressDots();
             updateNavigation();
             updateSubmitButton();
-            
+
             // Resetear pregunta de impacto
             const impactOptions = document.querySelectorAll('.impact-option');
             impactOptions.forEach(option => {
                 option.classList.remove('selected');
             });
-            
+
             // Resetear círculo de puntuación
             const circleScore = document.querySelector('.circle-score');
             circleScore.style.stroke = '#4db8a8';
             circleScore.style.strokeDashoffset = '565';
-            
+
             // Scroll al inicio
-            document.querySelector('.test-header').scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.test-header').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
         // Ir al dashboard
         function goToDashboard() {
-            // Animación de salida
-            document.querySelector('.test-container').style.animation = 'fadeOut 0.6s ease forwards';
-            
-            setTimeout(() => {
-                alert('Redirigiendo al dashboard...');
-                // En producción, redirigiría a la página real del dashboard
-                // window.location.href = '/dashboard';
-            }, 600);
+            if (!window.phq9Payload) {
+                alert('Primero debes completar el test para guardar los resultados.');
+                return;
+            }
+
+            // llenar inputs ocultos
+            document.getElementById('phq9_score').value = window.phq9Payload.score;
+            document.getElementById('phq9_result').value = window.phq9Payload.result;
+            document.getElementById('phq9_answers').value = JSON.stringify(window.phq9Payload.answers);
+
+            // enviar al backend
+            document.getElementById('phq9SaveForm').submit();
         }
+
 
         // Efecto de confeti
         function createConfetti() {
             const colors = ['#4db8a8', '#5bc4b3', '#2c5f5d', '#5a7c7a'];
-            
+
             for (let i = 0; i < 30; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'floating-particle';
@@ -1786,9 +1926,9 @@
                 confetti.style.top = '-20px';
                 confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
                 confetti.style.zIndex = '2';
-                
+
                 document.body.appendChild(confetti);
-                
+
                 // Remover después de la animación
                 setTimeout(() => {
                     confetti.remove();
@@ -1817,6 +1957,24 @@
             }
         `;
         document.head.appendChild(style);
+        // DEBUG: confirmar que el click está llegando y cuántas respuestas hay
+        document.getElementById('submitButton').addEventListener('click', function() {
+            const answeredCount = answers.filter(a => a !== null).length;
+            console.log('CLICK submitButton', {
+                answeredCount,
+                totalQuestions: phqQuestions.length,
+                currentQuestion,
+                answers
+            });
+        });
     </script>
+    <form id="phq9SaveForm" method="POST" action="{{ route('test.depresion.submit') }}" style="display:none;">
+        @csrf
+        <input type="hidden" name="score" id="phq9_score">
+        <input type="hidden" name="result" id="phq9_result">
+        <input type="hidden" name="answers" id="phq9_answers">
+    </form>
+
 </body>
+
 </html>

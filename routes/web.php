@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestAttemptController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -10,10 +12,6 @@ Route::get('/', function () {
 Route::get('/test', function () {
     return view('test_post_registro');
 });
-
-Route::get('/test_bienestar', function () {
-    return view('test_bienestar');
-})->name('test.bienestar');
 
 // Auth (guest)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -30,13 +28,26 @@ Route::get('/registro_especialista', function () {
 
 // Protegidas
 Route::middleware('auth')->group(function () {
+    Route::post('/test_bienestar', [TestAttemptController::class, 'store'])
+        ->middleware('test.cooldown:wellbeing')
+        ->defaults('testType', 'wellbeing')
+        ->name('test.bienestar.submit');
+
     Route::get('/test_depresion', function () {
         return view('test_depresion');
-    })->name('test.depresion');
+    })->middleware('test.cooldown:depression')
+        ->name('test.depresion');
 
-    Route::get('/test_ansiedad', function () {
-        return view('test_ansiedad');
-    })->name('test.ansiedad');
+    Route::post('/test_depresion/guardar', [TestAttemptController::class, 'store'])
+        ->middleware('test.cooldown:depression')
+        ->defaults('testType', 'depression')
+        ->name('test.depresion.submit');
+
+
+    Route::post('/test_ansiedad', [TestAttemptController::class, 'store'])
+        ->middleware('test.cooldown:anxiety')
+        ->defaults('testType', 'anxiety')
+        ->name('test.ansiedad.submit');
 
     Route::get('/listado_psiquiatras', function () {
         return view('listado_psiquiatras');
