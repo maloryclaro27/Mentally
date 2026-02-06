@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test GAD-7 - Mentally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -36,10 +39,23 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(10px, -8px); }
-            50% { transform: translate(5px, 12px); }
-            75% { transform: translate(-8px, 6px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(10px, -8px);
+            }
+
+            50% {
+                transform: translate(5px, 12px);
+            }
+
+            75% {
+                transform: translate(-8px, 6px);
+            }
         }
 
         /* Contenedor principal */
@@ -98,8 +114,15 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .test-title {
@@ -189,8 +212,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .question-number {
@@ -593,10 +623,21 @@
             border-radius: 50%;
         }
 
-        .legend-severe { background: #ff6b6b; }
-        .legend-moderate { background: #ffd166; }
-        .legend-mild { background: #8bd3c7; }
-        .legend-minimal { background: #c6e6e0; }
+        .legend-severe {
+            background: #ff6b6b;
+        }
+
+        .legend-moderate {
+            background: #ffd166;
+        }
+
+        .legend-mild {
+            background: #8bd3c7;
+        }
+
+        .legend-minimal {
+            background: #c6e6e0;
+        }
 
         /* Información de próximo chequeo */
         .checkup-info {
@@ -817,7 +858,7 @@
             .results-content {
                 flex-direction: column;
             }
-            
+
             .progress-chart,
             .results-interpretation {
                 width: 100%;
@@ -829,7 +870,9 @@
                 gap: 1rem;
             }
 
-            .test-header, .carousel-container, .results-container {
+            .test-header,
+            .carousel-container,
+            .results-container {
                 padding: 1.5rem;
             }
 
@@ -863,7 +906,8 @@
                 font-size: 1.8rem;
             }
 
-            .chart-title, .interpretation-title {
+            .chart-title,
+            .interpretation-title {
                 font-size: 1.3rem;
             }
 
@@ -945,6 +989,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Partículas flotantes -->
     <div class="floating-particle" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
@@ -962,18 +1007,19 @@
             </div>
             <h1 class="test-title">Evaluación de Ansiedad Generalizada (GAD-7)</h1>
             <p class="test-subtitle">
-                El Cuestionario de Ansiedad Generalizada (GAD-7) es una herramienta validada para evaluar 
-                síntomas de ansiedad durante las últimas dos semanas. Basado en el trabajo de Spitzer, 
+                El Cuestionario de Ansiedad Generalizada (GAD-7) es una herramienta validada para evaluar
+                síntomas de ansiedad durante las últimas dos semanas. Basado en el trabajo de Spitzer,
                 Kroenke, Williams y Löwe (2006).
             </p>
-            
+
             <div class="test-instructions">
                 <h3 class="instructions-title">
                     <i class="fas fa-info-circle"></i>
                     Instrucciones
                 </h3>
                 <ul class="instructions-list">
-                    <li>Para cada pregunta, seleccione la opción que mejor describa <strong>cómo se ha sentido durante las últimas dos semanas</strong></li>
+                    <li>Para cada pregunta, seleccione la opción que mejor describa <strong>cómo se ha sentido durante
+                            las últimas dos semanas</strong></li>
                     <li>No hay respuestas correctas o incorrectas - sea lo más honesto posible</li>
                     <li>El test toma aproximadamente 2-3 minutos en completarse</li>
                     <li>Sus respuestas son completamente confidenciales</li>
@@ -1016,7 +1062,7 @@
                             <div class="grid-line"></div>
                             <div class="grid-line"></div>
                         </div>
-                        
+
                         <div class="chart-labels-y">
                             <span>21</span>
                             <span>15</span>
@@ -1096,8 +1142,10 @@
                                 Puntos de Corte Clínicos
                             </h5>
                             <ul class="details-list">
-                                <li><strong>≥ 10 puntos</strong>: Posible trastorno de ansiedad (Sensibilidad .87; Especificidad .78)</li>
-                                <li><strong>≥ 8 puntos</strong> (versión española): Posible trastorno de ansiedad (Sensibilidad .93; Especificidad .85)</li>
+                                <li><strong>≥ 10 puntos</strong>: Posible trastorno de ansiedad (Sensibilidad .87;
+                                    Especificidad .78)</li>
+                                <li><strong>≥ 8 puntos</strong> (versión española): Posible trastorno de ansiedad
+                                    (Sensibilidad .93; Especificidad .85)</li>
                             </ul>
                         </div>
 
@@ -1130,8 +1178,7 @@
 
     <script>
         // Preguntas del test GAD-7 según el documento
-        const questions = [
-            {
+        const questions = [{
                 id: 1,
                 text: "Sentirse nervioso/a, angustiado/a o muy tenso/a",
                 description: "En los últimos 14 días..."
@@ -1169,29 +1216,69 @@
         ];
 
         // Opciones de respuesta GAD-7 (0-3 puntos)
-        const options = [
-            { value: 0, label: "No, en absoluto", description: "0 días" },
-            { value: 1, label: "Algunos días", description: "1-7 días" },
-            { value: 2, label: "Más de la mitad de los días", description: "8-11 días" },
-            { value: 3, label: "Casi todos los días", description: "12-14 días" }
+        const options = [{
+                value: 0,
+                label: "No, en absoluto",
+                description: "0 días"
+            },
+            {
+                value: 1,
+                label: "Algunos días",
+                description: "1-7 días"
+            },
+            {
+                value: 2,
+                label: "Más de la mitad de los días",
+                description: "8-11 días"
+            },
+            {
+                value: 3,
+                label: "Casi todos los días",
+                description: "12-14 días"
+            }
         ];
 
         // Datos históricos para el gráfico (simulados para GAD-7)
-        const historicalData = [
-            { month: "May", score: 4 },
-            { month: "Jun", score: 6 },
-            { month: "Jul", score: 8 },
-            { month: "Aug", score: 10 },
-            { month: "Sep", score: 9 },
-            { month: "Oct", score: 7 },
-            { month: "Nov", score: 8 },
-            { month: "Dec", score: 6 },
-            { month: "Ene", score: 5 }
+        const historicalData = [{
+                month: "May",
+                score: 4
+            },
+            {
+                month: "Jun",
+                score: 6
+            },
+            {
+                month: "Jul",
+                score: 8
+            },
+            {
+                month: "Aug",
+                score: 10
+            },
+            {
+                month: "Sep",
+                score: 9
+            },
+            {
+                month: "Oct",
+                score: 7
+            },
+            {
+                month: "Nov",
+                score: 8
+            },
+            {
+                month: "Dec",
+                score: 6
+            },
+            {
+                month: "Ene",
+                score: 5
+            }
         ];
 
         // Interpretaciones de resultados GAD-7 según el documento
-        const interpretations = [
-            {
+        const interpretations = [{
                 minScore: 0,
                 maxScore: 4,
                 level: "Ansiedad mínima",
@@ -1264,12 +1351,12 @@
             updateProgressDots();
             updateNavigation();
             updateSubmitButton();
-            
+
             // Configurar eventos
             document.getElementById('submitButton').addEventListener('click', showResults);
             document.getElementById('retakeButton').addEventListener('click', resetTest);
             document.getElementById('dashboardButton').addEventListener('click', goToDashboard);
-            
+
             // Inicializar gráfico
             renderChart();
         });
@@ -1292,14 +1379,14 @@
                     <p class="question-description">${question.description}</p>
                     <div class="options-container">
                         ${options.map(option => `
-                            <div class="option ${answers[index] === option.value ? 'selected' : ''}" 
-                                 data-value="${option.value}"
-                                 onclick="selectOption(${index}, ${option.value})">
-                                <div class="option-value">${option.value}</div>
-                                <div class="option-label">${option.label}</div>
-                                <div class="option-description">${option.description}</div>
-                            </div>
-                        `).join('')}
+                                        <div class="option ${answers[index] === option.value ? 'selected' : ''}" 
+                                             data-value="${option.value}"
+                                             onclick="selectOption(${index}, ${option.value})">
+                                            <div class="option-value">${option.value}</div>
+                                            <div class="option-label">${option.label}</div>
+                                            <div class="option-description">${option.description}</div>
+                                        </div>
+                                    `).join('')}
                     </div>
                 `;
 
@@ -1326,7 +1413,7 @@
         // Seleccionar una opción
         window.selectOption = function(questionIndex, value) {
             answers[questionIndex] = value;
-            
+
             // Actualizar la opción seleccionada
             const slide = document.querySelector(`.carousel-slide[data-question-id="${questionIndex + 1}"]`);
             const options = slide.querySelectorAll('.option');
@@ -1363,14 +1450,14 @@
             if (currentSlide) {
                 currentSlide.classList.remove('active');
             }
-            
+
             // Mostrar nueva pregunta
             const slides = document.querySelectorAll('.carousel-slide');
             if (slides[index]) {
                 slides[index].classList.add('active');
                 currentQuestion = index;
             }
-            
+
             updateNavigation();
         }
 
@@ -1378,10 +1465,10 @@
         function updateNavigation() {
             const prevButton = document.querySelector('.carousel-button.prev');
             const nextButton = document.querySelector('.carousel-button.next');
-            
+
             prevButton.disabled = currentQuestion === 0;
             nextButton.disabled = currentQuestion === questions.length - 1;
-            
+
             // Cambiar texto del último botón
             if (currentQuestion === questions.length - 1) {
                 nextButton.style.display = 'none';
@@ -1394,19 +1481,19 @@
         function updateProgressDots() {
             const indicator = document.getElementById('progressIndicator');
             if (!indicator) return;
-            
+
             indicator.innerHTML = '';
-            
+
             questions.forEach((_, index) => {
                 const dot = document.createElement('div');
                 dot.className = 'progress-dot';
-                
+
                 if (index === currentQuestion) {
                     dot.classList.add('active');
                 } else if (answers[index] !== null) {
                     dot.classList.add('completed');
                 }
-                
+
                 dot.onclick = () => changeQuestion(index);
                 indicator.appendChild(dot);
             });
@@ -1416,13 +1503,14 @@
         function updateSubmitButton() {
             const answeredCount = answers.filter(answer => answer !== null).length;
             const submitButton = document.getElementById('submitButton');
-            
+
             submitButton.disabled = answeredCount < questions.length;
-            
+
             if (answeredCount === questions.length) {
                 submitButton.innerHTML = `<i class="fas fa-paper-plane"></i> Ver Mis Resultados GAD-7`;
             } else {
-                submitButton.innerHTML = `<i class="fas fa-lock"></i> Completa todas las preguntas (${answeredCount}/${questions.length})`;
+                submitButton.innerHTML =
+                    `<i class="fas fa-lock"></i> Completa todas las preguntas (${answeredCount}/${questions.length})`;
             }
         }
 
@@ -1430,37 +1518,37 @@
         function showResults() {
             // Calcular puntuación total GAD-7 (0-21)
             totalScore = answers.reduce((sum, answer) => sum + (answer || 0), 0);
-            
+
             // Determinar interpretación
-            const interpretation = interpretations.find(int => 
+            const interpretation = interpretations.find(int =>
                 totalScore >= int.minScore && totalScore <= int.maxScore
             ) || interpretations[0];
-            
+
             // Actualizar elementos de resultados
             document.getElementById('anxietyScore').textContent = totalScore;
             document.getElementById('resultLevel').textContent = interpretation.level;
             document.getElementById('resultDescription').textContent = interpretation.description;
-            
+
             // Actualizar lista de recomendaciones
             const recommendationsList = document.getElementById('recommendationsList');
-            recommendationsList.innerHTML = interpretation.recommendations.map(rec => 
+            recommendationsList.innerHTML = interpretation.recommendations.map(rec =>
                 `<li>${rec}</li>`
             ).join('');
-            
+
             // Actualizar círculo de progreso (0-21 puntos)
             const circleProgress = document.querySelector('.circle-progress');
             const circumference = 2 * Math.PI * 90;
             const scorePercentage = (totalScore / 21) * 100;
             const offset = circumference - (scorePercentage / 100) * circumference;
             circleProgress.style.strokeDashoffset = offset;
-            
+
             // Cambiar color del círculo según la severidad
             circleProgress.style.stroke = interpretation.color;
-            
+
             // Actualizar gráfico con nuevo dato
             historicalData[historicalData.length - 1].score = totalScore;
             renderChart();
-            
+
             // Actualizar próximo chequeo según severidad
             let nextDays;
             if (totalScore >= 15) {
@@ -1471,19 +1559,37 @@
                 nextDays = 30; // Leve/mínima: revisar en 30 días
             }
             document.getElementById('nextCheckup').textContent = `Evaluación recomendada en ${nextDays} días`;
-            
+
             // Mostrar resultados y ocultar preguntas
             document.getElementById('carouselContainer').style.display = 'none';
             document.getElementById('submitButton').style.display = 'none';
             document.getElementById('resultsContainer').style.display = 'block';
-            
+
+            // Guardar payload para enviar al backend
+            window.gad7Payload = {
+                score: totalScore,
+                result: interpretation.level,
+                answers: {
+                    items: questions.map((q, idx) => ({
+                        id: q.id,
+                        text: q.text,
+                        value: answers[idx]
+                    }))
+                }
+            };
+
+
             // Scroll a resultados
-            document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
-            
+            document.getElementById('resultsContainer').scrollIntoView({
+                behavior: 'smooth'
+            });
+
             // Mostrar alerta si puntuación es alta
             if (totalScore >= 10) {
                 setTimeout(() => {
-                    alert(`Importante: Tu puntuación GAD-7 de ${totalScore} puntos sugiere posible ansiedad clínicamente significativa.\n\nConsidera consultar con un profesional de salud mental para una evaluación completa.`);
+                    alert(
+                        `Importante: Tu puntuación GAD-7 de ${totalScore} puntos sugiere posible ansiedad clínicamente significativa.\n\nConsidera consultar con un profesional de salud mental para una evaluación completa.`
+                    );
                 }, 500);
             }
         }
@@ -1492,38 +1598,38 @@
         function renderChart() {
             const svg = document.getElementById('chartLine');
             const labelsX = document.getElementById('chartLabelsX');
-            
+
             // Limpiar SVG
             svg.innerHTML = '';
-            
+
             // Configurar dimensiones
             const width = 500;
             const height = 200;
             const padding = 20;
-            
+
             // Calcular escalas para GAD-7 (0-21 puntos)
             const maxScore = 21;
             const xScale = (width - padding * 2) / (historicalData.length - 1);
             const yScale = (height - padding * 2) / maxScore;
-            
+
             // Crear línea
             let pathData = '';
             historicalData.forEach((data, index) => {
                 const x = padding + index * xScale;
                 const y = height - padding - (data.score * yScale);
-                
+
                 if (index === 0) {
                     pathData += `M ${x} ${y} `;
                 } else {
                     pathData += `L ${x} ${y} `;
                 }
-                
+
                 // Determinar color del punto según severidad
                 let pointColor = '#4db8a8';
                 if (data.score >= 15) pointColor = '#ff6b6b';
                 else if (data.score >= 10) pointColor = '#ffd166';
                 else if (data.score >= 5) pointColor = '#8bd3c7';
-                
+
                 // Agregar punto
                 const point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 point.setAttribute('class', 'chart-point');
@@ -1535,13 +1641,13 @@
                 point.style.stroke = pointColor;
                 svg.appendChild(point);
             });
-            
+
             // Crear camino
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('class', 'chart-path');
             path.setAttribute('d', pathData);
             svg.appendChild(path);
-            
+
             // Actualizar etiquetas
             labelsX.innerHTML = '';
             historicalData.forEach(data => {
@@ -1557,33 +1663,40 @@
             currentQuestion = 0;
             answers = new Array(questions.length).fill(null);
             totalScore = 0;
-            
+
             // Mostrar preguntas y ocultar resultados
             document.getElementById('carouselContainer').style.display = 'flex';
             document.getElementById('submitButton').style.display = 'flex';
             document.getElementById('resultsContainer').style.display = 'none';
-            
+
             // Recrear carrusel
             createCarousel();
             updateProgressDots();
             updateNavigation();
             updateSubmitButton();
-            
+
             // Scroll al inicio
-            document.querySelector('.test-header').scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.test-header').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
         // Ir al dashboard
         function goToDashboard() {
-            // Animación de salida
-            document.querySelector('.test-container').style.animation = 'fadeOut 0.6s ease forwards';
-            
-            setTimeout(() => {
-                alert('Redirigiendo al dashboard...');
-                // En producción, redirigiría a la página real del dashboard
-                // window.location.href = '/dashboard';
-            }, 600);
+            if (!window.gad7Payload) {
+                alert('Primero debes completar el test para guardar los resultados.');
+                return;
+            }
+
+            // llenar inputs ocultos
+            document.getElementById('gad7_score').value = window.gad7Payload.score;
+            document.getElementById('gad7_result').value = window.gad7Payload.result;
+            document.getElementById('gad7_answers').value = JSON.stringify(window.gad7Payload.answers);
+
+            // enviar al backend
+            document.getElementById('gad7SaveForm').submit();
         }
+
 
         // Añadir keyframes para animaciones
         const style = document.createElement('style');
@@ -1597,5 +1710,12 @@
         `;
         document.head.appendChild(style);
     </script>
+    <form id="gad7SaveForm" method="POST" action="{{ route('test.ansiedad.submit') }}" style="display:none;">
+        @csrf
+        <input type="hidden" name="score" id="gad7_score">
+        <input type="hidden" name="result" id="gad7_result">
+        <input type="hidden" name="answers" id="gad7_answers">
+    </form>
 </body>
+
 </html>

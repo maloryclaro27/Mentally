@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test de Bienestar - Mentally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -36,10 +39,23 @@
         }
 
         @keyframes floatParticle {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(10px, -8px); }
-            50% { transform: translate(5px, 12px); }
-            75% { transform: translate(-8px, 6px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(10px, -8px);
+            }
+
+            50% {
+                transform: translate(5px, 12px);
+            }
+
+            75% {
+                transform: translate(-8px, 6px);
+            }
         }
 
         /* Contenedor principal */
@@ -98,8 +114,15 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .test-title {
@@ -189,8 +212,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .question-number {
@@ -592,9 +622,17 @@
             border-radius: 50%;
         }
 
-        .legend-high { background: #4db8a8; }
-        .legend-medium { background: #8bd3c7; }
-        .legend-low { background: #c6e6e0; }
+        .legend-high {
+            background: #4db8a8;
+        }
+
+        .legend-medium {
+            background: #8bd3c7;
+        }
+
+        .legend-low {
+            background: #c6e6e0;
+        }
 
         /* Información de próximo chequeo */
         .checkup-info {
@@ -797,7 +835,7 @@
             .results-content {
                 flex-direction: column;
             }
-            
+
             .progress-chart,
             .results-interpretation {
                 width: 100%;
@@ -809,7 +847,9 @@
                 gap: 1rem;
             }
 
-            .test-header, .carousel-container, .results-container {
+            .test-header,
+            .carousel-container,
+            .results-container {
                 padding: 1.5rem;
             }
 
@@ -843,7 +883,8 @@
                 font-size: 1.8rem;
             }
 
-            .chart-title, .interpretation-title {
+            .chart-title,
+            .interpretation-title {
                 font-size: 1.3rem;
             }
 
@@ -925,6 +966,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Partículas flotantes -->
     <div class="floating-particle" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
@@ -936,21 +978,22 @@
     <div class="test-container">
         <!-- Header del test -->
         <div class="test-header">
-            
+
             <h1 class="test-title">Descubre tu Nivel de Bienestar Actual</h1>
             <p class="test-subtitle">
-                El Test OMS-5 de la Organización Mundial de la Salud evalúa tu bienestar subjetivo 
-                durante las últimas dos semanas. Tus respuestas nos ayudarán a comprender mejor tu 
+                El Test OMS-5 de la Organización Mundial de la Salud evalúa tu bienestar subjetivo
+                durante las últimas dos semanas. Tus respuestas nos ayudarán a comprender mejor tu
                 estado emocional actual.
             </p>
-            
+
             <div class="test-instructions">
                 <h3 class="instructions-title">
                     <i class="fas fa-info-circle"></i>
                     Instrucciones
                 </h3>
                 <ul class="instructions-list">
-                    <li>Responde cada pregunta seleccionando la opción que mejor describa cómo te has sentido en las últimas dos semanas</li>
+                    <li>Responde cada pregunta seleccionando la opción que mejor describa cómo te has sentido en las
+                        últimas dos semanas</li>
                     <li>No hay respuestas correctas o incorrectas - sé lo más honesto posible</li>
                     <li>El test toma aproximadamente 3-5 minutos en completarse</li>
                     <li>Tus respuestas son completamente confidenciales</li>
@@ -993,7 +1036,7 @@
                             <div class="grid-line"></div>
                             <div class="grid-line"></div>
                         </div>
-                        
+
                         <div class="chart-labels-y">
                             <span>Alto</span>
                             <span>Mod</span>
@@ -1057,8 +1100,8 @@
                     <div class="result-description">
                         <h4 class="result-level" id="resultLevel">Bienestar general bajo</h4>
                         <p class="result-text" id="resultDescription">
-                            Tu puntuación indica un nivel bajo de bienestar general. Es posible que últimamente 
-                            hayas estado lidiando con emociones negativas, sintiendo una falta de satisfacción 
+                            Tu puntuación indica un nivel bajo de bienestar general. Es posible que últimamente
+                            hayas estado lidiando con emociones negativas, sintiendo una falta de satisfacción
                             en varios aspectos.
                         </p>
 
@@ -1091,8 +1134,7 @@
 
     <script>
         // Preguntas del test OMS-5
-        const questions = [
-            {
+        const questions = [{
                 id: 1,
                 text: "Me he sentido alegre y de buen humor",
                 description: "En las últimas dos semanas..."
@@ -1120,32 +1162,83 @@
         ];
 
         // Opciones de respuesta (0-5 puntos)
-        const options = [
-            { value: 0, label: "En ningún momento", description: "0% del tiempo" },
-            { value: 1, label: "Algunas veces", description: "Menos del 25% del tiempo" },
-            { value: 2, label: "Menos de la mitad del tiempo", description: "25-49% del tiempo" },
-            { value: 3, label: "Más de la mitad del tiempo", description: "50-75% del tiempo" },
-            { value: 4, label: "La mayor parte del tiempo", description: "76-99% del tiempo" },
-            { value: 5, label: "Todo el tiempo", description: "100% del tiempo" }
+        const options = [{
+                value: 0,
+                label: "En ningún momento",
+                description: "0% del tiempo"
+            },
+            {
+                value: 1,
+                label: "Algunas veces",
+                description: "Menos del 25% del tiempo"
+            },
+            {
+                value: 2,
+                label: "Menos de la mitad del tiempo",
+                description: "25-49% del tiempo"
+            },
+            {
+                value: 3,
+                label: "Más de la mitad del tiempo",
+                description: "50-75% del tiempo"
+            },
+            {
+                value: 4,
+                label: "La mayor parte del tiempo",
+                description: "76-99% del tiempo"
+            },
+            {
+                value: 5,
+                label: "Todo el tiempo",
+                description: "100% del tiempo"
+            }
         ];
 
         // Datos históricos para el gráfico (simulados)
-        const historicalData = [
-            { month: "May", score: 18 },
-            { month: "Jun", score: 16 },
-            { month: "Jul", score: 14 },
-            { month: "Aug", score: 12 },
-            { month: "Sep", score: 10 },
-            { month: "Oct", score: 8 },
-            { month: "Nov", score: 9 },
-            { month: "Dec", score: 8 },
-            { month: "2026", score: 8 },
-            { month: "Jan", score: 8 }
+        const historicalData = [{
+                month: "May",
+                score: 18
+            },
+            {
+                month: "Jun",
+                score: 16
+            },
+            {
+                month: "Jul",
+                score: 14
+            },
+            {
+                month: "Aug",
+                score: 12
+            },
+            {
+                month: "Sep",
+                score: 10
+            },
+            {
+                month: "Oct",
+                score: 8
+            },
+            {
+                month: "Nov",
+                score: 9
+            },
+            {
+                month: "Dec",
+                score: 8
+            },
+            {
+                month: "2026",
+                score: 8
+            },
+            {
+                month: "Jan",
+                score: 8
+            }
         ];
 
         // Interpretaciones de resultados
-        const interpretations = [
-            {
+        const interpretations = [{
                 minScore: 0,
                 maxScore: 13,
                 level: "Bienestar general bajo",
@@ -1200,12 +1293,12 @@
             updateProgressDots();
             updateNavigation();
             updateSubmitButton();
-            
+
             // Configurar eventos
             document.getElementById('submitButton').addEventListener('click', showResults);
             document.getElementById('retakeButton').addEventListener('click', resetTest);
             document.getElementById('dashboardButton').addEventListener('click', goToDashboard);
-            
+
             // Inicializar gráfico
             renderChart();
         });
@@ -1228,14 +1321,14 @@
                     <p class="question-description">${question.description}</p>
                     <div class="options-container">
                         ${options.map(option => `
-                            <div class="option ${answers[index] === option.value ? 'selected' : ''}" 
-                                 data-value="${option.value}"
-                                 onclick="selectOption(${index}, ${option.value})">
-                                <div class="option-value">${option.value}</div>
-                                <div class="option-label">${option.label}</div>
-                                <div class="option-description">${option.description}</div>
-                            </div>
-                        `).join('')}
+                                        <div class="option ${answers[index] === option.value ? 'selected' : ''}" 
+                                             data-value="${option.value}"
+                                             onclick="selectOption(${index}, ${option.value})">
+                                            <div class="option-value">${option.value}</div>
+                                            <div class="option-label">${option.label}</div>
+                                            <div class="option-description">${option.description}</div>
+                                        </div>
+                                    `).join('')}
                     </div>
                 `;
 
@@ -1262,7 +1355,7 @@
         // Seleccionar una opción
         window.selectOption = function(questionIndex, value) {
             answers[questionIndex] = value;
-            
+
             // Actualizar la opción seleccionada
             const slide = document.querySelector(`.carousel-slide[data-question-id="${questionIndex + 1}"]`);
             const options = slide.querySelectorAll('.option');
@@ -1299,14 +1392,14 @@
             if (currentSlide) {
                 currentSlide.classList.remove('active');
             }
-            
+
             // Mostrar nueva pregunta
             const slides = document.querySelectorAll('.carousel-slide');
             if (slides[index]) {
                 slides[index].classList.add('active');
                 currentQuestion = index;
             }
-            
+
             updateNavigation();
         }
 
@@ -1314,10 +1407,10 @@
         function updateNavigation() {
             const prevButton = document.querySelector('.carousel-button.prev');
             const nextButton = document.querySelector('.carousel-button.next');
-            
+
             prevButton.disabled = currentQuestion === 0;
             nextButton.disabled = currentQuestion === questions.length - 1;
-            
+
             // Cambiar texto del último botón
             if (currentQuestion === questions.length - 1) {
                 nextButton.style.display = 'none';
@@ -1330,19 +1423,19 @@
         function updateProgressDots() {
             const indicator = document.getElementById('progressIndicator');
             if (!indicator) return;
-            
+
             indicator.innerHTML = '';
-            
+
             questions.forEach((_, index) => {
                 const dot = document.createElement('div');
                 dot.className = 'progress-dot';
-                
+
                 if (index === currentQuestion) {
                     dot.classList.add('active');
                 } else if (answers[index] !== null) {
                     dot.classList.add('completed');
                 }
-                
+
                 dot.onclick = () => changeQuestion(index);
                 indicator.appendChild(dot);
             });
@@ -1352,9 +1445,9 @@
         function updateSubmitButton() {
             const answeredCount = answers.filter(answer => answer !== null).length;
             const submitButton = document.getElementById('submitButton');
-            
+
             submitButton.disabled = answeredCount < questions.length;
-            
+
             if (answeredCount === questions.length) {
                 submitButton.innerHTML = `<i class="fas fa-paper-plane"></i> Ver Mis Resultados`;
             } else {
@@ -1366,82 +1459,97 @@
         function showResults() {
             // Calcular puntuación total
             totalScore = answers.reduce((sum, answer) => sum + (answer || 0), 0);
-            
+
             // Determinar interpretación
-            const interpretation = interpretations.find(int => 
+            const interpretation = interpretations.find(int =>
                 totalScore >= int.minScore && totalScore <= int.maxScore
             ) || interpretations[0];
-            
+
             // Calcular porcentaje de bienestar (0-25 a 0-100%)
             const wellnessPercentage = Math.round((totalScore / 25) * 100);
-            
+
+            // Guardar payload para enviar al backend
+            window.wellbeingPayload = {
+                score: totalScore,
+                result: interpretation.level,
+                answers: {
+                    items: questions.map((q, idx) => ({
+                        id: q.id,
+                        text: q.text,
+                        value: answers[idx]
+                    })),
+                }
+            };
+
             // Actualizar elementos de resultados
             document.getElementById('wellnessPercentage').textContent = `${wellnessPercentage}%`;
             document.getElementById('resultLevel').textContent = interpretation.level;
             document.getElementById('resultDescription').textContent = interpretation.description;
-            
+
             // Actualizar lista de recomendaciones
             const recommendationsList = document.getElementById('recommendationsList');
-            recommendationsList.innerHTML = interpretation.recommendations.map(rec => 
+            recommendationsList.innerHTML = interpretation.recommendations.map(rec =>
                 `<li>${rec}</li>`
             ).join('');
-            
+
             // Actualizar círculo de progreso
             const circleProgress = document.querySelector('.circle-progress');
             const circumference = 2 * Math.PI * 90;
             const offset = circumference - (wellnessPercentage / 100) * circumference;
             circleProgress.style.strokeDashoffset = offset;
-            
+
             // Actualizar gráfico con nuevo dato
             historicalData[historicalData.length - 1].score = totalScore;
             renderChart();
-            
+
             // Actualizar próximo chequeo (aleatorio entre 7-30 días)
             const nextDays = Math.floor(Math.random() * 23) + 7;
             document.getElementById('nextCheckup').textContent = `Nos vemos en ${nextDays}d para tu próximo chequeo`;
-            
+
             // Mostrar resultados y ocultar preguntas
             document.getElementById('carouselContainer').style.display = 'none';
             document.getElementById('submitButton').style.display = 'none';
             document.getElementById('resultsContainer').style.display = 'block';
-            
+
             // Efecto de confeti para celebrar
             createConfetti();
-            
+
             // Scroll a resultados
-            document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('resultsContainer').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
         // Renderizar gráfico
         function renderChart() {
             const svg = document.getElementById('chartLine');
             const labelsX = document.getElementById('chartLabelsX');
-            
+
             // Limpiar SVG
             svg.innerHTML = '';
-            
+
             // Configurar dimensiones
             const width = 500;
             const height = 200;
             const padding = 20;
-            
+
             // Calcular escalas
             const maxScore = 25;
             const xScale = (width - padding * 2) / (historicalData.length - 1);
             const yScale = (height - padding * 2) / maxScore;
-            
+
             // Crear línea
             let pathData = '';
             historicalData.forEach((data, index) => {
                 const x = padding + index * xScale;
                 const y = height - padding - (data.score * yScale);
-                
+
                 if (index === 0) {
                     pathData += `M ${x} ${y} `;
                 } else {
                     pathData += `L ${x} ${y} `;
                 }
-                
+
                 // Agregar punto
                 const point = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 point.setAttribute('class', 'chart-point');
@@ -1452,13 +1560,13 @@
                 point.setAttribute('title', `${data.month}: ${data.score} puntos`);
                 svg.appendChild(point);
             });
-            
+
             // Crear camino
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('class', 'chart-path');
             path.setAttribute('d', pathData);
             svg.appendChild(path);
-            
+
             // Actualizar etiquetas
             labelsX.innerHTML = '';
             historicalData.forEach(data => {
@@ -1474,38 +1582,45 @@
             currentQuestion = 0;
             answers = new Array(questions.length).fill(null);
             totalScore = 0;
-            
+
             // Mostrar preguntas y ocultar resultados
             document.getElementById('carouselContainer').style.display = 'flex';
             document.getElementById('submitButton').style.display = 'flex';
             document.getElementById('resultsContainer').style.display = 'none';
-            
+
             // Recrear carrusel
             createCarousel();
             updateProgressDots();
             updateNavigation();
             updateSubmitButton();
-            
+
             // Scroll al inicio
-            document.querySelector('.test-header').scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.test-header').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
         // Ir al dashboard
         function goToDashboard() {
-            // Animación de salida
-            document.querySelector('.test-container').style.animation = 'fadeOut 0.6s ease forwards';
-            
-            setTimeout(() => {
-                alert('Redirigiendo al dashboard...');
-                // En producción, redirigiría a la página real del dashboard
-                // window.location.href = '/dashboard';
-            }, 600);
+            if (!window.wellbeingPayload) {
+                alert('Primero debes completar el test para guardar los resultados.');
+                return;
+            }
+
+            // llenar inputs ocultos
+            document.getElementById('wellbeing_score').value = window.wellbeingPayload.score;
+            document.getElementById('wellbeing_result').value = window.wellbeingPayload.result;
+            document.getElementById('wellbeing_answers').value = JSON.stringify(window.wellbeingPayload.answers);
+
+            // enviar al backend
+            document.getElementById('wellbeingSaveForm').submit();
         }
+
 
         // Efecto de confeti
         function createConfetti() {
             const colors = ['#4db8a8', '#5bc4b3', '#2c5f5d', '#5a7c7a'];
-            
+
             for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'floating-particle';
@@ -1517,9 +1632,9 @@
                 confetti.style.top = '-20px';
                 confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
                 confetti.style.zIndex = '2';
-                
+
                 document.body.appendChild(confetti);
-                
+
                 // Remover después de la animación
                 setTimeout(() => {
                     confetti.remove();
@@ -1549,5 +1664,12 @@
         `;
         document.head.appendChild(style);
     </script>
+    <form id="wellbeingSaveForm" method="POST" action="{{ route('test.bienestar.submit') }}" style="display:none;">
+        @csrf
+        <input type="hidden" name="score" id="wellbeing_score">
+        <input type="hidden" name="result" id="wellbeing_result">
+        <input type="hidden" name="answers" id="wellbeing_answers">
+    </form>
 </body>
+
 </html>

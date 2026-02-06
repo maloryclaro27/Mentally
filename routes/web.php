@@ -28,7 +28,12 @@ Route::get('/registro_especialista', function () {
 
 // Protegidas
 Route::middleware('auth')->group(function () {
-    Route::post('/test_bienestar', [TestAttemptController::class, 'store'])
+    Route::get('/test_bienestar', function () {
+        return view('test_bienestar');
+    })->middleware('test.cooldown:wellbeing')
+        ->name('test.bienestar');
+
+    Route::post('/test_bienestar/guardar', [TestAttemptController::class, 'store'])
         ->middleware('test.cooldown:wellbeing')
         ->defaults('testType', 'wellbeing')
         ->name('test.bienestar.submit');
@@ -44,7 +49,12 @@ Route::middleware('auth')->group(function () {
         ->name('test.depresion.submit');
 
 
-    Route::post('/test_ansiedad', [TestAttemptController::class, 'store'])
+    Route::get('/test_ansiedad', function () {
+        return view('test_ansiedad');
+    })->middleware('test.cooldown:anxiety')
+        ->name('test.ansiedad');
+
+    Route::post('/test_ansiedad/guardar', [TestAttemptController::class, 'store'])
         ->middleware('test.cooldown:anxiety')
         ->defaults('testType', 'anxiety')
         ->name('test.ansiedad.submit');
