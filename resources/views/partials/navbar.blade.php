@@ -23,17 +23,46 @@
             </div>
         </li>
 
+        @php
+            $testAvailability = $testAvailability ?? [
+                'bienestar' => ['available' => true, 'next_date' => null, 'remaining_days' => 0],
+                'depresion' => ['available' => true, 'next_date' => null, 'remaining_days' => 0],
+                'ansiedad' => ['available' => true, 'next_date' => null, 'remaining_days' => 0],
+            ];
+        @endphp
+
+
         <li class="nav-item">
             <a href="#" class="nav-link">Tests</a>
             <div class="dropdown-menu nav-dropdown">
-                <a href="#" class="dropdown-item require-auth" data-url="/test_depresion">
+
+                <a href="{{ route('test.bienestar') }}" class="dropdown-item require-auth" data-test-link="1"
+                    data-test-type="bienestar"
+                    data-available="{{ data_get($testAvailability ?? [], 'bienestar.available', true) ? 1 : 0 }}"
+                    data-next-date="{{ data_get($testAvailability ?? [], 'bienestar.next_date', '') }}"
+                    data-remaining-days="{{ data_get($testAvailability ?? [], 'bienestar.remaining_days', 0) }}">
+                    Test de Bienestar
+                </a>
+
+                <a href="{{ route('test.depresion') }}" class="dropdown-item require-auth" data-test-link="1"
+                    data-test-type="depresion"
+                    data-available="{{ data_get($testAvailability ?? [], 'depresion.available', true) ? 1 : 0 }}"
+                    data-next-date="{{ data_get($testAvailability ?? [], 'depresion.next_date', '') }}"
+                    data-remaining-days="{{ data_get($testAvailability ?? [], 'depresion.remaining_days', 0) }}">
                     Test de Depresión
                 </a>
-                <a href="#" class="dropdown-item require-auth" data-url="/test_ansiedad">
+
+                <a href="{{ route('test.ansiedad') }}" class="dropdown-item require-auth" data-test-link="1"
+                    data-test-type="ansiedad" data-available="{{ $testAvailability['ansiedad']['available'] ? 1 : 0 }}"
+                    data-available="{{ data_get($testAvailability ?? [], 'ansiedad.available', true) ? 1 : 0 }}"
+                    data-next-date="{{ data_get($testAvailability ?? [], 'ansiedad.next_date', '') }}"
+                    data-remaining-days="{{ data_get($testAvailability ?? [], 'ansiedad.remaining_days', 0) }}">
                     Test de Ansiedad
                 </a>
+
             </div>
         </li>
+
 
         <li class="nav-item">
             <a href="#" class="nav-link">Blog</a>

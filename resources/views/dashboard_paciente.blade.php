@@ -1059,6 +1059,88 @@
                 height: 35px;
             }
         }
+
+        /* Modal bloqueo de tests */
+        .test-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(44, 95, 93, 0.35);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .test-modal {
+            background: linear-gradient(135deg, #ffffff, #f8fcfb);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(77, 184, 168, 0.3);
+            border: 1px solid rgba(77, 184, 168, 0.15);
+            animation: modalPop 0.3s ease;
+        }
+
+        .test-modal-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 25px rgba(77, 184, 168, 0.4);
+        }
+
+        .test-modal-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c5f5d;
+            margin-bottom: 1rem;
+        }
+
+        .test-modal-text {
+            color: #5a7c7a;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .test-modal-button {
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .test-modal-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(77, 184, 168, 0.4);
+        }
+
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -1076,8 +1158,8 @@
         <!-- Encabezado de bienvenida -->
         <section class="welcome-header">
             <h1 class="welcome-title">¡Hola, Málory!</h1>
-            <p class="welcome-subtitle">Nos alegra que estés aquí. Hoy es un buen día para cuidar de tu bienestar
-                emocional.</p>
+            <p class="welcome-subtitle">Nos alegra que estés aquí. Hoy es un buen día para cuidar de tu salud mental.
+            </p>
             <div class="current-date">
                 <i class="fas fa-calendar-alt"></i>
                 <span id="currentDate"></span>
@@ -1088,21 +1170,6 @@
         <section class="quick-access">
             <h2 class="section-title">Accesos rápidos</h2>
             <div class="quick-access-grid">
-                <a href="#" class="access-card">
-                    <div class="access-icon">
-                        <i class="fas fa-calendar-plus"></i>
-                    </div>
-                    <h3 class="access-name">Agendar sesión</h3>
-                    <p class="access-description">Programa una cita con tu especialista</p>
-                </a>
-
-                <a href="#" class="access-card">
-                    <div class="access-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <h3 class="access-name">Mis citas</h3>
-                    <p class="access-description">Revisa tus próximas citas programadas</p>
-                </a>
 
                 <a href="#" class="access-card">
                     <div class="access-icon">
@@ -1152,6 +1219,85 @@
                     <h3 class="access-name">Medicación</h3>
                     <p class="access-description">Control de tratamiento farmacológico</p>
                 </a>
+            </div>
+        </section>
+
+        <!-- Mascota de adherencia -->
+        <section class="adherence-pet">
+            <div class="pet-header">
+                <h2 class="pet-title">¡Empieza la racha para cuidar tu salud mental!</h2>
+                <p class="pet-subtitle">Tu compañero de bienestar necesita tu compromiso diario</p>
+            </div>
+
+            <div class="pet-container">
+                <div class="pet-visual">
+                    <div class="pet-character">
+                        <div class="pet-body"></div>
+                        <div class="pet-eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="pet-mouth"></div>
+                    </div>
+
+                    <div class="pet-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="streakDays">7</span>
+                            <span class="stat-label">Días de racha</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="petMood">85%</span>
+                            <span class="stat-label">Estado del compañero</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="adherenceRate">92%</span>
+                            <span class="stat-label">Adherencia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pet-info">
+                    <div class="streak-info">
+                        <h3 class="streak-title">Tu compromiso hace la diferencia</h3>
+                        <p class="streak-description">
+                            Cada día que registras tu medicación, tu compañero de bienestar se fortalece.
+                            Mantén la racha para verlo crecer y desarrollarse, reflejando tu propio progreso
+                            en el camino hacia una mejor salud mental.
+                        </p>
+                        <div class="streak-progress">
+                            <div class="streak-progress-bar" id="streakProgress"></div>
+                        </div>
+                        <small>Progreso hacia el siguiente nivel: 7/10 días</small>
+                    </div>
+
+                    <div class="medication-form">
+                        <h3 class="form-title">Registrar medicación de hoy</h3>
+                        <div class="form-group">
+                            <label class="form-label">Medicamento</label>
+                            <select class="form-select" id="medicationSelect">
+                                <option value="">Selecciona un medicamento</option>
+                                <option value="sertraline">Sertralina 50mg</option>
+                                <option value="escitalopram">Escitalopram 10mg</option>
+                                <option value="bupropion">Bupropion 150mg</option>
+                                <option value="other">Otro medicamento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hora de toma</label>
+                            <select class="form-select" id="timeSelect">
+                                <option value="">Selecciona la hora</option>
+                                <option value="morning">Mañana (8:00 AM)</option>
+                                <option value="afternoon">Tarde (2:00 PM)</option>
+                                <option value="evening">Noche (8:00 PM)</option>
+                                <option value="custom">Hora personalizada</option>
+                            </select>
+                        </div>
+                        <button class="form-button" id="registerMedication">
+                            <i class="fas fa-check-circle"></i>
+                            Confirmar toma
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1293,85 +1439,6 @@
                 <button class="carousel-arrow" id="nextSlide">
                     <i class="fas fa-chevron-right"></i>
                 </button>
-            </div>
-        </section>
-
-        <!-- Mascota de adherencia -->
-        <section class="adherence-pet">
-            <div class="pet-header">
-                <h2 class="pet-title">¡Empieza la racha para cuidar tu salud mental!</h2>
-                <p class="pet-subtitle">Tu compañero de bienestar necesita tu compromiso diario</p>
-            </div>
-
-            <div class="pet-container">
-                <div class="pet-visual">
-                    <div class="pet-character">
-                        <div class="pet-body"></div>
-                        <div class="pet-eyes">
-                            <div class="eye"></div>
-                            <div class="eye"></div>
-                        </div>
-                        <div class="pet-mouth"></div>
-                    </div>
-
-                    <div class="pet-stats">
-                        <div class="stat">
-                            <span class="stat-value" id="streakDays">7</span>
-                            <span class="stat-label">Días de racha</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="petMood">85%</span>
-                            <span class="stat-label">Estado del compañero</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-value" id="adherenceRate">92%</span>
-                            <span class="stat-label">Adherencia</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pet-info">
-                    <div class="streak-info">
-                        <h3 class="streak-title">Tu compromiso hace la diferencia</h3>
-                        <p class="streak-description">
-                            Cada día que registras tu medicación, tu compañero de bienestar se fortalece.
-                            Mantén la racha para verlo crecer y desarrollarse, reflejando tu propio progreso
-                            en el camino hacia una mejor salud mental.
-                        </p>
-                        <div class="streak-progress">
-                            <div class="streak-progress-bar" id="streakProgress"></div>
-                        </div>
-                        <small>Progreso hacia el siguiente nivel: 7/10 días</small>
-                    </div>
-
-                    <div class="medication-form">
-                        <h3 class="form-title">Registrar medicación de hoy</h3>
-                        <div class="form-group">
-                            <label class="form-label">Medicamento</label>
-                            <select class="form-select" id="medicationSelect">
-                                <option value="">Selecciona un medicamento</option>
-                                <option value="sertraline">Sertralina 50mg</option>
-                                <option value="escitalopram">Escitalopram 10mg</option>
-                                <option value="bupropion">Bupropion 150mg</option>
-                                <option value="other">Otro medicamento</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Hora de toma</label>
-                            <select class="form-select" id="timeSelect">
-                                <option value="">Selecciona la hora</option>
-                                <option value="morning">Mañana (8:00 AM)</option>
-                                <option value="afternoon">Tarde (2:00 PM)</option>
-                                <option value="evening">Noche (8:00 PM)</option>
-                                <option value="custom">Hora personalizada</option>
-                            </select>
-                        </div>
-                        <button class="form-button" id="registerMedication">
-                            <i class="fas fa-check-circle"></i>
-                            Confirmar toma
-                        </button>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -1834,7 +1901,86 @@
                 }, 200);
             });
         }
+
+        // Interceptar acceso a tests con cooldown
+        document.querySelectorAll('[data-test-link]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const available = this.dataset.available === '1';
+
+                if (!available) {
+                    e.preventDefault();
+
+                    const nextDate = this.dataset.nextDate;
+                    const remaining = this.dataset.remainingDays;
+
+                    const message = `
+                Ya realizaste este test recientemente.<br><br>
+                Podrás volver a realizarlo el <strong>${nextDate}</strong>
+                (${remaining} día${remaining == 1 ? '' : 's'} restantes).
+            `;
+
+                    document.getElementById('testModalMessage').innerHTML = message;
+                    document.getElementById('testCooldownModal').style.display = 'flex';
+                }
+                // si está disponible → deja navegar normal
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Interceptar acceso a tests con cooldown
+            document.querySelectorAll('[data-test-link]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const available = this.dataset.available === '1';
+
+                    if (!available) {
+                        e.preventDefault();
+
+                        const nextDate = this.dataset.nextDate;
+                        const remaining = this.dataset.remainingDays;
+
+                        const message = `
+                    Ya realizaste este test recientemente.<br><br>
+                    Podrás volver a realizarlo el <strong>${nextDate}</strong>
+                    (${remaining} día${remaining == 1 ? '' : 's'} restantes).
+                `;
+
+                        document.getElementById('testModalMessage').innerHTML = message;
+                        document.getElementById('testCooldownModal').style.display = 'flex';
+                    }
+                });
+            });
+
+            // Cerrar modal
+            const closeBtn = document.getElementById('closeTestModal');
+            const modal = document.getElementById('testCooldownModal');
+
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            }
+
+        });
     </script>
+    <!-- Modal bloqueo de test -->
+    <div id="testCooldownModal" class="test-modal-overlay" style="display:none;">
+        <div class="test-modal">
+            <div class="test-modal-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+
+            <h3 class="test-modal-title">Test no disponible aún</h3>
+
+            <p class="test-modal-text" id="testModalMessage">
+                <!-- Texto dinámico -->
+            </p>
+
+            <button class="test-modal-button" id="closeTestModal">
+                Entendido
+            </button>
+        </div>
+    </div>
 </body>
 
 </html>

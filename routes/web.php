@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestAttemptController;
+use App\Models\TestAttempt;
+use App\Models\User;
 
 
 Route::get('/', function () {
@@ -74,7 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard_paciente', function () {
         return view('dashboard_paciente');
     })->middleware('auth')->name('dashboard.paciente');
-
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
