@@ -15,11 +15,21 @@ class DiaryEntry extends Model
         'mood',
         'word_count',
         'analysis_opt_in',
+        'analysis_status',
+        'crisis_flag',
+        'sentiment_label',
+        'sentiment_score',
+        'sentiment_meta',
+        'analyzed_at',
+        'model_version',
     ];
 
     protected $casts = [
         'analysis_opt_in' => 'boolean',
         'entry_text' => 'encrypted',
+        'sentiment_meta' => 'array',
+        'crisis_flag' => 'boolean',
+        'analyzed_at' => 'datetime',
     ];
 
     public function user()

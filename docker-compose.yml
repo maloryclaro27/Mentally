@@ -45,6 +45,13 @@ services:
     networks:
       - laravel_net
 
+  beto:
+    build: ./beto_service
+    container_name: beto_service
+    restart: unless-stopped
+    networks:
+      - laravel_net
+
 networks:
   laravel_net:
     driver: bridge

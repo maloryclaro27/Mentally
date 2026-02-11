@@ -79,14 +79,22 @@ Route::middleware('auth')->group(function () {
     })->middleware('auth')->name('dashboard.paciente');
 
     Route::post('/diary-entries', [DiaryEntryController::class, 'store'])->name('diary.entries.store');
+
     Route::get('/diary-entries/recent', [DiaryEntryController::class, 'recent'])->name('diary.entries.recent');
     Route::get('/diary-entries/stats', [DiaryEntryController::class, 'stats'])->name('diary.entries.stats');
-    Route::delete('/diary-entries/{id}', [DiaryEntryController::class, 'destroy'])->name('diary.entries.destroy');
+
     Route::get('/diary-entries/mood-trend', [DiaryEntryController::class, 'moodTrend'])->name('diary.entries.moodTrend');
+    Route::get('/diary-entries/mood-chart', [DiaryEntryController::class, 'moodChart'])->name('diary.entries.moodChart');
+
+    // SIEMPRE al final las rutas con {id}
     Route::get('/diary-entries/{id}', [DiaryEntryController::class, 'show'])
-    ->whereNumber('id')
-    ->name('diary.entries.show');
-    Route::get('/diary-entries/mood-chart', [\App\Http\Controllers\DiaryEntryController::class, 'moodChart'])->name('diary.entries.moodChart');
+        ->whereNumber('id')
+        ->name('diary.entries.show');
+
+    Route::delete('/diary-entries/{id}', [DiaryEntryController::class, 'destroy'])
+        ->whereNumber('id')
+        ->name('diary.entries.destroy');
+
 
 
 
