@@ -994,11 +994,11 @@
                     rows="10"></textarea>
 
                 <div class="writing-tips">
-                    <span class="tip-bubble" onclick="insertTip('Hoy me siento...')">Hoy me siento...</span>
-                    <span class="tip-bubble" onclick="insertTip('Estoy agradecido por...')">Estoy agradecido
+                    <span class="tip-bubble" onclick="insertTip(event,'Hoy me siento...')">Hoy me siento...</span>
+                    <span class="tip-bubble" onclick="insertTip(event,'Estoy agradecido por...')">Estoy agradecido
                         por...</span>
-                    <span class="tip-bubble" onclick="insertTip('Me preocupa...')">Me preocupa...</span>
-                    <span class="tip-bubble" onclick="insertTip('Aprendí que...')">Aprendí que...</span>
+                    <span class="tip-bubble" onclick="insertTip(event,'Me preocupa...')">Me preocupa...</span>
+                    <span class="tip-bubble" onclick="insertTip(event,'Aprendí que...')">Aprendí que...</span>
                 </div>
             </div>
 
@@ -1031,7 +1031,7 @@
 
             <!-- Botones de acción -->
             <div class="action-buttons">
-                <button class="btn-save" id="saveEntry" type="button">
+                <button class="btn-save" id="saveEntryBtn" type="button">
                     <i class="fas fa-save"></i>
                     Guardar Entrada
                 </button>
@@ -1086,59 +1086,59 @@
     </div>
 
     <!-- Modal de análisis
-                                                                                                                                        <div class="analysis-modal" id="analysisModal">
-                                                                                                                                            <div class="modal-content">
-                                                                                                                                                <button class="modal-close" id="closeModal">
-                                                                                                                                                    <i class="fas fa-times"></i>
-                                                                                                                                                </button>
+                                                                                                                                                        <div class="analysis-modal" id="analysisModal">
+                                                                                                                                                            <div class="modal-content">
+                                                                                                                                                                <button class="modal-close" id="closeModal">
+                                                                                                                                                                    <i class="fas fa-times"></i>
+                                                                                                                                                                </button>
 
-                                                                                                                                                <h2 class="modal-title">Análisis de Emociones</h2>
+                                                                                                                                                                <h2 class="modal-title">Análisis de Emociones</h2>
 
-                                                                                                                                                <div class="analysis-result">
-                                                                                                                                                    <span class="result-emoji" id="resultEmoji">😊</span>
-                                                                                                                                                    <h3 class="result-title" id="resultTitle">Emoción Predominante: Positiva</h3>
-                                                                                                                                                    <p class="result-description" id="resultDescription">
-                                                                                                                                                        Nuestro modelo de IA ha detectado que tu escritura refleja principalmente emociones positivas.
-                                                                                                                                                        Muestras gratitud, esperanza y satisfacción en tus reflexiones.
-                                                                                                                                                    </p>
+                                                                                                                                                                <div class="analysis-result">
+                                                                                                                                                                    <span class="result-emoji" id="resultEmoji">😊</span>
+                                                                                                                                                                    <h3 class="result-title" id="resultTitle">Emoción Predominante: Positiva</h3>
+                                                                                                                                                                    <p class="result-description" id="resultDescription">
+                                                                                                                                                                        Nuestro modelo de IA ha detectado que tu escritura refleja principalmente emociones positivas.
+                                                                                                                                                                        Muestras gratitud, esperanza y satisfacción en tus reflexiones.
+                                                                                                                                                                    </p>
 
-                                                                                                                                                    <div class="result-stats">
-                                                                                                                                                        <div class="result-stat">
-                                                                                                                                                            <div class="stat-percentage" id="positivePercent">75%</div>
-                                                                                                                                                            <div>Positiva</div>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="result-stat">
-                                                                                                                                                            <div class="stat-percentage" id="neutralPercent">20%</div>
-                                                                                                                                                            <div>Neutral</div>
-                                                                                                                                                        </div>
-                                                                                                                                                        <div class="result-stat">
-                                                                                                                                                            <div class="stat-percentage" id="negativePercent">5%</div>
-                                                                                                                                                            <div>Negativa</div>
-                                                                                                                                                        </div>
-                                                                                                                                                    </div>
+                                                                                                                                                                    <div class="result-stats">
+                                                                                                                                                                        <div class="result-stat">
+                                                                                                                                                                            <div class="stat-percentage" id="positivePercent">75%</div>
+                                                                                                                                                                            <div>Positiva</div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                        <div class="result-stat">
+                                                                                                                                                                            <div class="stat-percentage" id="neutralPercent">20%</div>
+                                                                                                                                                                            <div>Neutral</div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                        <div class="result-stat">
+                                                                                                                                                                            <div class="stat-percentage" id="negativePercent">5%</div>
+                                                                                                                                                                            <div>Negativa</div>
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div>
 
-                                                                                                                                                    <div class="result-insights">
-                                                                                                                                                        <h4>Insights Detectados:</h4>
-                                                                                                                                                        <ul id="insightsList">
-                                                                                                                                                            <li>Expresas gratitud en 3 ocasiones</li>
-                                                                                                                                                            <li>Mencionas relaciones interpersonales saludables</li>
-                                                                                                                                                            <li>Usas lenguaje orientado a soluciones</li>
-                                                                                                                                                        </ul>
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
+                                                                                                                                                                    <div class="result-insights">
+                                                                                                                                                                        <h4>Insights Detectados:</h4>
+                                                                                                                                                                        <ul id="insightsList">
+                                                                                                                                                                            <li>Expresas gratitud en 3 ocasiones</li>
+                                                                                                                                                                            <li>Mencionas relaciones interpersonales saludables</li>
+                                                                                                                                                                            <li>Usas lenguaje orientado a soluciones</li>
+                                                                                                                                                                        </ul>
+                                                                                                                                                                    </div>
+                                                                                                                                                                </div>
 
-                                                                                                                                                <div class="modal-actions">
-                                                                                                                                                    <button class="btn-save" style="flex: 1;" onclick="saveWithAnalysis()">
-                                                                                                                                                        <i class="fas fa-save"></i>
-                                                                                                                                                        Guardar con Análisis
-                                                                                                                                                    </button>
-                                                                                                                                                    <button class="btn-analyze" style="flex: 1;" onclick="closeModal()">
-                                                                                                                                                        <i class="fas fa-times"></i>
-                                                                                                                                                        Cerrar
-                                                                                                                                                    </button>
-                                                                                                                                                </div>
-                                                                                                                                            </div>
-                                                                                                                                        </div> -->
+                                                                                                                                                                <div class="modal-actions">
+                                                                                                                                                                    <button class="btn-save" style="flex: 1;" onclick="saveWithAnalysis()">
+                                                                                                                                                                        <i class="fas fa-save"></i>
+                                                                                                                                                                        Guardar con Análisis
+                                                                                                                                                                    </button>
+                                                                                                                                                                    <button class="btn-analyze" style="flex: 1;" onclick="closeModal()">
+                                                                                                                                                                        <i class="fas fa-times"></i>
+                                                                                                                                                                        Cerrar
+                                                                                                                                                                    </button>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div> -->
     <!-- Modal: Ver entrada (detalle) -->
     <div class="analysis-modal" id="entryModal" aria-hidden="true">
         <div class="modal-content">
@@ -1200,6 +1200,7 @@
 @endsection
 
 <script>
+    console.log('[DIARIO] script cargado ✅');
     let currentEntryId = null;
     //Inicialización cuando el DOM está listo 
     document.addEventListener('DOMContentLoaded', function() {
@@ -1225,7 +1226,7 @@
 
 
         // Configurar evento para guardar entrada
-        document.getElementById('saveEntry').addEventListener('click', saveEntry);
+        document.getElementById('saveEntryBtn').addEventListener('click', saveEntry);
 
         const dismiss = document.getElementById('dismissCrisisBanner');
         if (dismiss) dismiss.addEventListener('click', (e) => {
@@ -1298,7 +1299,7 @@
 
 
     // Insertar tips de escritura
-    function insertTip(text) {
+    function insertTip(ev, text) {
         const textarea = document.getElementById('diaryEntry');
         const currentText = textarea.value;
         const cursorPos = textarea.selectionStart;
@@ -1455,6 +1456,22 @@
     async function loadRecentEntries() {
         const entriesList = document.getElementById('recentEntriesList');
 
+        console.log('[loadRecentEntries] entriesList element =', entriesList);
+
+        if (!entriesList) {
+            console.error('[loadRecentEntries] NO existe #recentEntriesList en el DOM');
+            return;
+        }
+
+        // marcador visible (para confirmar que se re-renderiza)
+        entriesList.innerHTML = `
+            <div class="entry-item" style="border:1px dashed red;">
+                <div><strong>Refrescando...</strong></div>
+                <div style="font-size:12px; opacity:0.8;">${new Date().toLocaleString()}</div>
+            </div>
+        `;
+
+
         try {
             const res = await fetch("{{ route('diary.entries.recent') }}?limit=10", {
                 headers: {
@@ -1484,6 +1501,8 @@
 
             const entries = data.entries || [];
 
+            console.log('[loadRecentEntries] ids recibidos =', entries.map(x => x.id));
+
             if (entries.length === 0) {
                 entriesList.innerHTML = `
                 <div class="entry-item" style="text-align: center; color: #9bb5b3;">
@@ -1512,11 +1531,12 @@
                     day: 'numeric',
                     month: 'short',
                     hour: '2-digit',
-                    minute: '2-digit'
+                    minute: '2-digit',
+                    second: '2-digit'
                 });
 
                 // No mostramos texto por privacidad en la lista.
-                const preview = `Estado: ${moodLabelMap[e.mood] || e.mood} · ${e.word_count || 0} palabras`;
+                const preview = `#${e.id} · Estado: ${moodLabelMap[e.mood] || e.mood} · ${e.word_count || 0} palabras`;
 
                 entryItem.innerHTML = `
                     <div class="entry-date">${date}</div>
@@ -1596,7 +1616,7 @@
             else hideCrisisBanner();
 
             // feedback visual del botón
-            const saveBtn = document.getElementById('saveEntry');
+            const saveBtn = document.getElementById('saveEntryBtn');
             saveBtn.innerHTML = '<i class="fas fa-check"></i> ¡Guardado!';
             saveBtn.style.background = 'linear-gradient(135deg, #3a9c8c, #4db8a8)';
 
@@ -1607,7 +1627,9 @@
 
             // Por ahora NO llamamos updateStats/loadRecentEntries porque aún dependen de localStorage
             await updateStats();
+            console.log('[saveEntry] antes de loadRecentEntries', new Date().toISOString());
             await loadRecentEntries();
+            console.log('[saveEntry] después de loadRecentEntries', new Date().toISOString());
             await initEmotionChart();
 
         } catch (e) {
