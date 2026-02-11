@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestAttemptController;
 use App\Models\TestAttempt;
 use App\Models\User;
+use App\Http\Controllers\DiaryEntryController;
 
 
 Route::get('/', function () {
@@ -76,6 +77,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard_paciente', function () {
         return view('dashboard_paciente');
     })->middleware('auth')->name('dashboard.paciente');
+
+    Route::post('/diary-entries', [DiaryEntryController::class, 'store'])->name('diary.entries.store');
+    Route::get('/diary-entries/recent', [DiaryEntryController::class, 'recent'])->name('diary.entries.recent');
+    Route::get('/diary-entries/stats', [DiaryEntryController::class, 'stats'])->name('diary.entries.stats');
+    Route::get('/diary-entries/{id}', [DiaryEntryController::class, 'show'])->name('diary.entries.show');
+    Route::delete('/diary-entries/{id}', [DiaryEntryController::class, 'destroy'])->name('diary.entries.destroy');
+
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
