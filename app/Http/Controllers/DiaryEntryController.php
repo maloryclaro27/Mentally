@@ -119,4 +119,58 @@ class DiaryEntryController extends Controller
             'message' => 'Entrada eliminada.'
         ]);
     }
+
+    public function moodTrend()
+    {
+        $rows = \App\Models\DiaryEntry::query()
+            ->where('user_id', auth()->id())
+            ->orderByDesc('created_at')
+            ->limit(14)
+            ->get(['id', 'created_at', 'mood']);
+
+        // Transformamos created_at → date
+        $entries = $rows->map(function ($r) {
+            return [
+                'id'   => $r->id,
+                'date' => $r->created_at,
+                'mood' => $r->mood,
+            ];
+        });
+
+        return response()->json([
+            'ok' => true,
+            'entries' => $entries,
+        ]);
+    }
+
+    public function moodChart(Request $request)
+    {
+        $userId = auth()->id();
+
+        // últimos 14 días (puedes ajustar)
+        $since = now()->subDays(14);
+
+        $rows = DiaryEntry::where('user_id', $userId)
+            ->where('created_at', '>=', $since)
+            ->select('mood')
+            ->get();
+
+        // conteo por mood
+        $counts = $rows->groupBy('mood')->map->count();
+
+        // orden consistente en la UI
+        $moodOrder = ['muy-feliz', 'tranquilo', 'neutral', 'preocupado', 'triste'];
+
+        $data = collect($moodOrder)->map(fn($m) => [
+            'mood'  => $m,
+            'count' => (int) ($counts[$m] ?? 0),
+        ])->values();
+
+        return response()->json([
+            'ok' => true,
+            'since' => $since->toISOString(),
+            'total' => (int) $rows->count(),
+            'data' => $data,
+        ]);
+    }
 }

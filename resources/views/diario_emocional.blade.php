@@ -394,21 +394,34 @@
     }
 
     .chart-container {
-        height: 200px;
+        height: 220px;
         position: relative;
         display: flex;
         align-items: flex-end;
-        gap: 0.5rem;
-        padding: 1rem;
+        gap: 0.9rem;
+        padding: 1rem 1rem 2.5rem;
+        overflow-x: auto;
+    }
+
+    .chart-col {
+        height: 100%;
+        flex: 0 0 78px;
+        /* ancho fijo por columna (evita pisarse) */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     .chart-bar {
-        flex: 1;
+        width: 100%;
         background: linear-gradient(to top, #4db8a8, #5bc4b3);
-        border-radius: 8px 8px 0 0;
+        border-radius: 10px 10px 0 0;
         position: relative;
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease, opacity 0.3s ease;
         cursor: pointer;
+        transform-origin: bottom;
+        transform: scaleY(0);
     }
 
     .chart-bar:hover {
@@ -417,7 +430,8 @@
     }
 
     .chart-bar-label {
-        position: absolute;
+        margin-top: 0.5rem;
+        position: static;
         bottom: -25px;
         left: 0;
         right: 0;
@@ -425,6 +439,7 @@
         font-size: 0.8rem;
         color: #5a7c7a;
         font-weight: 500;
+        white-space: nowrap;
     }
 
     /* Entradas recientes */
@@ -988,59 +1003,59 @@
     </div>
 
     <!-- Modal de análisis
-                                                                                <div class="analysis-modal" id="analysisModal">
-                                                                                    <div class="modal-content">
-                                                                                        <button class="modal-close" id="closeModal">
-                                                                                            <i class="fas fa-times"></i>
-                                                                                        </button>
+                                                                                                        <div class="analysis-modal" id="analysisModal">
+                                                                                                            <div class="modal-content">
+                                                                                                                <button class="modal-close" id="closeModal">
+                                                                                                                    <i class="fas fa-times"></i>
+                                                                                                                </button>
 
-                                                                                        <h2 class="modal-title">Análisis de Emociones</h2>
+                                                                                                                <h2 class="modal-title">Análisis de Emociones</h2>
 
-                                                                                        <div class="analysis-result">
-                                                                                            <span class="result-emoji" id="resultEmoji">😊</span>
-                                                                                            <h3 class="result-title" id="resultTitle">Emoción Predominante: Positiva</h3>
-                                                                                            <p class="result-description" id="resultDescription">
-                                                                                                Nuestro modelo de IA ha detectado que tu escritura refleja principalmente emociones positivas.
-                                                                                                Muestras gratitud, esperanza y satisfacción en tus reflexiones.
-                                                                                            </p>
+                                                                                                                <div class="analysis-result">
+                                                                                                                    <span class="result-emoji" id="resultEmoji">😊</span>
+                                                                                                                    <h3 class="result-title" id="resultTitle">Emoción Predominante: Positiva</h3>
+                                                                                                                    <p class="result-description" id="resultDescription">
+                                                                                                                        Nuestro modelo de IA ha detectado que tu escritura refleja principalmente emociones positivas.
+                                                                                                                        Muestras gratitud, esperanza y satisfacción en tus reflexiones.
+                                                                                                                    </p>
 
-                                                                                            <div class="result-stats">
-                                                                                                <div class="result-stat">
-                                                                                                    <div class="stat-percentage" id="positivePercent">75%</div>
-                                                                                                    <div>Positiva</div>
-                                                                                                </div>
-                                                                                                <div class="result-stat">
-                                                                                                    <div class="stat-percentage" id="neutralPercent">20%</div>
-                                                                                                    <div>Neutral</div>
-                                                                                                </div>
-                                                                                                <div class="result-stat">
-                                                                                                    <div class="stat-percentage" id="negativePercent">5%</div>
-                                                                                                    <div>Negativa</div>
-                                                                                                </div>
-                                                                                            </div>
+                                                                                                                    <div class="result-stats">
+                                                                                                                        <div class="result-stat">
+                                                                                                                            <div class="stat-percentage" id="positivePercent">75%</div>
+                                                                                                                            <div>Positiva</div>
+                                                                                                                        </div>
+                                                                                                                        <div class="result-stat">
+                                                                                                                            <div class="stat-percentage" id="neutralPercent">20%</div>
+                                                                                                                            <div>Neutral</div>
+                                                                                                                        </div>
+                                                                                                                        <div class="result-stat">
+                                                                                                                            <div class="stat-percentage" id="negativePercent">5%</div>
+                                                                                                                            <div>Negativa</div>
+                                                                                                                        </div>
+                                                                                                                    </div>
 
-                                                                                            <div class="result-insights">
-                                                                                                <h4>Insights Detectados:</h4>
-                                                                                                <ul id="insightsList">
-                                                                                                    <li>Expresas gratitud en 3 ocasiones</li>
-                                                                                                    <li>Mencionas relaciones interpersonales saludables</li>
-                                                                                                    <li>Usas lenguaje orientado a soluciones</li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                                                    <div class="result-insights">
+                                                                                                                        <h4>Insights Detectados:</h4>
+                                                                                                                        <ul id="insightsList">
+                                                                                                                            <li>Expresas gratitud en 3 ocasiones</li>
+                                                                                                                            <li>Mencionas relaciones interpersonales saludables</li>
+                                                                                                                            <li>Usas lenguaje orientado a soluciones</li>
+                                                                                                                        </ul>
+                                                                                                                    </div>
+                                                                                                                </div>
 
-                                                                                        <div class="modal-actions">
-                                                                                            <button class="btn-save" style="flex: 1;" onclick="saveWithAnalysis()">
-                                                                                                <i class="fas fa-save"></i>
-                                                                                                Guardar con Análisis
-                                                                                            </button>
-                                                                                            <button class="btn-analyze" style="flex: 1;" onclick="closeModal()">
-                                                                                                <i class="fas fa-times"></i>
-                                                                                                Cerrar
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div> -->
+                                                                                                                <div class="modal-actions">
+                                                                                                                    <button class="btn-save" style="flex: 1;" onclick="saveWithAnalysis()">
+                                                                                                                        <i class="fas fa-save"></i>
+                                                                                                                        Guardar con Análisis
+                                                                                                                    </button>
+                                                                                                                    <button class="btn-analyze" style="flex: 1;" onclick="closeModal()">
+                                                                                                                        <i class="fas fa-times"></i>
+                                                                                                                        Cerrar
+                                                                                                                    </button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div> -->
     <!-- Modal: Ver entrada (detalle) -->
     <div class="analysis-modal" id="entryModal" aria-hidden="true">
         <div class="modal-content">
@@ -1193,7 +1208,7 @@
 
 
     // Insertar tips de escritura
-    function insertTip(text) {
+    function insertTip(ev, text) {
         const textarea = document.getElementById('diaryEntry');
         const currentText = textarea.value;
         const cursorPos = textarea.selectionStart;
@@ -1202,7 +1217,7 @@
         textarea.value = newText;
 
         // Efecto visual
-        const tipBubble = event.target;
+        const tipBubble = ev.currentTarget;
         tipBubble.style.transform = 'scale(0.95)';
         tipBubble.style.background = 'rgba(77, 184, 168, 0.2)';
         setTimeout(() => {
@@ -1241,47 +1256,108 @@
     }
 
     // Inicializar gráfico de emociones
-    function initEmotionChart() {
+
+    async function initEmotionChart() {
         const chartContainer = document.getElementById('emotionChart');
-        const emotions = [{
-                label: 'Positiva',
-                value: 65,
-                color: '#4db8a8'
-            },
-            {
-                label: 'Neutral',
-                value: 25,
-                color: '#9bb5b3'
-            },
-            {
-                label: 'Negativa',
-                value: 10,
-                color: '#ff9fc0'
+        if (!chartContainer) return;
+
+        chartContainer.innerHTML = `
+        <div style="width:100%; text-align:center; color:#5a7c7a; padding:2rem 1rem;">
+            Cargando gráfico...
+        </div>
+    `;
+
+        try {
+            const res = await fetch("{{ route('diary.entries.moodChart') }}", {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!res.ok) {
+                chartContainer.innerHTML = `
+                <div style="width:100%; text-align:center; color:#9bb5b3; padding:2rem 1rem;">
+                    No se pudo cargar el gráfico.
+                </div>
+            `;
+                return;
             }
-        ];
 
-        chartContainer.innerHTML = '';
+            const data = await res.json();
+            if (!data.ok) return;
 
-        emotions.forEach(emotion => {
-            const bar = document.createElement('div');
-            bar.className = 'chart-bar';
-            bar.style.height = emotion.value + '%';
-            bar.style.background = `linear-gradient(to top, ${emotion.color}, ${emotion.color}cc)`;
-            bar.title = `${emotion.label}: ${emotion.value}%`;
+            const items = data.data || [];
+            const total = items.reduce((sum, it) => sum + Number(it.count || 0), 0);
 
-            const label = document.createElement('div');
-            label.className = 'chart-bar-label';
-            label.textContent = emotion.label;
+            if (!total) {
+                chartContainer.innerHTML = `
+                <div style="width:100%; text-align:center; color:#5a7c7a; padding:2rem 1rem;">
+                    <i class="fas fa-chart-line" style="font-size:2rem; margin-bottom:1rem; opacity:0.4;"></i>
+                    <div>Aún no hay suficiente información para mostrar tendencias emocionales.</div>
+                    <div style="font-size:0.85rem; margin-top:0.5rem; opacity:0.7;">
+                        Las tendencias se activan automáticamente cuando haya más entradas registradas.
+                    </div>
+                </div>
+            `;
+                return;
+            }
 
-            bar.appendChild(label);
-            chartContainer.appendChild(bar);
+            const moodLabelMap = {
+                'muy-feliz': 'Muy Feliz',
+                'tranquilo': 'Tranquilo',
+                'neutral': 'Neutral',
+                'preocupado': 'Preocupado',
+                'triste': 'Triste'
+            };
 
-            // Animación de entrada
-            setTimeout(() => {
-                bar.style.transform = 'scaleY(1)';
-            }, 100);
-        });
+            const moodColorMap = {
+                'muy-feliz': '#4db8a8',
+                'tranquilo': '#5bc4b3',
+                'neutral': '#9bb5b3',
+                'preocupado': '#ffb36b',
+                'triste': '#ff9fc0'
+            };
+
+            chartContainer.innerHTML = '';
+
+            items.forEach(it => {
+                const pct = Math.round(((it.count || 0) / total) * 100);
+
+                const col = document.createElement('div');
+                col.className = 'chart-col';
+
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = pct + '%';
+
+                const c = moodColorMap[it.mood] || '#4db8a8';
+                bar.style.background = `linear-gradient(to top, ${c}, ${c}cc)`;
+                bar.title = `${moodLabelMap[it.mood] || it.mood}: ${pct}% (${it.count})`;
+
+                const label = document.createElement('div');
+                label.className = 'chart-bar-label';
+                label.textContent = moodLabelMap[it.mood] || it.mood;
+
+                col.appendChild(bar);
+                col.appendChild(label);
+                chartContainer.appendChild(col);
+
+                setTimeout(() => {
+                    bar.style.transform = 'scaleY(1)';
+                }, 50);
+            });
+
+        } catch (e) {
+            console.error(e);
+            chartContainer.innerHTML = `
+            <div style="width:100%; text-align:center; color:#9bb5b3; padding:2rem 1rem;">
+                Error de red cargando el gráfico.
+            </div>
+        `;
+        }
     }
+
+
 
     // Cargar entradas recientes
     async function loadRecentEntries() {
@@ -1430,6 +1506,7 @@
             console.error(e);
             showNotification('Error de red/servidor al guardar.', 'warning');
         }
+        await initEmotionChart();
     }
 
 
