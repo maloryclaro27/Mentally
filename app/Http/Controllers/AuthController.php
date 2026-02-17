@@ -29,6 +29,7 @@ class AuthController extends Controller
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'paciente',
             'terms' => 'required|accepted',
         ], [
             'firstName.required' => 'El nombre es obligatorio.',
@@ -94,17 +95,32 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            // 1) Tomar el redirect que viene del login?redirect=/ruta
-            $redirect = $request->input('redirect');
+            $user = Auth::user();
 
-            // 2) Seguridad: solo permitir rutas internas (que empiecen por "/")
-            if ($redirect && str_starts_with($redirect, '/')) {
+            // Detectar si es especialista (por tabla especialistas)
+            $especialista = \App\Models\Especialista::where('user_id', $user->id)->first();
+
+            // Si es especialista y NO está verificado -> SIEMPRE a esperando verificación (ignorar redirect)
+            if ($especialista && !$especialista->is_verified) {
+                return redirect()->route('especialista.esperando_verificacion')
+                    ->with('success', 'Tu cuenta aún está en revisión para verificación.');
+            }
+
+            // Tomar redirect (solo si es interno) - recomendado: solo permitirlo a NO especialistas
+            $redirect = $request->input('redirect');
+            if (!$especialista && $redirect && str_starts_with($redirect, '/')) {
                 return redirect($redirect)->with('success', '¡Bienvenido de vuelta!');
             }
 
-            // 3) Si no hay redirect válido, ir al dashboard
+            // Si es especialista verificado -> dashboard especialista
+            if ($especialista) {
+                return redirect()->route('especialista.dashboard')->with('success', '¡Bienvenido de vuelta!');
+            }
+
+            // Si no es especialista -> dashboard paciente
             return redirect()->route('dashboard.paciente')->with('success', '¡Bienvenido de vuelta!');
         }
+
 
 
         return back()->withErrors([

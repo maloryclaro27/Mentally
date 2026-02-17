@@ -47,6 +47,7 @@ class EspecialistaController extends Controller
                 'name' => trim($validated['first_name'] . ' ' . $validated['last_name']),
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
+                'role' => 'especialista',
             ]);
 
             Especialista::create([
@@ -68,20 +69,24 @@ class EspecialistaController extends Controller
         $request->session()->regenerate();
 
         // Redirige al dashboard del especialista (luego lo blindamos para que solo especialistas entren)
-        return redirect()->route('especialista.dashboard_especialista');
+        return redirect()->route('especialista.esperando_verificacion')->with('success', 'Registro exitoso. Tu cuenta está en revisión para verificación.');
     }
 
     public function dashboard()
     {
         $user = auth()->user();
 
-        // Si el usuario NO tiene perfil de especialista, no puede entrar
-        $esEspecialista = \App\Models\Especialista::where('user_id', $user->id)->exists();
+        $especialista = \App\Models\Especialista::where('user_id', $user->id)->first();
 
-        if (!$esEspecialista) {
+        if (!$especialista) {
             abort(403, 'No autorizado');
         }
 
-        return view('especialista.dashboard_especialista');
+        return view('especialista.dashboard_especialista', compact('especialista'));
+    }
+
+    public function esperandoVerificacion()
+    {
+        return view('especialista.esperando_verificacion');
     }
 }

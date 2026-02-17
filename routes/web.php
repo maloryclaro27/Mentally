@@ -14,10 +14,6 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/test', function () {
-    return view('test_post_registro');
-});
-
 // Auth (guest)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/registro', function () {
@@ -36,7 +32,7 @@ Route::post('/registro_especialista', [EspecialistaController::class, 'register'
 
 
 // Protegidas
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'block_unverified_especialista'])->group(function () {
     Route::get('/test_bienestar', function () {
         return view('test_bienestar');
     })->middleware('test.cooldown:wellbeing')
@@ -84,10 +80,6 @@ Route::middleware('auth')->group(function () {
         return view('dashboard_paciente');
     })->middleware('auth')->name('dashboard.paciente');
 
-    Route::get('/dashboard-especialista', [EspecialistaController::class, 'dashboard'])
-        ->middleware('is_especialista')
-        ->name('especialista.dashboard');
-
     Route::post('/diary-entries', [DiaryEntryController::class, 'store'])->name('diary.entries.store');
 
     Route::get('/diary-entries/recent', [DiaryEntryController::class, 'recent'])->name('diary.entries.recent');
@@ -105,7 +97,26 @@ Route::middleware('auth')->group(function () {
         ->whereNumber('id')
         ->name('diary.entries.destroy');
 
+    Route::prefix('especialista')
+        ->middleware(['auth', 'is_especialista'])
+        ->group(function () {
 
+            // Accesible para NO verificados (y verificados también)
+            Route::get('/esperando-verificacion', [EspecialistaController::class, 'esperandoVerificacion'])
+                ->name('especialista.esperando_verificacion');
+
+            // Solo verificados (clínico real)
+            Route::middleware('is_verificado')->group(function () {
+
+                // Puedes mantener tu URL actual si quieres, pero recomiendo estandarizar:
+                Route::get('/dashboard', [EspecialistaController::class, 'dashboard'])
+                    ->name('especialista.dashboard');
+
+                // Futuras rutas clínicas:
+                // Route::get('/pacientes', ...)->name('especialista.pacientes');
+                // Route::get('/citas', ...)->name('especialista.citas');
+            });
+        });
 
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

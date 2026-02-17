@@ -9,14 +9,15 @@
 
     <ul class="nav-links">
         <li class="nav-item">
-            <a href="{{ route('especialista.dashboard') }}" class="nav-link {{ request()->routeIs('especialista.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('especialista.dashboard') }}"
+                class="nav-link {{ request()->routeIs('especialista.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-chart-pie"></i>
                 Vista General
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{ route('especialista.pacientes') }}" class="nav-link">
+            <a href="#" class="nav-link">
                 <i class="fas fa-users"></i>
                 Mis Pacientes
                 <span class="nav-badge">24</span>
