@@ -6,11 +6,13 @@ use App\Http\Controllers\TestAttemptController;
 use App\Models\TestAttempt;
 use App\Models\User;
 use App\Http\Controllers\DiaryEntryController;
+use App\Http\Controllers\EspecialistaController;
 
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
 
 Route::get('/test', function () {
     return view('test_post_registro');
@@ -25,9 +27,13 @@ Route::get('/registro', function () {
 Route::post('/registro', [AuthController::class, 'register'])->name('registro.post');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-Route::get('/registro_especialista', function () {
-    return view('auth.registro_especialista');
-})->name('registro.especialista.post');
+// Registro Especialista (guest)
+Route::get('/registro_especialista', [EspecialistaController::class, 'showRegisterForm'])
+    ->name('registro.especialista');
+
+Route::post('/registro_especialista', [EspecialistaController::class, 'register'])
+    ->name('registro.especialista.post');
+
 
 // Protegidas
 Route::middleware('auth')->group(function () {
@@ -77,6 +83,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard_paciente', function () {
         return view('dashboard_paciente');
     })->middleware('auth')->name('dashboard.paciente');
+
+    Route::get('/dashboard-especialista', [EspecialistaController::class, 'dashboard'])
+        ->middleware('is_especialista')
+        ->name('especialista.dashboard');
 
     Route::post('/diary-entries', [DiaryEntryController::class, 'store'])->name('diary.entries.store');
 

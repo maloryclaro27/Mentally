@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'test.cooldown' => \App\Http\Middleware\EnsureTestCooldown::class,
+            'is_especialista' => \App\Http\Middleware\IsEspecialista::class,
         ]);
         //
     })

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Especialistas - Mentally</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -63,10 +66,23 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(15px, -10px) rotate(3deg); }
-            50% { transform: translate(8px, 15px) rotate(-2deg); }
-            75% { transform: translate(-12px, 8px) rotate(1deg); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(15px, -10px) rotate(3deg);
+            }
+
+            50% {
+                transform: translate(8px, 15px) rotate(-2deg);
+            }
+
+            75% {
+                transform: translate(-12px, 8px) rotate(1deg);
+            }
         }
 
         /* Contenedor principal */
@@ -121,11 +137,14 @@
         }
 
         @keyframes pulseGlow {
-            0%, 100% { 
+
+            0%,
+            100% {
                 transform: scale(1);
                 opacity: 1;
             }
-            50% { 
+
+            50% {
                 transform: scale(1.1);
                 opacity: 0.9;
             }
@@ -386,7 +405,7 @@
             transition: all 0.3s ease;
         }
 
-        .form-input:focus + .input-icon {
+        .form-input:focus+.input-icon {
             color: #4db8a8;
         }
 
@@ -403,6 +422,7 @@
                 opacity: 0;
                 transform: translateY(-5px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -424,7 +444,7 @@
             transition: transform 0.3s ease;
         }
 
-        .form-input:focus ~ .select-arrow {
+        .form-input:focus~.select-arrow {
             transform: translateY(-50%) rotate(180deg);
             color: #4db8a8;
         }
@@ -741,6 +761,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Elementos decorativos -->
     <div class="floating-element brain-float brain-1">
@@ -762,7 +783,8 @@
                     <i class="fas fa-user-md"></i>
                 </div>
                 <h1 class="info-title">Únete a Nuestra Red de Especialistas</h1>
-                <p class="info-subtitle">Conecta con pacientes que buscan tu experiencia y amplía tu consulta con herramientas digitales especializadas.</p>
+                <p class="info-subtitle">Conecta con pacientes que buscan tu experiencia y amplía tu consulta con
+                    herramientas digitales especializadas.</p>
             </div>
 
             <div class="benefits-grid">
@@ -782,7 +804,8 @@
                     </div>
                     <div class="benefit-content">
                         <h4>Seguimiento Integral</h4>
-                        <p>Accede a herramientas digitales para monitorear el progreso de tus pacientes entre sesiones.</p>
+                        <p>Accede a herramientas digitales para monitorear el progreso de tus pacientes entre sesiones.
+                        </p>
                     </div>
                 </div>
 
@@ -838,7 +861,8 @@
             </div>
 
             @if ($errors->any())
-                <div style="background:#ffe5e5;border:1px solid #ff9b9b;padding:12px;border-radius:10px;margin-bottom:15px;color:#8a1f1f;">
+                <div
+                    style="background:#ffe5e5;border:1px solid #ff9b9b;padding:12px;border-radius:10px;margin-bottom:15px;color:#8a1f1f;">
                     <strong>Hay errores en el formulario:</strong>
                     <ul style="margin:8px 0 0 18px;">
                         @foreach ($errors->all() as $error)
@@ -848,9 +872,10 @@
                 </div>
             @endif
 
-            <form class="register-form" id="registerForm" method="POST" action="{{ route('registro.especialista.post') }}">
+            <form class="register-form" id="registerForm" method="POST"
+                action="{{ route('registro.especialista.post') }}">
                 @csrf
-                
+
                 <div class="form-grid">
                     <!-- Información personal -->
                     <div class="form-group">
@@ -859,8 +884,8 @@
                             Nombres
                         </label>
                         <div class="input-container">
-                            <input type="text" class="form-input" id="firstName" name="first_name" 
-                                   placeholder="Ingresa tus nombres" value="{{ old('first_name') }}" required>
+                            <input type="text" class="form-input" id="firstName" name="first_name"
+                                placeholder="Ingresa tus nombres" value="{{ old('first_name') }}" required>
                             <i class="fas fa-user input-icon"></i>
                         </div>
                         <div class="error-message" id="firstNameError">Por favor ingresa tus nombres</div>
@@ -872,48 +897,50 @@
                             Apellidos
                         </label>
                         <div class="input-container">
-                            <input type="text" class="form-input" id="lastName" name="last_name" 
-                                   placeholder="Ingresa tus apellidos" value="{{ old('last_name') }}" required>
+                            <input type="text" class="form-input" id="lastName" name="last_name"
+                                placeholder="Ingresa tus apellidos" value="{{ old('last_name') }}" required>
                             <i class="fas fa-user-friends input-icon"></i>
                         </div>
                         <div class="error-message" id="lastNameError">Por favor ingresa tus apellidos</div>
                     </div>
 
+                    <div class="error-message" id="psychiatryLicenseNumberError">Ingresa tu registro médico</div>
+                    <div class="error-message" id="medicalSchoolError">Ingresa tu universidad</div>
+
                     <!-- Información profesional -->
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fas fa-graduation-cap"></i>
-                            Título Profesional
+                            <i class="fas fa-id-card"></i>
+                            Registro Médico Psiquiatría
                         </label>
                         <div class="input-container">
-                            <select class="form-input" id="professionalTitle" name="professional_title" required>
-                                <option value="">Selecciona tu título</option>
-                                <option value="Psiquiatra" {{ old('professional_title') == 'Psiquiatra' ? 'selected' : '' }}>Psiquiatra</option>
-                                <option value="Psicólogo Clínico" {{ old('professional_title') == 'Psicólogo Clínico' ? 'selected' : '' }}>Psicólogo Clínico</option>
-                                <option value="Neuropsicólogo" {{ old('professional_title') == 'Neuropsicólogo' ? 'selected' : '' }}>Neuropsicólogo</option>
-                                <option value="Terapeuta" {{ old('professional_title') == 'Terapeuta' ? 'selected' : '' }}>Terapeuta</option>
-                                <option value="Otro" {{ old('professional_title') == 'Otro' ? 'selected' : '' }}>Otro</option>
-                            </select>
-                            <i class="fas fa-graduation-cap input-icon"></i>
-                            <div class="select-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
+                            <input type="text" class="form-input" id="psychiatryLicenseNumber"
+                                name="psychiatry_license_number" placeholder="Ej: RM 123456 - Ministerio de Salud"
+                                value="{{ old('psychiatry_license_number') }}" required>
+                            <i class="fas fa-id-card input-icon"></i>
                         </div>
-                        <div class="error-message" id="titleError">Por favor selecciona tu título profesional</div>
+                        <div class="error-message">
+                            Ingresa tu número de registro médico como psiquiatra
+                        </div>
                     </div>
+
 
                     <div class="form-group">
                         <label class="form-label">
-                            <i class="fas fa-id-card"></i>
-                            Número de Matrícula
+                            <i class="fas fa-university"></i>
+                            Universidad donde estudió Medicina
                         </label>
                         <div class="input-container">
-                            <input type="text" class="form-input" id="licenseNumber" name="license_number" 
-                                   placeholder="Ej: MP 12345" value="{{ old('license_number') }}" required>
-                            <i class="fas fa-id-card input-icon"></i>
+                            <input type="text" class="form-input" id="medicalSchool" name="medical_school"
+                                placeholder="Ej: Universidad Nacional de Colombia" value="{{ old('medical_school') }}"
+                                required>
+                            <i class="fas fa-university input-icon"></i>
                         </div>
-                        <div class="error-message" id="licenseError">Por favor ingresa tu número de matrícula</div>
+                        <div class="error-message">
+                            Ingresa tu universidad
+                        </div>
                     </div>
+
 
                     <!-- Información de contacto -->
                     <div class="form-group">
@@ -922,8 +949,8 @@
                             Correo Profesional
                         </label>
                         <div class="input-container">
-                            <input type="email" class="form-input" id="email" name="email" 
-                                   placeholder="ejemplo@consultorio.com" value="{{ old('email') }}" required>
+                            <input type="email" class="form-input" id="email" name="email"
+                                placeholder="ejemplo@consultorio.com" value="{{ old('email') }}" required>
                             <i class="fas fa-envelope input-icon"></i>
                         </div>
                         <div class="error-message" id="emailError">Por favor ingresa un correo válido</div>
@@ -935,8 +962,8 @@
                             Teléfono de Consulta
                         </label>
                         <div class="input-container">
-                            <input type="tel" class="form-input" id="phone" name="phone" 
-                                   placeholder="+57 300 123 4567" value="{{ old('phone') }}" required>
+                            <input type="tel" class="form-input" id="phone" name="phone"
+                                placeholder="+57 300 123 4567" value="{{ old('phone') }}" required>
                             <i class="fas fa-phone input-icon"></i>
                         </div>
                         <div class="error-message" id="phoneError">Por favor ingresa tu teléfono</div>
@@ -952,12 +979,17 @@
                             <select class="form-input" id="city" name="city" required>
                                 <option value="">Selecciona tu ciudad</option>
                                 <option value="Bogotá" {{ old('city') == 'Bogotá' ? 'selected' : '' }}>Bogotá</option>
-                                <option value="Medellín" {{ old('city') == 'Medellín' ? 'selected' : '' }}>Medellín</option>
+                                <option value="Medellín" {{ old('city') == 'Medellín' ? 'selected' : '' }}>Medellín
+                                </option>
                                 <option value="Cali" {{ old('city') == 'Cali' ? 'selected' : '' }}>Cali</option>
-                                <option value="Barranquilla" {{ old('city') == 'Barranquilla' ? 'selected' : '' }}>Barranquilla</option>
-                                <option value="Cartagena" {{ old('city') == 'Cartagena' ? 'selected' : '' }}>Cartagena</option>
-                                <option value="Bucaramanga" {{ old('city') == 'Bucaramanga' ? 'selected' : '' }}>Bucaramanga</option>
-                                <option value="Otra" {{ old('city') == 'Otra' ? 'selected' : '' }}>Otra ciudad</option>
+                                <option value="Barranquilla" {{ old('city') == 'Barranquilla' ? 'selected' : '' }}>
+                                    Barranquilla</option>
+                                <option value="Cartagena" {{ old('city') == 'Cartagena' ? 'selected' : '' }}>Cartagena
+                                </option>
+                                <option value="Bucaramanga" {{ old('city') == 'Bucaramanga' ? 'selected' : '' }}>
+                                    Bucaramanga</option>
+                                <option value="Otra" {{ old('city') == 'Otra' ? 'selected' : '' }}>Otra ciudad
+                                </option>
                             </select>
                             <i class="fas fa-map-marker-alt input-icon"></i>
                             <div class="select-arrow">
@@ -974,15 +1006,16 @@
                             Especialidades
                         </label>
                         <div class="input-container">
-                            <input type="text" class="form-input" id="specialtiesInput" 
-                                   placeholder="Escribe para buscar o selecciona de la lista">
+                            <input type="text" class="form-input" id="specialtiesInput"
+                                placeholder="Escribe para buscar o selecciona de la lista">
                             <i class="fas fa-stethoscope input-icon"></i>
                         </div>
                         <div class="specialties-tags" id="specialtiesTags">
                             <!-- Las etiquetas se generan con JavaScript -->
                         </div>
                         <input type="hidden" name="specialties" id="specialtiesHidden">
-                        <div class="error-message" id="specialtiesError">Por favor selecciona al menos una especialidad</div>
+                        <div class="error-message" id="specialtiesError">Por favor selecciona al menos una
+                            especialidad</div>
                     </div>
 
                     <!-- Contraseña -->
@@ -992,11 +1025,12 @@
                             Contraseña
                         </label>
                         <div class="input-container">
-                            <input type="password" class="form-input" id="password" name="password" 
-                                   placeholder="Mínimo 8 caracteres" required>
+                            <input type="password" class="form-input" id="password" name="password"
+                                placeholder="Mínimo 8 caracteres" required>
                             <i class="fas fa-key input-icon"></i>
                         </div>
-                        <div class="error-message" id="passwordError">La contraseña debe tener al menos 8 caracteres</div>
+                        <div class="error-message" id="passwordError">La contraseña debe tener al menos 8 caracteres
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -1005,8 +1039,8 @@
                             Confirmar Contraseña
                         </label>
                         <div class="input-container">
-                            <input type="password" class="form-input" id="password_confirmation" 
-                                   name="password_confirmation" placeholder="Repite tu contraseña" required>
+                            <input type="password" class="form-input" id="password_confirmation"
+                                name="password_confirmation" placeholder="Repite tu contraseña" required>
                             <i class="fas fa-key input-icon"></i>
                         </div>
                     </div>
@@ -1014,11 +1048,13 @@
 
                 <!-- Términos y condiciones -->
                 <div class="terms-group">
-                    <input type="checkbox" class="terms-checkbox" id="terms" name="terms" value="1" 
-                           {{ old('terms') ? 'checked' : '' }} required>
+                    <input type="checkbox" class="terms-checkbox" id="terms" name="terms" value="1"
+                        {{ old('terms') ? 'checked' : '' }} required>
                     <label class="terms-label">
-                        Acepto los <a href="#" class="terms-link">Términos de Servicio para Especialistas</a>, la 
-                        <a href="#" class="terms-link">Política de Privacidad</a> y confirmo que poseo las credenciales 
+                        Acepto los <a href="#" class="terms-link">Términos de Servicio para Especialistas</a>,
+                        la
+                        <a href="#" class="terms-link">Política de Privacidad</a> y confirmo que poseo las
+                        credenciales
                         necesarias para ejercer como profesional de la salud mental.
                     </label>
                 </div>
@@ -1076,31 +1112,32 @@
                         <i class="fas fa-plus"></i>
                         <span>${specialty}</span>
                     `;
-                    
+
                     tag.addEventListener('click', function() {
                         this.classList.toggle('selected');
                         const icon = this.querySelector('i');
-                        icon.className = this.classList.contains('selected') 
-                            ? 'fas fa-check' 
-                            : 'fas fa-plus';
-                        
+                        icon.className = this.classList.contains('selected') ?
+                            'fas fa-check' :
+                            'fas fa-plus';
+
                         // Actualizar array de especialidades seleccionadas
                         if (this.classList.contains('selected')) {
                             selectedSpecialties.push(specialty);
                         } else {
                             selectedSpecialties = selectedSpecialties.filter(s => s !== specialty);
                         }
-                        
+
                         // Actualizar input hidden
                         specialtiesHidden.value = JSON.stringify(selectedSpecialties);
-                        
+                        specialtiesHidden.dispatchEvent(new Event('change'));
+
                         // Efecto visual
                         this.style.transform = 'scale(0.95)';
                         setTimeout(() => {
                             this.style.transform = '';
                         }, 150);
                     });
-                    
+
                     specialtiesTags.appendChild(tag);
                 });
 
@@ -1108,7 +1145,7 @@
                 specialtiesInput.addEventListener('input', function() {
                     const searchTerm = this.value.toLowerCase();
                     const allTags = document.querySelectorAll('.specialty-tag');
-                    
+
                     allTags.forEach(tag => {
                         const text = tag.textContent.toLowerCase();
                         if (text.includes(searchTerm)) {
@@ -1136,8 +1173,8 @@
                 const inputs = {
                     firstName: document.getElementById('firstName'),
                     lastName: document.getElementById('lastName'),
-                    professionalTitle: document.getElementById('professionalTitle'),
-                    licenseNumber: document.getElementById('licenseNumber'),
+                    psychiatryLicenseNumber: document.getElementById('psychiatryLicenseNumber'),
+                    medicalSchool: document.getElementById('medicalSchool'),
                     email: document.getElementById('email'),
                     phone: document.getElementById('phone'),
                     city: document.getElementById('city'),
@@ -1145,17 +1182,19 @@
                     terms: document.getElementById('terms')
                 };
 
+
                 const errors = {
                     firstName: document.getElementById('firstNameError'),
                     lastName: document.getElementById('lastNameError'),
-                    title: document.getElementById('titleError'),
-                    license: document.getElementById('licenseError'),
+                    psychiatryLicenseNumber: document.getElementById('psychiatryLicenseNumberError'),
+                    medicalSchool: document.getElementById('medicalSchoolError'),
                     email: document.getElementById('emailError'),
                     phone: document.getElementById('phoneError'),
                     city: document.getElementById('cityError'),
                     password: document.getElementById('passwordError'),
                     specialties: document.getElementById('specialtiesError')
                 };
+
 
                 // Validación en tiempo real
                 Object.keys(inputs).forEach(key => {
@@ -1214,14 +1253,14 @@
                         message = `Por favor ingresa tu ${fieldName === 'firstName' ? 'nombre' : 'apellido'}`;
                         break;
 
-                    case 'professionalTitle':
-                        isValid = input.value !== '';
-                        message = 'Por favor selecciona tu título profesional';
+                    case 'psychiatryLicenseNumber':
+                        isValid = input.value.trim().length >= 3;
+                        message = 'Ingresa tu registro médico como psiquiatra';
                         break;
 
-                    case 'licenseNumber':
-                        isValid = input.value.trim().length >= 3;
-                        message = 'Por favor ingresa tu número de matrícula';
+                    case 'medicalSchool':
+                        isValid = input.value.trim().length >= 2;
+                        message = 'Ingresa tu universidad';
                         break;
 
                     case 'email':
@@ -1267,7 +1306,7 @@
             function validateSpecialties(errors) {
                 const error = errors.specialties;
                 const isValid = selectedSpecialties.length > 0;
-                
+
                 if (isValid) {
                     if (error) error.style.display = 'none';
                 } else {
@@ -1276,17 +1315,17 @@
                         error.style.display = 'block';
                     }
                 }
-                
+
                 return isValid;
             }
 
             // Actualizar estado del botón de envío
             function updateSubmitButton(inputs, errors) {
-                const isFormValid = 
+                const isFormValid =
                     validateField('firstName', inputs, errors) &&
                     validateField('lastName', inputs, errors) &&
-                    validateField('professionalTitle', inputs, errors) &&
-                    validateField('licenseNumber', inputs, errors) &&
+                    validateField('psychiatryLicenseNumber', inputs, errors) &&
+                    validateField('medicalSchool', inputs, errors) &&
                     validateField('email', inputs, errors) &&
                     validateField('phone', inputs, errors) &&
                     validateField('city', inputs, errors) &&
@@ -1295,13 +1334,14 @@
                     inputs.terms.checked;
 
                 submitButton.disabled = !isFormValid;
-                
+
                 // Efecto visual en el botón
                 if (isFormValid) {
                     submitButton.style.background = 'linear-gradient(135deg, #4db8a8, #5bc4b3)';
                     submitButton.style.cursor = 'pointer';
                 } else {
-                    submitButton.style.background = 'linear-gradient(135deg, rgba(90, 124, 122, 0.3), rgba(90, 124, 122, 0.4))';
+                    submitButton.style.background =
+                        'linear-gradient(135deg, rgba(90, 124, 122, 0.3), rgba(90, 124, 122, 0.4))';
                     submitButton.style.cursor = 'not-allowed';
                 }
             }
@@ -1336,7 +1376,7 @@
                     // Animación de envío
                     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
                     submitButton.style.background = 'linear-gradient(135deg, #3a9c8c, #4db8a8)';
-                    
+
                     // Efecto de confeti
                     createConfetti();
                 }
@@ -1345,7 +1385,7 @@
             // Efecto de confeti
             function createConfetti() {
                 const colors = ['#4db8a8', '#5bc4b3', '#2c5f5d', '#7effd4', '#5a7c7a'];
-                
+
                 for (let i = 0; i < 30; i++) {
                     const confetti = document.createElement('div');
                     confetti.style.cssText = `
@@ -1359,9 +1399,9 @@
                         z-index: 1000;
                         animation: confettiFall ${Math.random() * 3 + 2}s linear forwards;
                     `;
-                    
+
                     document.body.appendChild(confetti);
-                    
+
                     setTimeout(() => confetti.remove(), 5000);
                 }
 
@@ -1388,7 +1428,7 @@
                     const icon = this.querySelector('.benefit-icon i');
                     icon.style.transform = 'scale(1.2)';
                 });
-                
+
                 item.addEventListener('mouseleave', function() {
                     const icon = this.querySelector('.benefit-icon i');
                     icon.style.transform = 'scale(1)';
@@ -1397,4 +1437,5 @@
         });
     </script>
 </body>
+
 </html>

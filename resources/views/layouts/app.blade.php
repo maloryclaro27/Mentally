@@ -15,7 +15,16 @@
 </head>
 
 <body>
-    @include('partials.navbar')
+    {{-- Navbar condicional según el rol del usuario --}}
+    @auth
+        @if(auth()->user()->role === 'especialista')
+            @include('partials.navbar-especialista')
+        @else
+            @include('partials.navbar')
+        @endif
+    @else
+        @include('partials.navbar')
+    @endauth
 
     <main>
         @yield('content')
@@ -25,6 +34,7 @@
         window.MENTALLY_AUTH = {
             isAuthenticated: @json(auth()->check()),
             loginUrl: @json(route('login')),
+            userRole: @json(auth()->check() ? auth()->user()->role : null)
         };
     </script>
 
