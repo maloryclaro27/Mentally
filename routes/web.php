@@ -32,7 +32,14 @@ Route::post('/registro_especialista', [EspecialistaController::class, 'register'
 
 
 // Protegidas
-Route::middleware(['auth', 'block_unverified_especialista'])->group(function () {
+// Protegidas (general: paciente y cualquiera autenticado)
+Route::middleware(['auth'])->group(function () {
+
+    // ✅ NUEVO: Resultados revisitable
+    Route::get('/tests/resultados/{attempt}', [TestAttemptController::class, 'show'])
+        ->name('tests.resultados.show');
+
+    // Tests (con cooldown por tipo)
     Route::get('/test_bienestar', function () {
         return view('test_bienestar');
     })->middleware('test.cooldown:wellbeing')
@@ -53,7 +60,6 @@ Route::middleware(['auth', 'block_unverified_especialista'])->group(function () 
         ->defaults('testType', 'depression')
         ->name('test.depresion.submit');
 
-
     Route::get('/test_ansiedad', function () {
         return view('test_ansiedad');
     })->middleware('test.cooldown:anxiety')
@@ -64,6 +70,7 @@ Route::middleware(['auth', 'block_unverified_especialista'])->group(function () 
         ->defaults('testType', 'anxiety')
         ->name('test.ansiedad.submit');
 
+    // Views protegidas (si así las quieres)
     Route::get('/listado_psiquiatras', function () {
         return view('listado_psiquiatras');
     })->name('psiquiatras');
@@ -78,13 +85,12 @@ Route::middleware(['auth', 'block_unverified_especialista'])->group(function () 
 
     Route::get('/dashboard_paciente', function () {
         return view('dashboard_paciente');
-    })->middleware('auth')->name('dashboard.paciente');
+    })->name('dashboard.paciente');
 
+    // Diary entries API
     Route::post('/diary-entries', [DiaryEntryController::class, 'store'])->name('diary.entries.store');
-
     Route::get('/diary-entries/recent', [DiaryEntryController::class, 'recent'])->name('diary.entries.recent');
     Route::get('/diary-entries/stats', [DiaryEntryController::class, 'stats'])->name('diary.entries.stats');
-
     Route::get('/diary-entries/mood-trend', [DiaryEntryController::class, 'moodTrend'])->name('diary.entries.moodTrend');
     Route::get('/diary-entries/mood-chart', [DiaryEntryController::class, 'moodChart'])->name('diary.entries.moodChart');
 
@@ -97,27 +103,24 @@ Route::middleware(['auth', 'block_unverified_especialista'])->group(function () 
         ->whereNumber('id')
         ->name('diary.entries.destroy');
 
-    Route::prefix('especialista')
-        ->middleware(['auth', 'is_especialista'])
-        ->group(function () {
-
-            // Accesible para NO verificados (y verificados también)
-            Route::get('/esperando-verificacion', [EspecialistaController::class, 'esperandoVerificacion'])
-                ->name('especialista.esperando_verificacion');
-
-            // Solo verificados (clínico real)
-            Route::middleware('is_verificado')->group(function () {
-
-                // Puedes mantener tu URL actual si quieres, pero recomiendo estandarizar:
-                Route::get('/dashboard', [EspecialistaController::class, 'dashboard'])
-                    ->name('especialista.dashboard');
-
-                // Futuras rutas clínicas:
-                // Route::get('/pacientes', ...)->name('especialista.pacientes');
-                // Route::get('/citas', ...)->name('especialista.citas');
-            });
-        });
-
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+// Especialista (aquí sí aplicas bloqueos y verificación)
+Route::prefix('especialista')
+    ->middleware(['auth', 'is_especialista', 'block_unverified_especialista'])
+    ->group(function () {
+
+        // Accesible para NO verificados (y verificados también)
+        Route::get('/esperando-verificacion', [EspecialistaController::class, 'esperandoVerificacion'])
+            ->name('especialista.esperando_verificacion');
+
+        // Solo verificados (clínico real)
+        Route::middleware('is_verificado')->group(function () {
+
+            Route::get('/dashboard', [EspecialistaController::class, 'dashboard'])
+                ->name('especialista.dashboard');
+
+            // futuras rutas...
+        });
+    });
