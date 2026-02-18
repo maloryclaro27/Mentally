@@ -1225,7 +1225,7 @@
             <div class="action-buttons">
                 <button class="action-button dashboard-button" id="dashboardButton">
                     <i class="fas fa-home"></i>
-                    Ir al Dashboard
+                    Ir al siguiente test
                 </button>
                 <button class="action-button retake-button" id="retakeButton">
                     <i class="fas fa-redo"></i>

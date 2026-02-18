@@ -23,8 +23,16 @@ class TestAttemptController extends Controller
             'taken_at' => now(),
         ]);
 
+        // decidir siguiente paso según tipo de test
+        $nextRoute = match ($testType) {
+            'wellbeing' => 'test.depresion',
+            'depression' => 'test.ansiedad',
+            'anxiety' => 'dashboard.paciente',
+            default => 'dashboard.paciente',
+        };
+
         return redirect()
-            ->route('dashboard.paciente')
+            ->route($nextRoute)
             ->with('success', 'Test registrado correctamente.');
     }
 }
