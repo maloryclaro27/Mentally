@@ -890,11 +890,10 @@
 
             <!-- Login social -->
             <div class="social-login">
-                <button type="button" class="social-button google" id="googleLogin">
+                <a href="{{ route('login.google') }}" class="social-button google">
                     <i class="fab fa-google"></i>
                     Google
-                </button>
-
+                </a>
             </div>
 
             <!-- Separador -->

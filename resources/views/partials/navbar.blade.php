@@ -15,11 +15,19 @@
 
         <li class="nav-item">
             <a href="#" class="nav-link">Servicios</a>
-            <div class="dropdown-menu nav-dropdown">
-                <a href="#" class="dropdown-item require-auth" data-url="/diario_emocional">Diario Emocional</a>
+            <div class="dropdown-menu nav-dropdown services-dropdown">
+                <a href="{{ route('diario.emocional') }}" class="dropdown-item require-auth"
+                    data-url="/diario_emocional">Diario Emocional</a>
                 <a href="#" class="dropdown-item require-auth" data-url="/chatbot">
                     Chatbot: Habla con Cereon 🧠
                 </a>
+                <div class="dropdown-submenu">
+                    <a href="#" class="dropdown-item dropdown-toggle">Blog</a>
+                    <div class="dropdown-menu">
+                        <a href="/blog" class="dropdown-item">Artículos</a>
+                        <a href="/blog/postear" class="dropdown-item">Postea tu Historia</a>
+                    </div>
+                </div>
             </div>
         </li>
 
@@ -63,15 +71,6 @@
             </div>
         </li>
 
-
-        <li class="nav-item">
-            <a href="#" class="nav-link">Blog</a>
-            <div class="dropdown-menu nav-dropdown">
-                <a href="/blog" class="dropdown-item">Artículos</a>
-                <a href="/blog/postear" class="dropdown-item">Postea tu Historia</a>
-            </div>
-        </li>
-
         <li class="nav-item">
             <a class="nav-link require-auth" data-url="/listado_psiquiatras">
                 Especialistas
@@ -80,7 +79,7 @@
 
         @auth
             <li class="nav-item">
-                <a href="{{ route('dashboard.paciente') }}" class="nav-link">Mi proceso</a>
+                <a href="{{ route('dashboard.paciente') }}" class="nav-link">Mi proceso🌻</a>
             </li>
         @endauth
     </ul>
@@ -124,13 +123,10 @@
                     Ayuda
                 </a>
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="dropdown-item dropdown-button">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Cerrar Sesión
-                    </button>
-                </form>
+                <a href="{{ route('auth0.logout') }}" class="dropdown-item dropdown-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
             </div>
         </div>
     @endauth

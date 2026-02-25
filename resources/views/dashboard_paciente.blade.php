@@ -1157,7 +1157,7 @@
     <main class="main-content">
         <!-- Encabezado de bienvenida -->
         <section class="welcome-header">
-            <h1 class="welcome-title">¡Hola, Málory!</h1>
+            <h1 class="welcome-title">¡Hola, {{ Auth::user()->first_name }}!</h1>
             <p class="welcome-subtitle">Nos alegra que estés aquí. Hoy es un buen día para cuidar de tu salud mental.
             </p>
             <div class="current-date">

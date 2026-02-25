@@ -7,12 +7,20 @@ use App\Models\TestAttempt;
 use App\Models\User;
 use App\Http\Controllers\DiaryEntryController;
 use App\Http\Controllers\EspecialistaController;
+use App\Http\Controllers\Auth0Controller;
 
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/hola', function () {
+    return view('holaa');
+})->name('home');
+
+Route::get('/login/google', [Auth0Controller::class, 'loginGoogle'])->name('login.google');
+Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback');
+Route::get('/logout-auth0', [Auth0Controller::class, 'logout'])->name('auth0.logout');
 
 // Auth (guest)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

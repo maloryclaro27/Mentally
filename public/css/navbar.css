@@ -116,6 +116,9 @@ nav .dropdown-menu {
 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     z-index: 2500;
+
+    /* CLAVE: permite que el submenú se "salga" hacia la derecha */
+    overflow: visible;
 }
 
 /* Mostrar dropdown cuando se hace hover en el item */
@@ -144,6 +147,69 @@ nav .dropdown-item:hover {
     );
     color: #4db8a8;
     padding-left: 2rem;
+}
+
+/* =========================
+   SUBMENU (Blog dentro de Servicios)
+   - Abre al hover sobre Blog
+   - También abre si Blog recibe focus (útil para click/teclado)
+========================= */
+
+/* Importante: que el dropdown padre no recorte */
+nav .dropdown-menu {
+    overflow: visible !important;
+}
+
+/* Contenedor del item Blog */
+nav .dropdown-submenu {
+    position: relative !important;
+}
+
+/* Puente invisible para mover el mouse hacia la derecha */
+nav .dropdown-submenu::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -22px;
+    width: 22px;
+    height: 100%;
+}
+
+/* El submenu (Artículos / Postea tu Historia) */
+nav .dropdown-submenu > .dropdown-menu {
+    position: absolute !important;
+    top: 0 !important;
+    left: 100% !important;
+    margin-left: 12px !important;
+
+    z-index: 9999 !important;
+
+    /* oculto por defecto */
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-6px) !important;
+
+    transition: all 0.25s ease !important;
+
+    /* evita que “aplane” en columna */
+    pointer-events: none !important;
+}
+
+/* Mostrar submenu cuando el mouse está en Blog */
+nav .dropdown-submenu:hover > .dropdown-menu,
+nav .dropdown-submenu:focus-within > .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+}
+
+/* Flecha en Blog */
+nav .dropdown-submenu > .dropdown-toggle::after {
+    content: "›";
+    float: right;
+    margin-left: 10px;
+    opacity: 0.7;
 }
 
 /* =========================
