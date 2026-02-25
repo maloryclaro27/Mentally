@@ -100,7 +100,7 @@
 
             <div class="user-info">
                 <div class="user-name">
-                    {{ auth()->user()->name ?? 'Usuario' }}
+                    {{ trim((auth()->user()->first_name ?? '') . ' ' . (auth()->user()->last_name ?? '')) ?: (auth()->user()->name ?? 'Usuario') }}
                 </div>
                 <div class="user-role">
                     {{ auth()->user()->role ?? 'Paciente' }}

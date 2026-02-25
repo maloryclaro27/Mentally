@@ -743,6 +743,71 @@
                 justify-content: center;
             }
         }
+
+        /* ====== Registro: bloque "crear cuenta" ====== */
+        .signup-choice {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-choice-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2c5f5d;
+            margin-bottom: 1rem;
+        }
+
+        .google-signup {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .google-signup a {
+            width: 100%;
+            max-width: 420px;
+            padding: 0.95rem 1rem;
+            border: 2px solid rgba(77, 184, 168, 0.25);
+            background: #fff;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            color: #2c5f5d;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .google-signup a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(44, 95, 93, 0.12);
+            border-color: #4db8a8;
+        }
+
+        .google-signup a .fab {
+            color: #DB4437;
+            font-size: 1.2rem;
+        }
+
+        .or-enter-data {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #5a7c7a;
+            margin: 1.2rem 0 0.2rem;
+            font-size: 0.95rem;
+        }
+
+        .or-enter-data::before,
+        .or-enter-data::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(77, 184, 168, 0.2);
+        }
     </style>
 </head>
 
@@ -807,6 +872,19 @@
                     </ul>
                 </div>
             @endif
+
+            <div class="signup-choice">
+                <div class="signup-choice-title">¿Cómo quieres crear tu cuenta?</div>
+
+                <div class="google-signup">
+                    <a href="{{ route('login.google') }}">
+                        <i class="fab fa-google"></i>
+                        Crear cuenta con Google
+                    </a>
+                </div>
+
+                <div class="or-enter-data">O ingresa tus datos</div>
+            </div>
 
 
             <!-- Formulario -->

@@ -71,14 +71,22 @@ class Auth0Controller extends Controller
             return redirect('/login')->withErrors(['auth0' => 'Google no devolvió email.']);
         }
 
-        $name = $userInfo['name'] ?? ($userInfo['nickname'] ?? 'Usuario');
+        $fullName = $userInfo['name'] ?? ($userInfo['nickname'] ?? 'Usuario');
+
+        // Separar nombre completo
+        $parts = preg_split('/\s+/', trim($fullName), -1, PREG_SPLIT_NO_EMPTY);
+
+        $firstName = $parts[0] ?? '';
+        $lastName = count($parts) > 1 ? implode(' ', array_slice($parts, 1)) : '';
 
         // Crea o actualiza usuario en tu BD
         $auth0Id = $userInfo['sub'] ?? null;
 
         $user = User::firstOrNew(['email' => $email]);
 
-        $user->name = $name;
+        $user->name = $fullName; // lo dejamos por compatibilidad
+        $user->first_name = $firstName;
+        $user->last_name = $lastName;
         $user->auth0_id = $auth0Id;
 
         // Solo si es nuevo usuario
