@@ -70,19 +70,34 @@
     }
 
     function handleAuthRequiredClick(e) {
-      e.preventDefault();
-      e.stopPropagation();
+      const dataUrl = this.getAttribute('data-url');
+      const href = this.getAttribute('href');
 
-      const urlToGo = this.getAttribute('data-url') || '/';
-
+      // Si NO está autenticada → ahí sí interceptamos y redirigimos a login
       if (!isUserAuthenticated()) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const urlToGo = dataUrl || href || '/';
         redirectToLogin(urlToGo);
-      } else {
-        window.location.href = urlToGo;
+        return;
+      }
+
+      // Si SÍ está autenticada:
+      // - Si es un link normal (href real, no "#") -> NO interceptamos, dejamos navegar normal
+      if (href && href !== '#') {
+        return;
+      }
+
+      // - Si es href="#" pero tiene data-url -> navegamos por JS
+      if (dataUrl) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = dataUrl;
       }
     }
 
-    const protectedLinks = document.querySelectorAll('.require-auth');
+    const protectedLinks = document.querySelectorAll('.require-auth:not([data-test-link="1"])');
     if (!protectedLinks.length) return;
 
     protectedLinks.forEach((link) => {

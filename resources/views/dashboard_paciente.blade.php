@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentally - Dashboard de Paciente</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+@extends('layouts.app')
+@push('styles')
     <style>
         * {
             margin: 0;
@@ -1059,92 +1050,10 @@
                 height: 35px;
             }
         }
-
-        /* Modal bloqueo de tests */
-        .test-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(44, 95, 93, 0.35);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-        }
-
-        .test-modal {
-            background: linear-gradient(135deg, #ffffff, #f8fcfb);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 420px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(77, 184, 168, 0.3);
-            border: 1px solid rgba(77, 184, 168, 0.15);
-            animation: modalPop 0.3s ease;
-        }
-
-        .test-modal-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            box-shadow: 0 10px 25px rgba(77, 184, 168, 0.4);
-        }
-
-        .test-modal-title {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #2c5f5d;
-            margin-bottom: 1rem;
-        }
-
-        .test-modal-text {
-            color: #5a7c7a;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .test-modal-button {
-            padding: 0.9rem 2rem;
-            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .test-modal-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(77, 184, 168, 0.4);
-        }
-
-        @keyframes modalPop {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
     </style>
-</head>
+@endpush
 
-<body>
+@section('content')
     <!-- Elementos decorativos flotantes -->
     <div class="floating-circle circle-1"></div>
     <div class="floating-circle circle-2"></div>
@@ -1508,7 +1417,9 @@
             </div>
         </section>
     </main>
+@endsection
 
+@push('scripts')
     <script>
         // Configuración inicial
         document.addEventListener('DOMContentLoaded', function() {
@@ -1901,86 +1812,5 @@
                 }, 200);
             });
         }
-
-        // Interceptar acceso a tests con cooldown
-        document.querySelectorAll('[data-test-link]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const available = this.dataset.available === '1';
-
-                if (!available) {
-                    e.preventDefault();
-
-                    const nextDate = this.dataset.nextDate;
-                    const remaining = this.dataset.remainingDays;
-
-                    const message = `
-                Ya realizaste este test recientemente.<br><br>
-                Podrás volver a realizarlo el <strong>${nextDate}</strong>
-                (${remaining} día${remaining == 1 ? '' : 's'} restantes).
-            `;
-
-                    document.getElementById('testModalMessage').innerHTML = message;
-                    document.getElementById('testCooldownModal').style.display = 'flex';
-                }
-                // si está disponible → deja navegar normal
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-            // Interceptar acceso a tests con cooldown
-            document.querySelectorAll('[data-test-link]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const available = this.dataset.available === '1';
-
-                    if (!available) {
-                        e.preventDefault();
-
-                        const nextDate = this.dataset.nextDate;
-                        const remaining = this.dataset.remainingDays;
-
-                        const message = `
-                    Ya realizaste este test recientemente.<br><br>
-                    Podrás volver a realizarlo el <strong>${nextDate}</strong>
-                    (${remaining} día${remaining == 1 ? '' : 's'} restantes).
-                `;
-
-                        document.getElementById('testModalMessage').innerHTML = message;
-                        document.getElementById('testCooldownModal').style.display = 'flex';
-                    }
-                });
-            });
-
-            // Cerrar modal
-            const closeBtn = document.getElementById('closeTestModal');
-            const modal = document.getElementById('testCooldownModal');
-
-            if (closeBtn && modal) {
-                closeBtn.addEventListener('click', () => {
-                    modal.style.display = 'none';
-                });
-            }
-
-        });
     </script>
-    <!-- Modal bloqueo de test -->
-    <div id="testCooldownModal" class="test-modal-overlay" style="display:none;">
-        <div class="test-modal">
-            <div class="test-modal-icon">
-                <i class="fas fa-lock"></i>
-            </div>
-
-            <h3 class="test-modal-title">Test no disponible aún</h3>
-
-            <p class="test-modal-text" id="testModalMessage">
-                <!-- Texto dinámico -->
-            </p>
-
-            <button class="test-modal-button" id="closeTestModal">
-                Entendido
-            </button>
-        </div>
-    </div>
-</body>
-
-</html>
+@endpush

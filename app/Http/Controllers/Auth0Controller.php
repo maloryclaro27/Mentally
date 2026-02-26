@@ -100,7 +100,7 @@ class Auth0Controller extends Controller
         Auth::login($user);
 
         // Redirige a donde tenga sentido en tu app
-        return redirect()->route('dashboard.paciente');
+        return redirect()->route('test.bienestar');
     }
 
     public function logout()

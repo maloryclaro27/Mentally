@@ -99,8 +99,23 @@
             </div>
 
             <div class="user-info">
+                @php
+                    $firstName = auth()->user()->first_name ?? '';
+                    $lastName = auth()->user()->last_name ?? '';
+
+                    $lastNameParts = explode(' ', trim($lastName));
+                    $lastNameParts = array_values(array_filter($lastNameParts)); // limpia espacios dobles
+
+                    if (count($lastNameParts) === 3) {
+                        $shortLastName = $lastNameParts[1]; // segunda palabra
+                    } elseif (count($lastNameParts) === 2) {
+                        $shortLastName = $lastNameParts[0]; // primera palabra
+                    } else {
+                        $shortLastName = $lastNameParts[0] ?? '';
+                    }
+                @endphp
                 <div class="user-name">
-                    {{ trim((auth()->user()->first_name ?? '') . ' ' . (auth()->user()->last_name ?? '')) ?: (auth()->user()->name ?? 'Usuario') }}
+                    {{ trim($firstName . ' ' . $shortLastName) ?: auth()->user()->name ?? 'Usuario' }}
                 </div>
                 <div class="user-role">
                     {{ auth()->user()->role ?? 'Paciente' }}

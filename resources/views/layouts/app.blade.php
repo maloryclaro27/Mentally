@@ -10,6 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/test-modal.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -72,9 +73,25 @@
         };
     </script>
 
-    <script src="{{ asset('js/navbar.js') }}"></script>
-
     @stack('scripts')
-</body>
 
+    <!-- Modal bloqueo de test -->
+    <div id="testCooldownModal" class="test-modal-overlay" style="display:none;">
+        <div class="test-modal">
+            <div class="test-modal-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+
+            <h3 class="test-modal-title">Test no disponible aún</h3>
+
+            <p class="test-modal-text" id="testModalMessage"></p>
+
+            <button class="test-modal-button" id="closeTestModal">
+                Entendido
+            </button>
+        </div>
+    </div>
+    <script src="{{ asset('js/navbar.js') }}" defer></script>
+    <script src="{{ asset('js/test-availability-guard.js') }}" defer></script>
+</body>
 </html>
