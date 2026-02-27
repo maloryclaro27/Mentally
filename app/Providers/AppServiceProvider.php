@@ -22,18 +22,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer([
-            'partials.navbar',
-            'partials.navbar-publico',
-            'partials.navbar-especialista',
-        ], function ($view) {
+        View::composer('*', function ($view) {
+            if (!Auth::check()) return;
 
-            if (!Auth::check()) {
-                return;
+            static $cached = null;
+
+            if ($cached === null) {
+                $service = app(TestAvailabilityService::class);
+                $cached = $service->forUser(Auth::user());
             }
 
-            $service = app(TestAvailabilityService::class);
-            $view->with('testAvailability', $service->forUser(Auth::user()));
+            $view->with('testAvailability', $cached);
         });
     }
 }

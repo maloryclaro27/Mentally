@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TestAttempt;
+use Carbon\Carbon;
 
 class TestAttemptController extends Controller
 {
@@ -62,6 +63,35 @@ class TestAttemptController extends Controller
             $ui = $this->anxietyUi($score, $attempt->answers ?? []);
             $viewData['ui'] = $ui;
         }
+
+        // ====== Serie para gráfica cada 14 días (Q1/Q2 por mes) ======
+        $attemptsSameTest = TestAttempt::where('user_id', auth()->id())
+            ->where('test_type', $attempt->test_type)
+            ->whereNotNull('taken_at')
+            ->orderBy('taken_at')
+            ->get(['taken_at', 'score']);
+
+        $grouped = $attemptsSameTest->groupBy(function ($a) {
+            $d = Carbon::parse($a->taken_at);
+            $half = ($d->day <= 14) ? 'Q1' : 'Q2';
+            return $d->format('Y-m') . '-' . $half; // ej: 2026-02-Q1
+        });
+
+        $points = $grouped->map(function ($group) {
+            $last = $group->sortBy('taken_at')->last();
+            $d = Carbon::parse($last->taken_at);
+
+            $halfLabel = ($d->day <= 14) ? '1' : '2';
+            return [
+                'label' => $d->translatedFormat('M Y') . ' - ' . $halfLabel, // "feb 2026 - 1"
+                'score' => (int) ($last->score ?? 0),
+            ];
+        })->values();
+
+        $viewData['chart'] = [
+            'labels' => $points->pluck('label')->all(),
+            'data'   => $points->pluck('score')->all(),
+        ];
 
 
         return view('tests.resultados', $viewData);
@@ -190,11 +220,41 @@ class TestAttemptController extends Controller
 
         $percentage = round(($score / 27) * 100);
 
+        // Recomendaciones PHQ-9 (para que la vista las muestre)
+        $recommendations = match (true) {
+            $score <= 4 => [
+                "Mantén rutinas estables de sueño y alimentación",
+                "Realiza actividad física suave 3 veces por semana",
+                "Haz una actividad agradable al día (aunque sea pequeña)",
+            ],
+            $score <= 9 => [
+                "Estructura tu día con 2–3 tareas pequeñas alcanzables",
+                "Practica respiración/relajación 10 minutos al día",
+                "Habla con alguien de confianza sobre cómo te sientes",
+            ],
+            $score <= 14 => [
+                "Considera agendar una consulta con un profesional",
+                "Reduce la carga: prioriza lo esencial esta semana",
+                "Registra tu ánimo y pensamientos para ver patrones",
+            ],
+            $score <= 19 => [
+                "Busca apoyo profesional (prioritario)",
+                "Pide apoyo a alguien cercano para acompañarte",
+                "Evita aislarte: plan mínimo de contacto diario",
+            ],
+            default => [
+                "Busca ayuda profesional lo antes posible",
+                "Si te sientes en crisis o en riesgo, busca ayuda inmediata",
+                "No te quedes solo/a si te sientes en riesgo",
+            ],
+        };
+
         return [
             'level'        => $levelData[2],
             'color'        => $levelData[3],
             'lightColor'   => $levelData[4],
             'description'  => $levelData[5],
+            'recommendations' => $recommendations,
             'score'        => $score,
             'percentage'   => $percentage,
             'impactText'   => $impactText,
@@ -296,11 +356,6 @@ class TestAttemptController extends Controller
             'score'          => $score,
             'percentage'     => $percentage,
             'nextDays'       => $nextDays,
-            // cortes clínicos para mostrar en la vista
-            'cutoffs'        => [
-                'classic' => '≥ 10 puntos: posible trastorno de ansiedad (Sensibilidad .87; Especificidad .78)',
-                'spanish' => '≥ 8 puntos (versión española): posible trastorno de ansiedad (Sensibilidad .93; Especificidad .85)',
-            ],
         ];
     }
 }

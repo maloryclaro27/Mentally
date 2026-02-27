@@ -2300,7 +2300,11 @@
                             Este test validado científicamente te ayuda a comprender mejor tu estado emocional.
                         </p>
                         @auth
-                            <a href="{{ route('test.depresion') }}" class="test-button">
+                            <a href="{{ route('test.depresion') }}" class="test-button" data-test-link="1"
+                                data-test-type="depresion"
+                                data-available="{{ data_get($testAvailability ?? [], 'depresion.available', true) ? 1 : 0 }}"
+                                data-next-date="{{ data_get($testAvailability ?? [], 'depresion.next_date', '') }}"
+                                data-remaining-days="{{ data_get($testAvailability ?? [], 'depresion.remaining_days', 0) }}">
                                 <i class="fas fa-play-circle"></i>
                                 Empezar test
                             </a>
@@ -2324,7 +2328,11 @@
                             sobre tu bienestar mental y recibe recomendaciones personalizadas.
                         </p>
                         @auth
-                            <a href="{{ route('test.ansiedad') }}" class="test-button">
+                            <a href="{{ route('test.ansiedad') }}" class="test-button" data-test-link="1"
+                                data-test-type="ansiedad"
+                                data-available="{{ data_get($testAvailability ?? [], 'ansiedad.available', true) ? 1 : 0 }}"
+                                data-next-date="{{ data_get($testAvailability ?? [], 'ansiedad.next_date', '') }}"
+                                data-remaining-days="{{ data_get($testAvailability ?? [], 'ansiedad.remaining_days', 0) }}">
                                 <i class="fas fa-play-circle"></i>
                                 Empezar test
                             </a>
@@ -2349,7 +2357,11 @@
                             estado emocional actual.
                         </p>
                         @auth
-                            <a href="{{ route('test.bienestar') }}" class="test-button">
+                            <a href="{{ route('test.bienestar') }}" class="test-button" data-test-link="1"
+                                data-test-type="bienestar"
+                                data-available="{{ data_get($testAvailability ?? [], 'bienestar.available', true) ? 1 : 0 }}"
+                                data-next-date="{{ data_get($testAvailability ?? [], 'bienestar.next_date', '') }}"
+                                data-remaining-days="{{ data_get($testAvailability ?? [], 'bienestar.remaining_days', 0) }}">
                                 <i class="fas fa-play-circle"></i>
                                 Empezar test
                             </a>
