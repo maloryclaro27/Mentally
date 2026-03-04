@@ -17,6 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'is_verificado' => \App\Http\Middleware\IsEspecialistaVerificado::class,
             'block_unverified_especialista' => \App\Http\Middleware\BlockUnverifiedEspecialista::class,
         ]);
+        $middleware->encryptCookies(except: [
+            'auth0_transient_0',
+            'auth0_session_0',
+            'auth0_session_1',
+            'auth0__state',
+            'auth0__nonce',
+            'auth0__webauth_state',
+        ]);
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {

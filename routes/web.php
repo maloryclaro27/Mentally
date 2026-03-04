@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Controllers\DiaryEntryController;
 use App\Http\Controllers\EspecialistaController;
 use App\Http\Controllers\Auth0Controller;
+use App\Http\Controllers\ChequeosController;
 
 
 Route::get('/', function () {
@@ -94,6 +95,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard_paciente', function () {
         return view('dashboard_paciente');
     })->name('dashboard.paciente');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/chequeos', [ChequeosController::class, 'index'])->name('chequeos');
+    });
 
     // Diary entries API
     Route::post('/diary-entries', [DiaryEntryController::class, 'store'])->name('diary.entries.store');

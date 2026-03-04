@@ -1080,7 +1080,7 @@
             <h2 class="section-title">Accesos rápidos</h2>
             <div class="quick-access-grid">
 
-                <a href="#" class="access-card">
+                <a href="{{ route('chequeos') }}" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-clipboard-check"></i>
                     </div>
