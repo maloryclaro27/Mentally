@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/adherencia', [App\Http\Controllers\AdherenciaController::class, 'index'])->name('adherencia');
+
 Route::get('/hola', function () {
     return view('holaa');
 })->name('home');
