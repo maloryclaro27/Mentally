@@ -9,6 +9,7 @@ use App\Http\Controllers\DiaryEntryController;
 use App\Http\Controllers\EspecialistaController;
 use App\Http\Controllers\Auth0Controller;
 use App\Http\Controllers\ChequeosController;
+use App\Http\Controllers\AdherenciaController;
 
 
 Route::get('/', function () {
@@ -81,6 +82,20 @@ Route::middleware(['auth'])->group(function () {
         ->defaults('testType', 'anxiety')
         ->name('test.ansiedad.submit');
 
+    Route::post('/adherencia/medicamentos', [AdherenciaController::class, 'guardarMedicamento'])
+        ->name('adherencia.guardarMedicamento')
+        ->middleware('auth');
+
+    Route::delete('/adherencia/medicamentos/{id}', [AdherenciaController::class, 'eliminarMedicamento'])
+        ->name('adherencia.eliminarMedicamento')
+        ->middleware('auth');
+
+    Route::post('/adherencia/medicamentos/{id}/marcar-toma', [AdherenciaController::class, 'marcarToma'])
+        ->name('adherencia.marcarToma')
+        ->middleware('auth');
+    Route::put('/adherencia/medicamentos/{id}', [AdherenciaController::class, 'actualizarMedicamento'])
+        ->name('adherencia.actualizarMedicamento')
+        ->middleware('auth');
     // Views protegidas (si así las quieres)
     Route::get('/listado_psiquiatras', function () {
         return view('listado_psiquiatras');

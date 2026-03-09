@@ -69,28 +69,62 @@
 
         /* ========== ANIMACIONES ========== */
         @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, 30px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(30px, 30px);
+            }
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
         }
 
         @keyframes blink {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.1); }
+
+            0%,
+            90%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            95% {
+                transform: scaleY(0.1);
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
+            0% {
+                background-position: -1000px 0;
+            }
+
+            100% {
+                background-position: 1000px 0;
+            }
         }
 
         @keyframes slideInUp {
@@ -98,6 +132,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -105,8 +140,15 @@
         }
 
         @keyframes glowPulse {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(77, 184, 168, 0.3)); }
-            50% { filter: drop-shadow(0 0 20px rgba(77, 184, 168, 0.6)); }
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 5px rgba(77, 184, 168, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(77, 184, 168, 0.6));
+            }
         }
 
         /* ========== MAIN CONTENT ========== */
@@ -327,14 +369,42 @@
             animation: sparkle 3s ease-in-out infinite;
         }
 
-        .sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 70%; right: 15%; animation-delay: 1s; }
-        .sparkle:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; }
-        .sparkle:nth-child(4) { top: 30%; right: 25%; animation-delay: 1.5s; }
+        .sparkle:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: 70%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .sparkle:nth-child(4) {
+            top: 30%;
+            right: 25%;
+            animation-delay: 1.5s;
+        }
 
         @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .pet-stats {
@@ -801,8 +871,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .modal.active {
@@ -827,6 +902,7 @@
                 opacity: 0;
                 transform: translateY(-50px) scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -968,6 +1044,7 @@
             .pet-container {
                 grid-template-columns: 1fr;
             }
+
             .pet-visual {
                 order: -1;
             }
@@ -977,10 +1054,12 @@
             .main-content {
                 padding: 1.5rem;
             }
+
             .pet-character {
                 width: 280px;
                 height: 280px;
             }
+
             .pet-stats {
                 flex-direction: column;
                 gap: 1rem;
@@ -993,80 +1072,149 @@
     @php
         // ===== VALORES POR DEFECTO PARA DESARROLLO =====
         // Estos valores te permitirán visualizar la vista mientras construyes el backend
-        
+
         // Datos de la mascota
         $evolutionStage = $evolutionStage ?? 1;
         $companionEnergyLevel = $companionEnergyLevel ?? 'high';
         $companionEnergy = $companionEnergy ?? 85;
         $streakDays = $streakDays ?? 7;
         $adherenceRate = $adherenceRate ?? 92;
-        
+
         // Colores de la mascota
         $petColors = (object) [
-            'primary' => $petColors->primary ?? ($evolutionStage == 1 ? '#4db8a8' : ($evolutionStage == 2 ? '#9370DB' : '#FF6B6B')),
-            'secondary' => $petColors->secondary ?? ($evolutionStage == 1 ? '#5bc4b3' : ($evolutionStage == 2 ? '#BA55D3' : '#FF8E8E'))
+            'primary' =>
+                $petColors->primary ??
+                ($evolutionStage == 1 ? '#4db8a8' : ($evolutionStage == 2 ? '#9370DB' : '#FF6B6B')),
+            'secondary' =>
+                $petColors->secondary ??
+                ($evolutionStage == 1 ? '#5bc4b3' : ($evolutionStage == 2 ? '#BA55D3' : '#FF8E8E')),
         ];
-        
+
         // Mensaje motivacional
         $motivationalMessage = (object) [
             'title' => $motivationalMessage->title ?? '¡Vamos por un gran día!',
-            'description' => $motivationalMessage->description ?? 'Tu compañero se siente lleno de energía gracias a tu compromiso. Sigue así, cada día cuenta.'
+            'description' =>
+                $motivationalMessage->description ??
+                'Tu compañero se siente lleno de energía gracias a tu compromiso. Sigue así, cada día cuenta.',
         ];
-        
+
         // Progreso
         $progressToNextAchievement = $progressToNextAchievement ?? 70;
-        $dailyAffirmation = $dailyAffirmation ?? 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
-        
+        $dailyAffirmation =
+            $dailyAffirmation ??
+            'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
+
         // Logros de ejemplo
-        $allAchievements = $allAchievements ?? collect([
-            (object) ['id' => 1, 'name' => 'Principiante', 'description' => '7 días de racha', 'days_required' => 7, 'icon_html' => '🌱', 'unlocked' => true],
-            (object) ['id' => 2, 'name' => 'Explorador', 'description' => '15 días de racha', 'days_required' => 15, 'icon_html' => '🔍', 'unlocked' => $streakDays >= 15],
-            (object) ['id' => 3, 'name' => 'Comprometido', 'description' => '30 días de racha', 'days_required' => 30, 'icon_html' => '🤝', 'unlocked' => $streakDays >= 30],
-            (object) ['id' => 4, 'name' => 'Dedicado', 'description' => '60 días de racha', 'days_required' => 60, 'icon_html' => '⭐', 'unlocked' => $streakDays >= 60],
-            (object) ['id' => 5, 'name' => 'Experto', 'description' => '90 días de racha', 'days_required' => 90, 'icon_html' => '🏆', 'unlocked' => $streakDays >= 90],
-            (object) ['id' => 6, 'name' => 'Maestro', 'description' => '180 días de racha', 'days_required' => 180, 'icon_html' => '👑', 'unlocked' => $streakDays >= 180],
-            (object) ['id' => 7, 'name' => 'Leyenda', 'description' => '365 días de racha', 'days_required' => 365, 'icon_html' => '🌟', 'unlocked' => $streakDays >= 365],
-        ]);
-        
+        $allAchievements =
+            $allAchievements ??
+            collect([
+                (object) [
+                    'id' => 1,
+                    'name' => 'Principiante',
+                    'description' => '7 días de racha',
+                    'days_required' => 7,
+                    'icon_html' => '🌱',
+                    'unlocked' => true,
+                ],
+                (object) [
+                    'id' => 2,
+                    'name' => 'Explorador',
+                    'description' => '15 días de racha',
+                    'days_required' => 15,
+                    'icon_html' => '🔍',
+                    'unlocked' => $streakDays >= 15,
+                ],
+                (object) [
+                    'id' => 3,
+                    'name' => 'Comprometido',
+                    'description' => '30 días de racha',
+                    'days_required' => 30,
+                    'icon_html' => '🤝',
+                    'unlocked' => $streakDays >= 30,
+                ],
+                (object) [
+                    'id' => 4,
+                    'name' => 'Dedicado',
+                    'description' => '60 días de racha',
+                    'days_required' => 60,
+                    'icon_html' => '⭐',
+                    'unlocked' => $streakDays >= 60,
+                ],
+                (object) [
+                    'id' => 5,
+                    'name' => 'Experto',
+                    'description' => '90 días de racha',
+                    'days_required' => 90,
+                    'icon_html' => '🏆',
+                    'unlocked' => $streakDays >= 90,
+                ],
+                (object) [
+                    'id' => 6,
+                    'name' => 'Maestro',
+                    'description' => '180 días de racha',
+                    'days_required' => 180,
+                    'icon_html' => '👑',
+                    'unlocked' => $streakDays >= 180,
+                ],
+                (object) [
+                    'id' => 7,
+                    'name' => 'Leyenda',
+                    'description' => '365 días de racha',
+                    'days_required' => 365,
+                    'icon_html' => '🌟',
+                    'unlocked' => $streakDays >= 365,
+                ],
+            ]);
+
         // Medicamentos de ejemplo (SIN usar métodos de Eloquent)
-        $activeMedications = $activeMedications ?? collect([
-            (object) [
-                'id' => 1,
-                'name' => 'Sertralina',
-                'dosage' => '50mg',
-                'dose_time' => '08:00',
-                'taken_today' => false
-            ],
-            (object) [
-                'id' => 2,
-                'name' => 'Escitalopram',
-                'dosage' => '10mg',
-                'dose_time' => '20:00',
-                'taken_today' => false
-            ],
-            (object) [
-                'id' => 3,
-                'name' => 'Bupropion',
-                'dosage' => '150mg',
-                'dose_time' => '14:00',
-                'taken_today' => false
-            ]
-        ]);
-        
+        $activeMedications =
+            $medicamentos ??
+            ($activeMedications ??
+                collect([
+                    (object) [
+                        'id' => 1,
+                        'name' => 'Sertralina',
+                        'dosage' => '50mg',
+                        'dose_time' => '08:00',
+                        'taken_today' => false,
+                    ],
+                    (object) [
+                        'id' => 2,
+                        'name' => 'Escitalopram',
+                        'dosage' => '10mg',
+                        'dose_time' => '20:00',
+                        'taken_today' => false,
+                    ],
+                    (object) [
+                        'id' => 3,
+                        'name' => 'Bupropion',
+                        'dosage' => '150mg',
+                        'dose_time' => '14:00',
+                        'taken_today' => false,
+                    ],
+                ]));
+
         // Próximo logro
-        $nextAchievement = $nextAchievement ?? (object) [
-            'name' => 'Explorador',
-            'description' => '15 días de compromiso constante',
-            'days_required' => 15,
-            'icon_html' => '🔍',
-            'days_remaining' => 15 - $streakDays
-        ];
-        
+        $nextAchievement =
+            $nextAchievement ??
+            (object) [
+                'name' => 'Explorador',
+                'description' => '15 días de compromiso constante',
+                'days_required' => 15,
+                'icon_html' => '🔍',
+                'days_remaining' => 15 - $streakDays,
+            ];
+
         // Usuario
-        $user = Auth::user() ?? (object) [
-            'first_name' => 'Usuario',
-            'achievements' => $allAchievements->filter(function($a) { return $a->unlocked ?? false; })
-        ];
+        $user =
+            $usuario ??
+            (Auth::user() ??
+                (object) [
+                    'first_name' => 'Usuario',
+                    'achievements' => $allAchievements->filter(function ($a) {
+                        return $a->unlocked ?? false;
+                    }),
+                ]);
     @endphp
 
     <!-- Elementos decorativos -->
@@ -1079,10 +1227,28 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
+        @if (session('success'))
+            <div
+                style="margin-bottom: 1.5rem; background: rgba(77, 184, 168, 0.12); border: 1px solid rgba(77, 184, 168, 0.25); color: #2c5f5d; padding: 1rem 1.25rem; border-radius: 16px;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div
+                style="margin-bottom: 1.5rem; background: rgba(220, 53, 69, 0.10); border: 1px solid rgba(220, 53, 69, 0.20); color: #842029; padding: 1rem 1.25rem; border-radius: 16px;">
+                <ul style="margin: 0; padding-left: 1.2rem;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Encabezado de bienvenida -->
         <section class="welcome-header">
             <h1 class="welcome-title">🌸 Hola, {{ $user->first_name }}</h1>
-            <p class="welcome-subtitle">Tu compañero de bienestar está aquí para apoyarte en cada paso de tu camino hacia una mejor salud mental. Cada pequeño esfuerzo cuenta.</p>
+            <p class="welcome-subtitle">Tu compañero de bienestar está aquí para apoyarte en cada paso de tu camino hacia
+                una
+                mejor salud mental. Cada pequeño esfuerzo cuenta.</p>
             <div class="current-date">
                 <i class="fas fa-calendar-alt"></i>
                 <span id="currentDate"></span>
@@ -1093,32 +1259,36 @@
         <section class="adherence-pet">
             <div class="pet-header">
                 <h2 class="pet-title">✨ Tu Compañero de Bienestar ✨</h2>
-                <p class="pet-subtitle">Él refleja tu compromiso y crece contigo. Cada medicamento tomado es un paso juntos.</p>
+                <p class="pet-subtitle">Él refleja tu compromiso y crece contigo. Cada medicamento tomado es un paso juntos.
+                </p>
             </div>
 
             <div class="pet-container">
                 <div class="pet-visual">
-                    <div class="pet-character" id="petCharacter" data-energy="{{ $companionEnergyLevel }}" data-evolution="{{ $evolutionStage }}">
+                    <div class="pet-character" id="petCharacter" data-energy="{{ $companionEnergyLevel }}"
+                        data-evolution="{{ $evolutionStage }}">
                         <div class="sparkles">
                             <div class="sparkle"></div>
                             <div class="sparkle"></div>
                             <div class="sparkle"></div>
                             <div class="sparkle"></div>
                         </div>
-                        
-                        <div class="pet-body" style="background: linear-gradient(135deg, {{ $petColors->primary }} 0%, {{ $petColors->secondary }} 100%);"></div>
-                        
+
+                        <div class="pet-body"
+                            style="background: linear-gradient(135deg, {{ $petColors->primary }} 0%, {{ $petColors->secondary }} 100%);">
+                        </div>
+
                         <div class="pet-eyes">
                             <div class="eye"></div>
                             <div class="eye"></div>
                         </div>
-                        
+
                         <div class="pet-mouth"></div>
-                        
-                        @if($evolutionStage >= 2)
+
+                        @if ($evolutionStage >= 2)
                             <div style="position: absolute; top: 15%; right: 20%; font-size: 1.5rem;">👑</div>
                         @endif
-                        @if($evolutionStage >= 3)
+                        @if ($evolutionStage >= 3)
                             <div style="position: absolute; bottom: 20%; left: 15%; font-size: 1.5rem;">⭐</div>
                         @endif
                     </div>
@@ -1148,15 +1318,16 @@
                         <p class="streak-description">
                             {{ $motivationalMessage->description }}
                         </p>
-                        
+
                         <div class="streak-progress">
-                            <div class="streak-progress-bar" id="streakProgressBar" style="width: {{ $progressToNextAchievement }}%;"></div>
+                            <div class="streak-progress-bar" id="streakProgressBar"
+                                style="width: {{ $progressToNextAchievement }}%;"></div>
                         </div>
-                        
+
                         <p class="streak-message">
                             <i class="fas fa-star" style="color: #ffc107; margin-right: 0.5rem;"></i>
                             <span id="nextAchievementMessage">
-                                @if($nextAchievement)
+                                @if ($nextAchievement)
                                     ¡A {{ $nextAchievement->days_remaining }} días de "{{ $nextAchievement->name }}"!
                                 @else
                                     ¡Has alcanzado todos los logros! Eres increíble.
@@ -1165,7 +1336,8 @@
                         </p>
                     </div>
 
-                    <div style="background: rgba(255, 255, 255, 0.7); border-radius: 15px; padding: 1rem; border-left: 4px solid #4db8a8;">
+                    <div
+                        style="background: rgba(255, 255, 255, 0.7); border-radius: 15px; padding: 1rem; border-left: 4px solid #4db8a8;">
                         <p style="color: #2c5f5d; font-style: italic; margin: 0;">
                             <i class="fas fa-quote-left" style="color: #4db8a8; margin-right: 0.5rem;"></i>
                             {{ $dailyAffirmation }}
@@ -1179,7 +1351,7 @@
         <section class="medications-section">
             <div class="section-header">
                 <h2 class="section-title">💊 Mis Medicamentos de Hoy</h2>
-                <button class="add-medication-btn" onclick="openAddMedicationModal()">
+                <button type="button" class="add-medication-btn" onclick="openAddMedicationModal()">
                     <i class="fas fa-plus-circle"></i>
                     Añadir Medicamento
                 </button>
@@ -1188,39 +1360,45 @@
             <div class="medication-grid" id="medicationsGrid">
                 @forelse($activeMedications as $medication)
                     @php
-                        $takenToday = $medication->taken_today ?? false;
-                        $nextDose = isset($medication->dose_time) ? date('g:i A', strtotime($medication->dose_time)) : 'No especificada';
+                        $takenToday = $medication->tomado_hoy ?? false;
+                        $nextDose = isset($medication->hora_toma)
+                            ? date('g:i A', strtotime($medication->hora_toma))
+                            : 'No especificada';
                     @endphp
-                    
-                    <div class="medication-card {{ $takenToday ? 'taken' : 'pending' }}" id="med-card-{{ $medication->id }}" data-med-id="{{ $medication->id }}">
+
+                    <div class="medication-card {{ $takenToday ? 'taken' : 'pending' }}"
+                        id="med-card-{{ $medication->id }}" data-med-id="{{ $medication->id }}">
                         <div class="medication-header">
-                            <span class="medication-name">{{ $medication->name }}</span>
-                            <span class="medication-dose">{{ $medication->dosage }}</span>
+                            <span class="medication-name">{{ $medication->nombre }}</span>
+                            <span class="medication-dose">{{ $medication->dosis }}</span>
                         </div>
-                        
+
                         <div class="medication-time">
                             <i class="fas fa-clock"></i>
                             <span>{{ $nextDose }}</span>
                         </div>
-                        
+
                         <div class="medication-actions">
-                            @if($takenToday)
+                            @if ($takenToday)
                                 <button class="btn-take" disabled>
                                     <i class="fas fa-check-circle"></i>
                                     Tomada hoy ✓
                                 </button>
                             @else
-                                <button class="btn-take" onclick="registerMedication({{ $medication->id }}, this)">
+                                <button class="btn-take" onclick="marcarToma({{ $medication->id }})">
                                     <i class="fas fa-pills"></i>
                                     Marcar como tomada
                                 </button>
                             @endif
-                            
-                            <button class="btn-edit" onclick="openEditMedicationModal({{ $medication->id }})" title="Editar medicamento">
+
+                            <button class="btn-edit"
+                                onclick="openEditMedicationModal({{ $medication->id }}, '{{ addslashes($medication->nombre) }}', '{{ addslashes($medication->dosis) }}', '{{ $medication->hora_toma }}')"
+                                title="Editar medicamento">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            
-                            <button class="btn-delete" onclick="deleteMedication({{ $medication->id }})" title="Eliminar medicamento">
+
+                            <button class="btn-delete" onclick="eliminarMedicamento({{ $medication->id }})"
+                                title="Eliminar medicamento">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </div>
@@ -1229,8 +1407,11 @@
                     <div class="empty-medications">
                         <i class="fas fa-pills"></i>
                         <p>Aún no has añadido ningún medicamento.</p>
-                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Comienza añadiendo tu tratamiento para que podamos ayudarte con los recordatorios.</p>
-                        <button class="add-medication-btn" onclick="openAddMedicationModal()" style="margin-top: 1rem;">
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Comienza añadiendo tu tratamiento para que
+                            podamos
+                            ayudarte con los recordatorios.</p>
+                        <button type="button" class="add-medication-btn" onclick="openAddMedicationModal()"
+                            style="margin-top: 1rem;">
                             <i class="fas fa-plus-circle"></i>
                             Añadir mi primer medicamento
                         </button>
@@ -1242,25 +1423,27 @@
         <!-- Sección de Logros -->
         <section class="achievements-section">
             <h2 class="section-title">🏆 Tus Logros</h2>
-            
+
             <div class="achievements-grid">
-                @foreach($allAchievements as $achievement)
-                    <div class="achievement-card {{ ($achievement->unlocked ?? false) ? 'unlocked' : 'locked' }}" 
-                         title="{{ $achievement->description }}">
+                @foreach ($allAchievements as $achievement)
+                    <div class="achievement-card {{ $achievement->unlocked ?? false ? 'unlocked' : 'locked' }}"
+                        title="{{ $achievement->description }}">
                         <div class="achievement-icon">{{ $achievement->icon_html }}</div>
                         <div class="achievement-name">{{ $achievement->name }}</div>
                     </div>
                 @endforeach
             </div>
-            
-            @if($nextAchievement)
+
+            @if ($nextAchievement)
                 <div class="next-achievement">
                     <div style="font-size: 2.5rem;">{{ $nextAchievement->icon_html }}</div>
                     <div class="next-achievement-info">
                         <div class="next-achievement-title">🎯 Próximo logro a alcanzar</div>
                         <div class="next-achievement-name">{{ $nextAchievement->name }}</div>
                         <div class="next-achievement-progress">
-                            <div class="next-achievement-bar" style="width: {{ ($streakDays / $nextAchievement->days_required) * 100 }}%;"></div>
+                            <div class="next-achievement-bar"
+                                style="width: {{ min(($streakDays / $nextAchievement->days_required) * 100, 100) }}%;">
+                            </div>
                         </div>
                         <p style="color: #5a7c7a; margin-top: 0.5rem; font-size: 0.9rem;">
                             <i class="fas fa-hourglass-half"></i>
@@ -1281,32 +1464,34 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <form id="medicationForm" onsubmit="saveMedication(event)">
+
+            <form id="medicationForm" method="POST" action="{{ route('adherencia.guardarMedicamento') }}">
                 @csrf
+                <input type="hidden" name="_method" id="formMethod" value="POST">
                 <input type="hidden" id="medicationId" name="medicationId">
-                
+
                 <div class="form-group">
                     <label class="form-label">Nombre del medicamento</label>
-                    <input type="text" class="form-input" id="medName" name="name" 
-                           placeholder="Ej. Sertralina" required>
+                    <input type="text" class="form-input" id="medName" name="nombre" value="{{ old('nombre') }}"
+                        placeholder="Ej. Sertralina" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Dosis</label>
-                    <input type="text" class="form-input" id="medDosage" name="dosage" 
-                           placeholder="Ej. 50mg" required>
+                    <input type="text" class="form-input" id="medDosage" name="dosis" value="{{ old('dosis') }}"
+                        placeholder="Ej. 50mg" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label">Hora de toma (para recordatorios)</label>
-                    <input type="time" class="form-input" id="medTime" name="dose_time" required>
+                    <input type="time" class="form-input" id="medTime" name="hora_toma"
+                        value="{{ old('hora_toma') }}" required>
                     <small style="color: #5a7c7a; display: block; margin-top: 0.3rem;">
                         <i class="fas fa-info-circle"></i>
                         Recibirás un recordatorio a esta hora
                     </small>
                 </div>
-                
+
                 <div class="modal-actions">
                     <button type="button" class="btn-secondary" onclick="closeModal()">
                         Cancelar
@@ -1325,6 +1510,15 @@
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">Medicamento registrado correctamente</span>
     </div>
+
+    <form id="formEliminarMedicamento" method="POST" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
+    <form id="formMarcarToma" method="POST" style="display: none;">
+        @csrf
+    </form>
 @endsection
 
 @push('scripts')
@@ -1333,7 +1527,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const dateElement = document.getElementById('currentDate');
             if (dateElement) {
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
                 const today = new Date().toLocaleDateString('es-ES', options);
                 dateElement.innerText = today.charAt(0).toUpperCase() + today.slice(1);
             }
@@ -1343,23 +1542,36 @@
         const modal = document.getElementById('medicationModal');
         const modalTitle = document.getElementById('modalTitle');
         const form = document.getElementById('medicationForm');
+        const formMethod = document.getElementById('formMethod');
         const medId = document.getElementById('medicationId');
         const medName = document.getElementById('medName');
         const medDosage = document.getElementById('medDosage');
         const medTime = document.getElementById('medTime');
 
-        function openAddMedicationModal() {
+        function openAddMedicationModal(limpiar = true) {
             modalTitle.innerHTML = '➕ Añadir Medicamento';
-            form.reset();
+            form.action = `{{ route('adherencia.guardarMedicamento') }}`;
+            formMethod.value = 'POST';
             medId.value = '';
+
+            if (limpiar) {
+                medName.value = '';
+                medDosage.value = '';
+                medTime.value = '';
+            }
+
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function openEditMedicationModal(id) {
+        function openEditMedicationModal(id, nombre, dosis, hora) {
             modalTitle.innerHTML = '✏️ Editar Medicamento';
             medId.value = id;
-            // Aquí iría la lógica para cargar los datos del medicamento
+            form.action = `/adherencia/medicamentos/${id}`;
+            formMethod.value = 'PUT';
+            medName.value = nombre;
+            medDosage.value = dosis;
+            medTime.value = hora;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -1367,53 +1579,30 @@
         function closeModal() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
-            form.reset();
         }
 
-        function saveMedication(event) {
-            event.preventDefault();
-            showToast('Funcionalidad en desarrollo', '🔧');
-            closeModal();
-        }
 
-        function registerMedication(medicationId, buttonElement) {
-            buttonElement.disabled = true;
-            buttonElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
-            
-            // Simular registro exitoso
-            setTimeout(() => {
-                const card = document.getElementById(`med-card-${medicationId}`);
-                card.classList.remove('pending');
-                card.classList.add('taken');
-                
-                buttonElement.innerHTML = '<i class="fas fa-check-circle"></i> Tomada hoy ✓';
-                
-                // Actualizar estadísticas
-                document.getElementById('streakDays').innerText = '8';
-                document.getElementById('companionEnergy').innerText = '88%';
-                document.getElementById('adherenceRate').innerText = '93%';
-                document.getElementById('streakProgressBar').style.width = '75%';
-                
-                showToast('¡Toma registrada! Gracias por tu compromiso', '💚');
-            }, 1500);
-        }
-
-        function deleteMedication(id) {
+        function eliminarMedicamento(id) {
             if (confirm('¿Estás seguro de que deseas eliminar este medicamento?')) {
-                showToast('Medicamento eliminado', '🗑️');
-                setTimeout(() => {
-                    location.reload();
-                }, 1500);
+                const form = document.getElementById('formEliminarMedicamento');
+                form.action = `/adherencia/medicamentos/${id}`;
+                form.submit();
             }
+        }
+
+        function marcarToma(id) {
+            const form = document.getElementById('formMarcarToma');
+            form.action = `/adherencia/medicamentos/${id}/marcar-toma`;
+            form.submit();
         }
 
         function showToast(message, icon = '✅', duration = 3000) {
             const toast = document.getElementById('toastNotification');
             const toastMessage = document.getElementById('toastMessage');
-            
+
             toastMessage.innerHTML = `${icon} ${message}`;
             toast.classList.add('show');
-            
+
             setTimeout(() => {
                 toast.classList.remove('show');
             }, duration);
@@ -1432,5 +1621,9 @@
                 closeModal();
             }
         }
+        @if ($errors->any())
+            openAddMedicationModal(false);
+        @endif
+        console.log('script de adherencia cargado');
     </script>
 @endpush

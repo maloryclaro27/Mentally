@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Medicamento;
+use App\Models\TomaMedicamento;
 
 class User extends Authenticatable
 {
@@ -52,4 +54,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Models\TestAttempt::class);
     }
+
+    public function medicamentos()
+    {
+        return $this->hasMany(Medicamento::class, 'user_id');
+    }
+
+    public function tomasMedicamentos()
+    {
+        return $this->hasMany(TomaMedicamento::class, 'user_id');
+    }   
 }
