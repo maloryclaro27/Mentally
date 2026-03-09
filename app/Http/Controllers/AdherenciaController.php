@@ -18,36 +18,73 @@ class AdherenciaController extends Controller
         $usuario = Auth::user();
         $evolutionStage = 1;
 
-        $medicamentos = Medicamento::where('user_id', $usuario->id)
-            ->where('activo', true)
+        $hoy = now()->toDateString();
+
+        $medicamentosActivosEnFecha = function ($fecha) use ($usuario) {
+            return Medicamento::where('user_id', $usuario->id)
+                ->whereDate('fecha_inicio', '<=', $fecha)
+                ->where(function ($query) use ($fecha) {
+                    $query->whereNull('fecha_fin')
+                        ->orWhereDate('fecha_fin', '>=', $fecha);
+                })
+                ->pluck('id');
+        };
+
+        $carbonHoy = now()->startOfDay();
+
+        $fechasUltimos7Dias = collect(range(0, 6))
+            ->map(fn($i) => $carbonHoy->copy()->subDays($i)->toDateString());
+
+        $tomasPorFecha = TomaMedicamento::where('user_id', $usuario->id)
+            ->whereDate('fecha_toma', '>=', $carbonHoy->copy()->subDays(6)->toDateString())
+            ->get()
+            ->groupBy(function ($toma) {
+                return \Carbon\Carbon::parse($toma->fecha_toma)->toDateString();
+            });
+        $medicamentosActivosHoyIds = $medicamentosActivosEnFecha($hoy);
+
+        $tomasHoyIds = TomaMedicamento::where('user_id', $usuario->id)
+            ->whereDate('fecha_toma', $hoy)
+            ->whereIn('medicamento_id', $medicamentosActivosHoyIds)
+            ->distinct()
+            ->pluck('medicamento_id');
+
+        $medicamentos = Medicamento::whereIn('id', $medicamentosActivosHoyIds)
             ->orderBy('hora_toma')
             ->get()
-            ->map(function ($medicamento) use ($usuario) {
-                $tomadaHoy = TomaMedicamento::where('medicamento_id', $medicamento->id)
-                    ->where('user_id', $usuario->id)
-                    ->whereDate('fecha_toma', now()->toDateString())
-                    ->exists();
-
+            ->map(function ($medicamento) use ($tomasHoyIds) {
                 return (object) [
                     'id' => $medicamento->id,
                     'nombre' => $medicamento->nombre,
                     'dosis' => $medicamento->dosis,
                     'hora_toma' => $medicamento->hora_toma,
-                    'tomado_hoy' => $tomadaHoy,
+                    'tomado_hoy' => $tomasHoyIds->contains($medicamento->id),
                 ];
             });
 
         $totalMedicamentosActivos = $medicamentos->count();
-        $medicamentosTomadosHoy = $medicamentos->where('tomado_hoy', true)->count();
-        $completoHoy = $totalMedicamentosActivos > 0 && $medicamentosTomadosHoy === $totalMedicamentosActivos;
-        if ($totalMedicamentosActivos > 0) {
-            $tomasUltimos7Dias = TomaMedicamento::where('user_id', $usuario->id)
-                ->whereDate('fecha_toma', '>=', now()->copy()->subDays(6)->toDateString())
+
+        $medicamentosTomadosHoy = $tomasHoyIds->unique()->count();
+
+        $totalTomasEsperadasUltimos7Dias = 0;
+        $totalTomasRegistradasUltimos7Dias = 0;
+
+        foreach ($fechasUltimos7Dias as $fecha) {
+            $medicamentosActivosEseDia = $medicamentosActivosEnFecha($fecha);
+
+            $esperadasEseDia = $medicamentosActivosEseDia->count();
+
+            $registradasEseDia = collect($tomasPorFecha->get($fecha, []))
+                ->whereIn('medicamento_id', $medicamentosActivosEseDia)
+                ->unique('medicamento_id')
                 ->count();
 
-            $tomasEsperadasUltimos7Dias = $totalMedicamentosActivos * 7;
+            $totalTomasEsperadasUltimos7Dias += $esperadasEseDia;
+            $totalTomasRegistradasUltimos7Dias += min($registradasEseDia, $esperadasEseDia);
+        }
 
-            $adherenceRate = round(($tomasUltimos7Dias / $tomasEsperadasUltimos7Dias) * 100);
+        if ($totalTomasEsperadasUltimos7Dias > 0) {
+            $adherenceRate = round(($totalTomasRegistradasUltimos7Dias / $totalTomasEsperadasUltimos7Dias) * 100);
         } else {
             $adherenceRate = 0;
         }
@@ -64,19 +101,30 @@ class AdherenciaController extends Controller
         // Datos de la mascota
         $streakDays = 0;
 
-        if ($totalMedicamentosActivos > 0) {
-            for ($i = 0; $i < 365; $i++) {
-                $fecha = now()->copy()->subDays($i)->toDateString();
+        for ($i = 0; $i < 365; $i++) {
+            $fecha = $carbonHoy->copy()->subDays($i)->toDateString();
 
-                $tomasEseDia = TomaMedicamento::where('user_id', $usuario->id)
-                    ->whereDate('fecha_toma', $fecha)
-                    ->count();
+            $medicamentosActivosEseDia = $medicamentosActivosEnFecha($fecha);
 
-                if ($tomasEseDia === $totalMedicamentosActivos) {
-                    $streakDays++;
-                } else {
-                    break;
+            $esperadasEseDia = $medicamentosActivosEseDia->count();
+
+            if ($esperadasEseDia === 0) {
+                if ($i === 0) {
+                    $streakDays = 0;
                 }
+                break;
+            }
+
+            $registradasEseDia = TomaMedicamento::where('user_id', $usuario->id)
+                ->whereDate('fecha_toma', $fecha)
+                ->whereIn('medicamento_id', $medicamentosActivosEseDia)
+                ->distinct('medicamento_id')
+                ->count('medicamento_id');
+
+            if ($registradasEseDia === $esperadasEseDia) {
+                $streakDays++;
+            } else {
+                break;
             }
         }
 
@@ -135,30 +183,6 @@ class AdherenciaController extends Controller
             $achievement->unlocked = $userAchievements->contains($achievement->id);
         }
 
-        // Medicamentos de ejemplo
-        $activeMedications = collect([
-            (object) [
-                'id' => 1,
-                'name' => 'Sertralina',
-                'dosage' => '50mg',
-                'dose_time' => '08:00',
-                'logs' => collect([])
-            ],
-            (object) [
-                'id' => 2,
-                'name' => 'Escitalopram',
-                'dosage' => '10mg',
-                'dose_time' => '20:00',
-                'logs' => collect([])
-            ],
-            (object) [
-                'id' => 3,
-                'name' => 'Bupropion',
-                'dosage' => '150mg',
-                'dose_time' => '14:00',
-                'logs' => collect([])
-            ]
-        ]);
 
         // Próximo logro
         $nextAchievement = $allAchievements->first(function ($achievement) use ($streakDays) {
@@ -195,7 +219,6 @@ class AdherenciaController extends Controller
             'progressToNextAchievement',
             'dailyAffirmation',
             'allAchievements',
-            'activeMedications',
             'nextAchievement'
         ));
     }
@@ -207,14 +230,33 @@ class AdherenciaController extends Controller
             'dosis' => 'required|string|max:255',
             'hora_toma' => 'required|date_format:H:i',
         ]);
+        $hoy = now()->toDateString();
 
         $medicamento = Medicamento::where('user_id', Auth::id())
             ->where('nombre', $request->nombre)
             ->where('dosis', $request->dosis)
             ->where('hora_toma', $request->hora_toma)
+            ->where(function ($query) use ($hoy) {
+                $query->whereNotNull('fecha_fin')
+                    ->whereDate('fecha_fin', '<', $hoy);
+            })
+            ->latest('id')
             ->first();
 
-        if ($medicamento && $medicamento->activo) {
+        $hoy = now()->toDateString();
+
+        $medicamentoActivoHoy = Medicamento::where('user_id', Auth::id())
+            ->where('nombre', $request->nombre)
+            ->where('dosis', $request->dosis)
+            ->where('hora_toma', $request->hora_toma)
+            ->whereDate('fecha_inicio', '<=', $hoy)
+            ->where(function ($query) use ($hoy) {
+                $query->whereNull('fecha_fin')
+                    ->orWhereDate('fecha_fin', '>=', $hoy);
+            })
+            ->first();
+
+        if ($medicamentoActivoHoy) {
             return redirect('/adherencia')
                 ->withErrors(['nombre' => 'Ese medicamento ya está registrado como activo.'])
                 ->withInput();
@@ -223,6 +265,8 @@ class AdherenciaController extends Controller
         if ($medicamento) {
             $medicamento->update([
                 'activo' => true,
+                'fecha_inicio' => $hoy,
+                'fecha_fin' => null,
             ]);
         } else {
             Medicamento::create([
@@ -231,6 +275,8 @@ class AdherenciaController extends Controller
                 'dosis' => $request->dosis,
                 'hora_toma' => $request->hora_toma,
                 'activo' => true,
+                'fecha_inicio' => $hoy,
+                'fecha_fin' => null,
             ]);
         }
 
@@ -245,13 +291,23 @@ class AdherenciaController extends Controller
             'hora_toma' => 'required|date_format:H:i',
         ]);
 
+        $hoy = now()->toDateString();
+
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
-            ->where('activo', true)
+            ->whereDate('fecha_inicio', '<=', $hoy)
+            ->where(function ($query) use ($hoy) {
+                $query->whereNull('fecha_fin')
+                    ->orWhereDate('fecha_fin', '>=', $hoy);
+            })
             ->firstOrFail();
 
         $duplicado = Medicamento::where('user_id', Auth::id())
-            ->where('activo', true)
+            ->whereDate('fecha_inicio', '<=', $hoy)
+            ->where(function ($query) use ($hoy) {
+                $query->whereNull('fecha_fin')
+                    ->orWhereDate('fecha_fin', '>=', $hoy);
+            })
             ->where('nombre', $request->nombre)
             ->where('dosis', $request->dosis)
             ->where('hora_toma', $request->hora_toma)
@@ -274,12 +330,20 @@ class AdherenciaController extends Controller
 
     public function eliminarMedicamento($id)
     {
+        $hoy = now()->toDateString();
+
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
+            ->whereDate('fecha_inicio', '<=', $hoy)
+            ->where(function ($query) use ($hoy) {
+                $query->whereNull('fecha_fin')
+                    ->orWhereDate('fecha_fin', '>=', $hoy);
+            })
             ->firstOrFail();
 
         $medicamento->update([
             'activo' => false,
+            'fecha_fin' => \Carbon\Carbon::parse($hoy)->subDay()->toDateString(),
         ]);
 
         return redirect('/adherencia')->with('success', 'Medicamento eliminado correctamente.');
@@ -287,15 +351,21 @@ class AdherenciaController extends Controller
 
     public function marcarToma($id)
     {
+        $hoy = now()->toDateString();
+
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
-            ->where('activo', true)
+            ->whereDate('fecha_inicio', '<=', $hoy)
+            ->where(function ($query) use ($hoy) {
+                $query->whereNull('fecha_fin')
+                    ->orWhereDate('fecha_fin', '>=', $hoy);
+            })
             ->firstOrFail();
 
         TomaMedicamento::firstOrCreate(
             [
                 'medicamento_id' => $medicamento->id,
-                'fecha_toma' => now()->toDateString(),
+                'fecha_toma' => $hoy,
             ],
             [
                 'user_id' => Auth::id(),

@@ -17,11 +17,15 @@ class Medicamento extends Model
         'dosis',
         'hora_toma',
         'activo',
+        'fecha_inicio',
+        'fecha_fin',
     ];
 
     protected $casts = [
         'hora_toma' => 'datetime:H:i',
         'activo' => 'boolean',
+        'fecha_inicio' => 'date',
+        'fecha_fin' => 'date',
     ];
 
     public function usuario()
