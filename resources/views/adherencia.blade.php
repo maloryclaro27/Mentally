@@ -1467,8 +1467,9 @@
 
             <form id="medicationForm" method="POST" action="{{ route('adherencia.guardarMedicamento') }}">
                 @csrf
-                <input type="hidden" name="_method" id="formMethod" value="POST">
-                <input type="hidden" id="medicationId" name="medicationId">
+                <input type="hidden" name="_method" id="formMethod" value="{{ old('_method', 'POST') }}">
+                <input type="hidden" id="medicationId" name="medicationId" value="{{ old('medicationId') }}">
+                <input type="hidden" id="formMode" name="formMode" value="{{ old('formMode', 'add') }}">
 
                 <div class="form-group">
                     <label class="form-label">Nombre del medicamento</label>
@@ -1544,6 +1545,7 @@
         const form = document.getElementById('medicationForm');
         const formMethod = document.getElementById('formMethod');
         const medId = document.getElementById('medicationId');
+        const formMode = document.getElementById('formMode');
         const medName = document.getElementById('medName');
         const medDosage = document.getElementById('medDosage');
         const medTime = document.getElementById('medTime');
@@ -1553,6 +1555,7 @@
             form.action = `{{ route('adherencia.guardarMedicamento') }}`;
             formMethod.value = 'POST';
             medId.value = '';
+            formMode.value = 'add';
 
             if (limpiar) {
                 medName.value = '';
@@ -1567,6 +1570,7 @@
         function openEditMedicationModal(id, nombre, dosis, hora) {
             modalTitle.innerHTML = '✏️ Editar Medicamento';
             medId.value = id;
+            formMode.value = 'edit';
             form.action = `/adherencia/medicamentos/${id}`;
             formMethod.value = 'PUT';
             medName.value = nombre;
@@ -1622,7 +1626,16 @@
             }
         }
         @if ($errors->any())
-            openAddMedicationModal(false);
+            @if (old('formMode') === 'edit' && old('medicationId'))
+                openEditMedicationModal(
+                    {{ old('medicationId') }},
+                    @json(old('nombre')),
+                    @json(old('dosis')),
+                    @json(old('hora_toma'))
+                );
+            @else
+                openAddMedicationModal(false);
+            @endif
         @endif
         console.log('script de adherencia cargado');
     </script>
