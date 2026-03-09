@@ -973,6 +973,16 @@
             box-shadow: 0 0 0 4px rgba(77, 184, 168, 0.1);
         }
 
+        .form-input.input-error {
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.03);
+        }
+
+        .form-input.input-error:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.12);
+        }
+
         .modal-actions {
             display: flex;
             gap: 1rem;
@@ -1227,12 +1237,6 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-        @if (session('success'))
-            <div
-                style="margin-bottom: 1.5rem; background: rgba(77, 184, 168, 0.12); border: 1px solid rgba(77, 184, 168, 0.25); color: #2c5f5d; padding: 1rem 1.25rem; border-radius: 16px;">
-                {{ session('success') }}
-            </div>
-        @endif
         @if ($errors->any())
             <div
                 style="margin-bottom: 1.5rem; background: rgba(220, 53, 69, 0.10); border: 1px solid rgba(220, 53, 69, 0.20); color: #842029; padding: 1rem 1.25rem; border-radius: 16px;">
@@ -1473,24 +1477,34 @@
 
                 <div class="form-group">
                     <label class="form-label">Nombre del medicamento</label>
-                    <input type="text" class="form-input" id="medName" name="nombre" value="{{ old('nombre') }}"
-                        placeholder="Ej. Sertralina" required>
+                    <input type="text" class="form-input @error('nombre') input-error @enderror" id="medName"
+                        name="nombre" value="{{ old('nombre') }}" placeholder="Ej. Sertralina" required>
+                    @error('nombre')
+                        <small style="color: #dc3545; display: block; margin-top: 0.45rem;">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Dosis</label>
-                    <input type="text" class="form-input" id="medDosage" name="dosis" value="{{ old('dosis') }}"
-                        placeholder="Ej. 50mg" required>
+                    <input type="text" class="form-input @error('dosis') input-error @enderror" id="medDosage"
+                        name="dosis" value="{{ old('dosis') }}" placeholder="Ej. 50mg" required>
+                    @error('dosis')
+                        <small style="color: #dc3545; display: block; margin-top: 0.45rem;">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Hora de toma (para recordatorios)</label>
-                    <input type="time" class="form-input" id="medTime" name="hora_toma"
-                        value="{{ old('hora_toma') }}" required>
-                    <small style="color: #5a7c7a; display: block; margin-top: 0.3rem;">
-                        <i class="fas fa-info-circle"></i>
-                        Recibirás un recordatorio a esta hora
-                    </small>
+                    <input type="time" class="form-input @error('hora_toma') input-error @enderror" id="medTime"
+                        name="hora_toma" value="{{ old('hora_toma') }}" required>
+                    @error('hora_toma')
+                        <small style="color: #dc3545; display: block; margin-top: 0.45rem;">{{ $message }}</small>
+                    @else
+                        <small style="color: #5a7c7a; display: block; margin-top: 0.3rem;">
+                            <i class="fas fa-info-circle"></i>
+                            Recibirás un recordatorio a esta hora
+                        </small>
+                    @enderror
                 </div>
 
                 <div class="modal-actions">
@@ -1637,6 +1651,11 @@
                 openAddMedicationModal(false);
             @endif
         @endif
+
+        @if (session('success'))
+            showToast(@json(session('success')));
+        @endif
+
         console.log('script de adherencia cargado');
     </script>
 @endpush
