@@ -51,4 +51,26 @@ class AdherenciaService
 
         return 1;
     }
+
+    public function getNextAchievement($allAchievements, $streakDays)
+    {
+        $nextAchievement = $allAchievements->first(function ($achievement) use ($streakDays) {
+            return $achievement->days_required > $streakDays;
+        });
+
+        if ($nextAchievement) {
+            $nextAchievement->days_remaining = max($nextAchievement->days_required - $streakDays, 0);
+        }
+
+        return $nextAchievement;
+    }
+
+    public function getProgressToNextAchievement($nextAchievement, $streakDays)
+    {
+        if ($nextAchievement) {
+            return min(($streakDays / $nextAchievement->days_required) * 100, 100);
+        }
+
+        return 100;
+    }
 }

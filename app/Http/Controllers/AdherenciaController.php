@@ -130,12 +130,12 @@ class AdherenciaController extends Controller
 
 
         // Próximo logro
-        $nextAchievement = $this->getNextAchievement($allAchievements, $streakDays);
+        $nextAchievement = $this->adherenciaService->getNextAchievement($allAchievements, $streakDays);
         $evolutionStage = $this->adherenciaService->getEvolutionStage($streakDays);
 
         $petColors = $this->getPetColors($evolutionStage);
 
-        $progressToNextAchievement = $this->getProgressToNextAchievement($nextAchievement, $streakDays);
+        $progressToNextAchievement = $this->adherenciaService->getProgressToNextAchievement($nextAchievement, $streakDays);
 
         return view('adherencia', compact(
             'usuario',
@@ -354,28 +354,6 @@ class AdherenciaController extends Controller
     private function getDailyAffirmation()
     {
         return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
-    }
-
-    private function getNextAchievement($allAchievements, $streakDays)
-    {
-        $nextAchievement = $allAchievements->first(function ($achievement) use ($streakDays) {
-            return $achievement->days_required > $streakDays;
-        });
-
-        if ($nextAchievement) {
-            $nextAchievement->days_remaining = max($nextAchievement->days_required - $streakDays, 0);
-        }
-
-        return $nextAchievement;
-    }
-
-    private function getProgressToNextAchievement($nextAchievement, $streakDays)
-    {
-        if ($nextAchievement) {
-            return min(($streakDays / $nextAchievement->days_required) * 100, 100);
-        }
-
-        return 100;
     }
 
     private function markUnlockedAchievements($allAchievements, $streakDays)
