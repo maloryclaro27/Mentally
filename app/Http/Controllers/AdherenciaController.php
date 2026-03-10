@@ -56,34 +56,7 @@ class AdherenciaController extends Controller
         $companionEnergy = $this->adherenciaService->getCompanionEnergy($totalMedicamentosActivos, $adherenceRate);
         $companionEnergyLevel = $this->adherenciaService->getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy);
         // Datos de la mascota
-        $streakDays = 0;
-
-        for ($i = 0; $i < 365; $i++) {
-            $fecha = $carbonHoy->copy()->subDays($i)->toDateString();
-
-            $medicamentosActivosEseDia = $medicamentosActivosEnFecha($fecha);
-
-            $esperadasEseDia = $medicamentosActivosEseDia->count();
-
-            if ($esperadasEseDia === 0) {
-                if ($i === 0) {
-                    $streakDays = 0;
-                }
-                break;
-            }
-
-            $registradasEseDia = TomaMedicamento::where('user_id', $usuario->id)
-                ->whereDate('fecha_toma', $fecha)
-                ->whereIn('medicamento_id', $medicamentosActivosEseDia)
-                ->distinct('medicamento_id')
-                ->count('medicamento_id');
-
-            if ($registradasEseDia === $esperadasEseDia) {
-                $streakDays++;
-            } else {
-                break;
-            }
-        }
+        $streakDays = $this->adherenciaService->calculateStreakDays($usuario->id, $hoy);
 
         // Mensaje motivacional
         $motivationalMessage = $this->adherenciaService->getMotivationalMessage($totalMedicamentosActivos, $adherenceRate);

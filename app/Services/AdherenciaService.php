@@ -169,4 +169,38 @@ class AdherenciaService
 
         return 0;
     }
+
+    public function calculateStreakDays($userId, $fechaBase)
+    {
+        $carbonFechaBase = \Carbon\Carbon::parse($fechaBase)->startOfDay();
+        $streakDays = 0;
+
+        for ($i = 0; $i < 365; $i++) {
+            $fecha = $carbonFechaBase->copy()->subDays($i)->toDateString();
+
+            $medicamentosActivosEseDia = $this->getActiveMedicationIdsByDate($userId, $fecha);
+            $esperadasEseDia = $medicamentosActivosEseDia->count();
+
+            if ($esperadasEseDia === 0) {
+                if ($i === 0) {
+                    $streakDays = 0;
+                }
+                break;
+            }
+
+            $registradasEseDia = TomaMedicamento::where('user_id', $userId)
+                ->whereDate('fecha_toma', $fecha)
+                ->whereIn('medicamento_id', $medicamentosActivosEseDia)
+                ->distinct('medicamento_id')
+                ->count('medicamento_id');
+
+            if ($registradasEseDia === $esperadasEseDia) {
+                $streakDays++;
+            } else {
+                break;
+            }
+        }
+
+        return $streakDays;
+    }
 }
