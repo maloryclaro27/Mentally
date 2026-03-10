@@ -84,8 +84,8 @@ class AdherenciaController extends Controller
         } else {
             $adherenceRate = 0;
         }
-        $companionEnergy = $this->getCompanionEnergy($totalMedicamentosActivos, $adherenceRate);
-        $companionEnergyLevel = $this->getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy);
+        $companionEnergy = $this->adherenciaService->getCompanionEnergy($totalMedicamentosActivos, $adherenceRate);
+        $companionEnergyLevel = $this->adherenciaService->getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy);
         // Datos de la mascota
         $streakDays = 0;
 
@@ -356,28 +356,6 @@ class AdherenciaController extends Controller
         return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
     }
 
-    private function getCompanionEnergy($totalMedicamentosActivos, $adherenceRate)
-    {
-        return $totalMedicamentosActivos > 0 ? $adherenceRate : 100;
-    }
-
-    private function getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy)
-    {
-        if ($totalMedicamentosActivos === 0) {
-            return 'high';
-        }
-
-        if ($companionEnergy >= 80) {
-            return 'high';
-        }
-
-        if ($companionEnergy >= 40) {
-            return 'medium';
-        }
-
-        return 'low';
-    }
-
     private function getEvolutionStage($streakDays)
     {
         if ($streakDays >= 30) {
@@ -426,16 +404,5 @@ class AdherenciaController extends Controller
         }
 
         return $allAchievements;
-    }
-
-    private function getActiveMedicationIdsByDate($userId, $fecha)
-    {
-        return Medicamento::where('user_id', $userId)
-            ->whereDate('fecha_inicio', '<=', $fecha)
-            ->where(function ($query) use ($fecha) {
-                $query->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $fecha);
-            })
-            ->pluck('id');
     }
 }

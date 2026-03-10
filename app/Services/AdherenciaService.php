@@ -16,4 +16,26 @@ class AdherenciaService
             })
             ->pluck('id');
     }
+
+    public function getCompanionEnergy($totalMedicamentosActivos, $adherenceRate)
+    {
+        return $totalMedicamentosActivos > 0 ? $adherenceRate : 100;
+    }
+
+    public function getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy)
+    {
+        if ($totalMedicamentosActivos === 0) {
+            return 'high';
+        }
+
+        if ($companionEnergy >= 80) {
+            return 'high';
+        }
+
+        if ($companionEnergy >= 40) {
+            return 'medium';
+        }
+
+        return 'low';
+    }
 }
