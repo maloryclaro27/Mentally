@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Medicamento;
+use App\Models\TomaMedicamento;
 
 class AdherenciaService
 {
@@ -129,5 +130,43 @@ class AdherenciaService
     public function getDailyAffirmation()
     {
         return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
+    }
+
+    public function calculateAdherenceRateLast7Days($userId, $fechaBase)
+    {
+        $carbonFechaBase = \Carbon\Carbon::parse($fechaBase)->startOfDay();
+
+        $fechasUltimos7Dias = collect(range(0, 6))
+            ->map(fn($i) => $carbonFechaBase->copy()->subDays($i)->toDateString());
+
+        $tomasPorFecha = TomaMedicamento::where('user_id', $userId)
+            ->whereDate('fecha_toma', '>=', $carbonFechaBase->copy()->subDays(6)->toDateString())
+            ->get()
+            ->groupBy(function ($toma) {
+                return \Carbon\Carbon::parse($toma->fecha_toma)->toDateString();
+            });
+
+        $totalTomasEsperadasUltimos7Dias = 0;
+        $totalTomasRegistradasUltimos7Dias = 0;
+
+        foreach ($fechasUltimos7Dias as $fecha) {
+            $medicamentosActivosEseDia = $this->getActiveMedicationIdsByDate($userId, $fecha);
+
+            $esperadasEseDia = $medicamentosActivosEseDia->count();
+
+            $registradasEseDia = collect($tomasPorFecha->get($fecha, []))
+                ->whereIn('medicamento_id', $medicamentosActivosEseDia)
+                ->unique('medicamento_id')
+                ->count();
+
+            $totalTomasEsperadasUltimos7Dias += $esperadasEseDia;
+            $totalTomasRegistradasUltimos7Dias += min($registradasEseDia, $esperadasEseDia);
+        }
+
+        if ($totalTomasEsperadasUltimos7Dias > 0) {
+            return round(($totalTomasRegistradasUltimos7Dias / $totalTomasEsperadasUltimos7Dias) * 100);
+        }
+
+        return 0;
     }
 }

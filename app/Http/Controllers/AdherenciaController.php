@@ -27,16 +27,6 @@ class AdherenciaController extends Controller
         $medicamentosActivosEnFecha = fn($fecha) => $this->adherenciaService->getActiveMedicationIdsByDate($usuario->id, $fecha);
 
         $carbonHoy = now()->startOfDay();
-
-        $fechasUltimos7Dias = collect(range(0, 6))
-            ->map(fn($i) => $carbonHoy->copy()->subDays($i)->toDateString());
-
-        $tomasPorFecha = TomaMedicamento::where('user_id', $usuario->id)
-            ->whereDate('fecha_toma', '>=', $carbonHoy->copy()->subDays(6)->toDateString())
-            ->get()
-            ->groupBy(function ($toma) {
-                return \Carbon\Carbon::parse($toma->fecha_toma)->toDateString();
-            });
         $medicamentosActivosHoyIds = $medicamentosActivosEnFecha($hoy);
 
         $tomasHoyIds = TomaMedicamento::where('user_id', $usuario->id)
@@ -62,28 +52,7 @@ class AdherenciaController extends Controller
 
         $medicamentosTomadosHoy = $tomasHoyIds->unique()->count();
 
-        $totalTomasEsperadasUltimos7Dias = 0;
-        $totalTomasRegistradasUltimos7Dias = 0;
-
-        foreach ($fechasUltimos7Dias as $fecha) {
-            $medicamentosActivosEseDia = $medicamentosActivosEnFecha($fecha);
-
-            $esperadasEseDia = $medicamentosActivosEseDia->count();
-
-            $registradasEseDia = collect($tomasPorFecha->get($fecha, []))
-                ->whereIn('medicamento_id', $medicamentosActivosEseDia)
-                ->unique('medicamento_id')
-                ->count();
-
-            $totalTomasEsperadasUltimos7Dias += $esperadasEseDia;
-            $totalTomasRegistradasUltimos7Dias += min($registradasEseDia, $esperadasEseDia);
-        }
-
-        if ($totalTomasEsperadasUltimos7Dias > 0) {
-            $adherenceRate = round(($totalTomasRegistradasUltimos7Dias / $totalTomasEsperadasUltimos7Dias) * 100);
-        } else {
-            $adherenceRate = 0;
-        }
+        $adherenceRate = $this->adherenciaService->calculateAdherenceRateLast7Days($usuario->id, $hoy);
         $companionEnergy = $this->adherenciaService->getCompanionEnergy($totalMedicamentosActivos, $adherenceRate);
         $companionEnergyLevel = $this->adherenciaService->getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy);
         // Datos de la mascota
