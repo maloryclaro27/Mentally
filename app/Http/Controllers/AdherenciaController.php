@@ -126,7 +126,7 @@ class AdherenciaController extends Controller
         $allAchievements = $this->getAchievements();
 
         // Logros del usuario (simulados)
-        $allAchievements = $this->markUnlockedAchievements($allAchievements, $streakDays);
+        $allAchievements = $this->adherenciaService->markUnlockedAchievements($allAchievements, $streakDays);
 
 
         // Próximo logro
@@ -356,18 +356,4 @@ class AdherenciaController extends Controller
         return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
     }
 
-    private function markUnlockedAchievements($allAchievements, $streakDays)
-    {
-        $userAchievements = $allAchievements
-            ->filter(function ($achievement) use ($streakDays) {
-                return $streakDays >= $achievement->days_required;
-            })
-            ->pluck('id');
-
-        foreach ($allAchievements as $achievement) {
-            $achievement->unlocked = $userAchievements->contains($achievement->id);
-        }
-
-        return $allAchievements;
-    }
 }

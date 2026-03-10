@@ -73,4 +73,19 @@ class AdherenciaService
 
         return 100;
     }
+
+    public function markUnlockedAchievements($allAchievements, $streakDays)
+    {
+        $userAchievements = $allAchievements
+            ->filter(function ($achievement) use ($streakDays) {
+                return $streakDays >= $achievement->days_required;
+            })
+            ->pluck('id');
+
+        foreach ($allAchievements as $achievement) {
+            $achievement->unlocked = $userAchievements->contains($achievement->id);
+        }
+
+        return $allAchievements;
+    }
 }
