@@ -120,7 +120,7 @@ class AdherenciaController extends Controller
         $motivationalMessage = $this->adherenciaService->getMotivationalMessage($totalMedicamentosActivos, $adherenceRate);
 
         // Progreso
-        $dailyAffirmation = $this->getDailyAffirmation();
+        $dailyAffirmation = $this->adherenciaService->getDailyAffirmation();
 
         // Logros
         $allAchievements = $this->getAchievements();
@@ -314,9 +314,6 @@ class AdherenciaController extends Controller
         ]);
     }
 
-    private function getDailyAffirmation()
-    {
-        return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
-    }
+    
 
 }

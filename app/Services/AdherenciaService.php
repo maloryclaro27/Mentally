@@ -125,4 +125,9 @@ class AdherenciaService
             'description' => 'Tu compañero necesita un poco más de cuidado, pero sigue a tu lado. Puedes volver a empezar con calma.'
         ];
     }
+
+    public function getDailyAffirmation()
+    {
+        return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
+    }
 }
