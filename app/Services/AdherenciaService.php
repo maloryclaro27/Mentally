@@ -88,4 +88,12 @@ class AdherenciaService
 
         return $allAchievements;
     }
+
+    public function getPetColors($evolutionStage)
+    {
+        return (object) [
+            'primary' => $evolutionStage == 1 ? '#4db8a8' : ($evolutionStage == 2 ? '#9370DB' : '#FF6B6B'),
+            'secondary' => $evolutionStage == 1 ? '#5bc4b3' : ($evolutionStage == 2 ? '#BA55D3' : '#FF8E8E'),
+        ];
+    }
 }

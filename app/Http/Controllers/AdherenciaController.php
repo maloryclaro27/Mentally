@@ -133,7 +133,7 @@ class AdherenciaController extends Controller
         $nextAchievement = $this->adherenciaService->getNextAchievement($allAchievements, $streakDays);
         $evolutionStage = $this->adherenciaService->getEvolutionStage($streakDays);
 
-        $petColors = $this->getPetColors($evolutionStage);
+        $petColors = $this->adherenciaService->getPetColors($evolutionStage);
 
         $progressToNextAchievement = $this->adherenciaService->getProgressToNextAchievement($nextAchievement, $streakDays);
 
@@ -340,14 +340,6 @@ class AdherenciaController extends Controller
         return (object) [
             'title' => 'Hoy también es un buen día para retomar',
             'description' => 'Tu compañero necesita un poco más de cuidado, pero sigue a tu lado. Puedes volver a empezar con calma.'
-        ];
-    }
-
-    private function getPetColors($evolutionStage)
-    {
-        return (object) [
-            'primary' => $evolutionStage == 1 ? '#4db8a8' : ($evolutionStage == 2 ? '#9370DB' : '#FF6B6B'),
-            'secondary' => $evolutionStage == 1 ? '#5bc4b3' : ($evolutionStage == 2 ? '#BA55D3' : '#FF8E8E'),
         ];
     }
 
