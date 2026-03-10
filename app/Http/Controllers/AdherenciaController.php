@@ -88,16 +88,8 @@ class AdherenciaController extends Controller
         } else {
             $adherenceRate = 0;
         }
-        $companionEnergy = $totalMedicamentosActivos > 0 ? $adherenceRate : 100;
-        if ($totalMedicamentosActivos === 0) {
-            $companionEnergyLevel = 'high';
-        } elseif ($companionEnergy >= 80) {
-            $companionEnergyLevel = 'high';
-        } elseif ($companionEnergy >= 40) {
-            $companionEnergyLevel = 'medium';
-        } else {
-            $companionEnergyLevel = 'low';
-        }
+        $companionEnergy = $this->getCompanionEnergy($totalMedicamentosActivos, $adherenceRate);
+        $companionEnergyLevel = $this->getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy);
         // Datos de la mascota
         $streakDays = 0;
 
@@ -128,83 +120,26 @@ class AdherenciaController extends Controller
             }
         }
 
-        // Colores según evolución
-        $petColors = (object) [
-            'primary' => $evolutionStage == 1 ? '#4db8a8' : ($evolutionStage == 2 ? '#9370DB' : '#FF6B6B'),
-            'secondary' => $evolutionStage == 1 ? '#5bc4b3' : ($evolutionStage == 2 ? '#BA55D3' : '#FF8E8E')
-        ];
-
         // Mensaje motivacional
-        if ($totalMedicamentosActivos === 0) {
-            $motivationalMessage = (object) [
-                'title' => 'Comencemos juntos',
-                'description' => 'Añade tus medicamentos para que tu compañero pueda acompañarte y reflejar tu continuidad con apoyo y constancia.'
-            ];
-        } elseif ($adherenceRate >= 80) {
-            $motivationalMessage = (object) [
-                'title' => '¡Vamos por un gran día!',
-                'description' => 'Tu compañero se siente con mucha energía gracias a tu constancia. Sigue así, cada día cuenta.'
-            ];
-        } elseif ($adherenceRate >= 40) {
-            $motivationalMessage = (object) [
-                'title' => 'Vas paso a paso',
-                'description' => 'Tu compañero sigue contigo. Cada toma suma y hoy también cuenta como una nueva oportunidad.'
-            ];
-        } else {
-            $motivationalMessage = (object) [
-                'title' => 'Hoy también es un buen día para retomar',
-                'description' => 'Tu compañero necesita un poco más de cuidado, pero sigue a tu lado. Puedes volver a empezar con calma.'
-            ];
-        }
+        $motivationalMessage = $this->getMotivationalMessage($totalMedicamentosActivos, $adherenceRate);
 
         // Progreso
-        $dailyAffirmation = 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
+        $dailyAffirmation = $this->getDailyAffirmation();
 
         // Logros
-        $allAchievements = collect([
-            (object) ['id' => 1, 'name' => 'Principiante', 'description' => '7 días de racha', 'days_required' => 7, 'icon_html' => '🌱'],
-            (object) ['id' => 2, 'name' => 'Explorador', 'description' => '15 días de racha', 'days_required' => 15, 'icon_html' => '🔍'],
-            (object) ['id' => 3, 'name' => 'Comprometido', 'description' => '30 días de racha', 'days_required' => 30, 'icon_html' => '🤝'],
-            (object) ['id' => 4, 'name' => 'Dedicado', 'description' => '60 días de racha', 'days_required' => 60, 'icon_html' => '⭐'],
-            (object) ['id' => 5, 'name' => 'Experto', 'description' => '90 días de racha', 'days_required' => 90, 'icon_html' => '🏆'],
-            (object) ['id' => 6, 'name' => 'Maestro', 'description' => '180 días de racha', 'days_required' => 180, 'icon_html' => '👑'],
-            (object) ['id' => 7, 'name' => 'Leyenda', 'description' => '365 días de racha', 'days_required' => 365, 'icon_html' => '🌟'],
-        ]);
+        $allAchievements = $this->getAchievements();
 
         // Logros del usuario (simulados)
-        $userAchievements = $allAchievements
-            ->filter(function ($achievement) use ($streakDays) {
-                return $streakDays >= $achievement->days_required;
-            })
-            ->pluck('id');
-
-        // Añadir propiedad 'unlocked' a cada logro
-        foreach ($allAchievements as $achievement) {
-            $achievement->unlocked = $userAchievements->contains($achievement->id);
-        }
+        $allAchievements = $this->markUnlockedAchievements($allAchievements, $streakDays);
 
 
         // Próximo logro
-        $nextAchievement = $allAchievements->first(function ($achievement) use ($streakDays) {
-            return $achievement->days_required > $streakDays;
-        });
+        $nextAchievement = $this->getNextAchievement($allAchievements, $streakDays);
+        $evolutionStage = $this->getEvolutionStage($streakDays);
 
-        if ($nextAchievement) {
-            $nextAchievement->days_remaining = max($nextAchievement->days_required - $streakDays, 0);
-        }
-        if ($streakDays >= 30) {
-            $evolutionStage = 3;
-        } elseif ($streakDays >= 7) {
-            $evolutionStage = 2;
-        } else {
-            $evolutionStage = 1;
-        }
+        $petColors = $this->getPetColors($evolutionStage);
 
-        if ($nextAchievement) {
-            $progressToNextAchievement = min(($streakDays / $nextAchievement->days_required) * 100, 100);
-        } else {
-            $progressToNextAchievement = 100;
-        }
+        $progressToNextAchievement = $this->getProgressToNextAchievement($nextAchievement, $streakDays);
 
         return view('adherencia', compact(
             'usuario',
@@ -222,6 +157,13 @@ class AdherenciaController extends Controller
             'nextAchievement'
         ));
     }
+
+    // Nota de diseño:
+    // No se implementa una restricción única global en la tabla medicamentos
+    // para (user_id, nombre, dosis, hora_toma) porque la lógica histórica permite
+    // cerrar un medicamento y volver a crearlo o reactivarlo después.
+    // La protección única a nivel BD sí existe en tomas_medicamentos
+    // mediante (medicamento_id, fecha_toma), evitando duplicados de toma por día.
 
     public function guardarMedicamento(Request $request)
     {
@@ -242,8 +184,6 @@ class AdherenciaController extends Controller
             })
             ->latest('id')
             ->first();
-
-        $hoy = now()->toDateString();
 
         $medicamentoActivoHoy = Medicamento::where('user_id', Auth::id())
             ->where('nombre', $request->nombre)
@@ -375,5 +315,132 @@ class AdherenciaController extends Controller
         );
 
         return redirect('/adherencia')->with('success', 'Toma registrada correctamente.');
+    }
+
+    private function getAchievements()
+    {
+        return collect([
+            (object) ['id' => 1, 'name' => 'Principiante', 'description' => '7 días de racha', 'days_required' => 7, 'icon_html' => '🌱'],
+            (object) ['id' => 2, 'name' => 'Explorador', 'description' => '15 días de racha', 'days_required' => 15, 'icon_html' => '🔍'],
+            (object) ['id' => 3, 'name' => 'Comprometido', 'description' => '30 días de racha', 'days_required' => 30, 'icon_html' => '🤝'],
+            (object) ['id' => 4, 'name' => 'Dedicado', 'description' => '60 días de racha', 'days_required' => 60, 'icon_html' => '⭐'],
+            (object) ['id' => 5, 'name' => 'Experto', 'description' => '90 días de racha', 'days_required' => 90, 'icon_html' => '🏆'],
+            (object) ['id' => 6, 'name' => 'Maestro', 'description' => '180 días de racha', 'days_required' => 180, 'icon_html' => '👑'],
+            (object) ['id' => 7, 'name' => 'Leyenda', 'description' => '365 días de racha', 'days_required' => 365, 'icon_html' => '🌟'],
+        ]);
+    }
+
+    private function getMotivationalMessage($totalMedicamentosActivos, $adherenceRate)
+    {
+        if ($totalMedicamentosActivos === 0) {
+            return (object) [
+                'title' => 'Comencemos juntos',
+                'description' => 'Añade tus medicamentos para que tu compañero pueda acompañarte y reflejar tu continuidad con apoyo y constancia.'
+            ];
+        }
+
+        if ($adherenceRate >= 80) {
+            return (object) [
+                'title' => '¡Vamos por un gran día!',
+                'description' => 'Tu compañero se siente con mucha energía gracias a tu constancia. Sigue así, cada día cuenta.'
+            ];
+        }
+
+        if ($adherenceRate >= 40) {
+            return (object) [
+                'title' => 'Vas paso a paso',
+                'description' => 'Tu compañero sigue contigo. Cada toma suma y hoy también cuenta como una nueva oportunidad.'
+            ];
+        }
+
+        return (object) [
+            'title' => 'Hoy también es un buen día para retomar',
+            'description' => 'Tu compañero necesita un poco más de cuidado, pero sigue a tu lado. Puedes volver a empezar con calma.'
+        ];
+    }
+
+    private function getPetColors($evolutionStage)
+    {
+        return (object) [
+            'primary' => $evolutionStage == 1 ? '#4db8a8' : ($evolutionStage == 2 ? '#9370DB' : '#FF6B6B'),
+            'secondary' => $evolutionStage == 1 ? '#5bc4b3' : ($evolutionStage == 2 ? '#BA55D3' : '#FF8E8E'),
+        ];
+    }
+
+    private function getDailyAffirmation()
+    {
+        return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
+    }
+
+    private function getCompanionEnergy($totalMedicamentosActivos, $adherenceRate)
+    {
+        return $totalMedicamentosActivos > 0 ? $adherenceRate : 100;
+    }
+
+    private function getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy)
+    {
+        if ($totalMedicamentosActivos === 0) {
+            return 'high';
+        }
+
+        if ($companionEnergy >= 80) {
+            return 'high';
+        }
+
+        if ($companionEnergy >= 40) {
+            return 'medium';
+        }
+
+        return 'low';
+    }
+
+    private function getEvolutionStage($streakDays)
+    {
+        if ($streakDays >= 30) {
+            return 3;
+        }
+
+        if ($streakDays >= 7) {
+            return 2;
+        }
+
+        return 1;
+    }
+
+    private function getNextAchievement($allAchievements, $streakDays)
+    {
+        $nextAchievement = $allAchievements->first(function ($achievement) use ($streakDays) {
+            return $achievement->days_required > $streakDays;
+        });
+
+        if ($nextAchievement) {
+            $nextAchievement->days_remaining = max($nextAchievement->days_required - $streakDays, 0);
+        }
+
+        return $nextAchievement;
+    }
+
+    private function getProgressToNextAchievement($nextAchievement, $streakDays)
+    {
+        if ($nextAchievement) {
+            return min(($streakDays / $nextAchievement->days_required) * 100, 100);
+        }
+
+        return 100;
+    }
+
+    private function markUnlockedAchievements($allAchievements, $streakDays)
+    {
+        $userAchievements = $allAchievements
+            ->filter(function ($achievement) use ($streakDays) {
+                return $streakDays >= $achievement->days_required;
+            })
+            ->pluck('id');
+
+        foreach ($allAchievements as $achievement) {
+            $achievement->unlocked = $userAchievements->contains($achievement->id);
+        }
+
+        return $allAchievements;
     }
 }

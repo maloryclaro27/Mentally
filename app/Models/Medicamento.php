@@ -22,7 +22,7 @@ class Medicamento extends Model
     ];
 
     protected $casts = [
-        'hora_toma' => 'datetime:H:i',
+        'hora_toma' => 'string',
         'activo' => 'boolean',
         'fecha_inicio' => 'date',
         'fecha_fin' => 'date',
