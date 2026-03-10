@@ -117,7 +117,7 @@ class AdherenciaController extends Controller
         }
 
         // Mensaje motivacional
-        $motivationalMessage = $this->getMotivationalMessage($totalMedicamentosActivos, $adherenceRate);
+        $motivationalMessage = $this->adherenciaService->getMotivationalMessage($totalMedicamentosActivos, $adherenceRate);
 
         // Progreso
         $dailyAffirmation = $this->getDailyAffirmation();
@@ -312,35 +312,6 @@ class AdherenciaController extends Controller
             (object) ['id' => 6, 'name' => 'Maestro', 'description' => '180 días de racha', 'days_required' => 180, 'icon_html' => '👑'],
             (object) ['id' => 7, 'name' => 'Leyenda', 'description' => '365 días de racha', 'days_required' => 365, 'icon_html' => '🌟'],
         ]);
-    }
-
-    private function getMotivationalMessage($totalMedicamentosActivos, $adherenceRate)
-    {
-        if ($totalMedicamentosActivos === 0) {
-            return (object) [
-                'title' => 'Comencemos juntos',
-                'description' => 'Añade tus medicamentos para que tu compañero pueda acompañarte y reflejar tu continuidad con apoyo y constancia.'
-            ];
-        }
-
-        if ($adherenceRate >= 80) {
-            return (object) [
-                'title' => '¡Vamos por un gran día!',
-                'description' => 'Tu compañero se siente con mucha energía gracias a tu constancia. Sigue así, cada día cuenta.'
-            ];
-        }
-
-        if ($adherenceRate >= 40) {
-            return (object) [
-                'title' => 'Vas paso a paso',
-                'description' => 'Tu compañero sigue contigo. Cada toma suma y hoy también cuenta como una nueva oportunidad.'
-            ];
-        }
-
-        return (object) [
-            'title' => 'Hoy también es un buen día para retomar',
-            'description' => 'Tu compañero necesita un poco más de cuidado, pero sigue a tu lado. Puedes volver a empezar con calma.'
-        ];
     }
 
     private function getDailyAffirmation()
