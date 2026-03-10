@@ -131,7 +131,7 @@ class AdherenciaController extends Controller
 
         // Próximo logro
         $nextAchievement = $this->getNextAchievement($allAchievements, $streakDays);
-        $evolutionStage = $this->getEvolutionStage($streakDays);
+        $evolutionStage = $this->adherenciaService->getEvolutionStage($streakDays);
 
         $petColors = $this->getPetColors($evolutionStage);
 
@@ -354,19 +354,6 @@ class AdherenciaController extends Controller
     private function getDailyAffirmation()
     {
         return 'Cada paso que das hacia tu bienestar es un acto de amor propio. Hoy es un buen día para cuidarte.';
-    }
-
-    private function getEvolutionStage($streakDays)
-    {
-        if ($streakDays >= 30) {
-            return 3;
-        }
-
-        if ($streakDays >= 7) {
-            return 2;
-        }
-
-        return 1;
     }
 
     private function getNextAchievement($allAchievements, $streakDays)

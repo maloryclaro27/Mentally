@@ -38,4 +38,17 @@ class AdherenciaService
 
         return 'low';
     }
+
+    public function getEvolutionStage($streakDays)
+    {
+        if ($streakDays >= 30) {
+            return 3;
+        }
+
+        if ($streakDays >= 7) {
+            return 2;
+        }
+
+        return 1;
+    }
 }
