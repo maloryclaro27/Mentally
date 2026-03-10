@@ -9,9 +9,6 @@ use App\Models\TomaMedicamento;
 
 class AdherenciaController extends Controller
 {
-    /**
-     * Muestra la vista de adherencia con datos de ejemplo
-     */
     public function index()
     {
         // Datos simulados para desarrollo
@@ -20,15 +17,7 @@ class AdherenciaController extends Controller
 
         $hoy = now()->toDateString();
 
-        $medicamentosActivosEnFecha = function ($fecha) use ($usuario) {
-            return Medicamento::where('user_id', $usuario->id)
-                ->whereDate('fecha_inicio', '<=', $fecha)
-                ->where(function ($query) use ($fecha) {
-                    $query->whereNull('fecha_fin')
-                        ->orWhereDate('fecha_fin', '>=', $fecha);
-                })
-                ->pluck('id');
-        };
+        $medicamentosActivosEnFecha = fn($fecha) => $this->getActiveMedicationIdsByDate($usuario->id, $fecha);
 
         $carbonHoy = now()->startOfDay();
 
@@ -185,15 +174,13 @@ class AdherenciaController extends Controller
             ->latest('id')
             ->first();
 
+        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+
         $medicamentoActivoHoy = Medicamento::where('user_id', Auth::id())
+            ->whereIn('id', $medicamentosActivosHoyIds)
             ->where('nombre', $request->nombre)
             ->where('dosis', $request->dosis)
             ->where('hora_toma', $request->hora_toma)
-            ->whereDate('fecha_inicio', '<=', $hoy)
-            ->where(function ($query) use ($hoy) {
-                $query->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $hoy);
-            })
             ->first();
 
         if ($medicamentoActivoHoy) {
@@ -233,21 +220,15 @@ class AdherenciaController extends Controller
 
         $hoy = now()->toDateString();
 
+        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereDate('fecha_inicio', '<=', $hoy)
-            ->where(function ($query) use ($hoy) {
-                $query->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $hoy);
-            })
+            ->whereIn('id', $medicamentosActivosHoyIds)
             ->firstOrFail();
 
         $duplicado = Medicamento::where('user_id', Auth::id())
-            ->whereDate('fecha_inicio', '<=', $hoy)
-            ->where(function ($query) use ($hoy) {
-                $query->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $hoy);
-            })
+            ->whereIn('id', $medicamentosActivosHoyIds)
             ->where('nombre', $request->nombre)
             ->where('dosis', $request->dosis)
             ->where('hora_toma', $request->hora_toma)
@@ -272,13 +253,11 @@ class AdherenciaController extends Controller
     {
         $hoy = now()->toDateString();
 
+        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereDate('fecha_inicio', '<=', $hoy)
-            ->where(function ($query) use ($hoy) {
-                $query->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $hoy);
-            })
+            ->whereIn('id', $medicamentosActivosHoyIds)
             ->firstOrFail();
 
         $medicamento->update([
@@ -293,13 +272,11 @@ class AdherenciaController extends Controller
     {
         $hoy = now()->toDateString();
 
+        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
-            ->whereDate('fecha_inicio', '<=', $hoy)
-            ->where(function ($query) use ($hoy) {
-                $query->whereNull('fecha_fin')
-                    ->orWhereDate('fecha_fin', '>=', $hoy);
-            })
+            ->whereIn('id', $medicamentosActivosHoyIds)
             ->firstOrFail();
 
         TomaMedicamento::firstOrCreate(
@@ -442,5 +419,16 @@ class AdherenciaController extends Controller
         }
 
         return $allAchievements;
+    }
+
+    private function getActiveMedicationIdsByDate($userId, $fecha)
+    {
+        return Medicamento::where('user_id', $userId)
+            ->whereDate('fecha_inicio', '<=', $fecha)
+            ->where(function ($query) use ($fecha) {
+                $query->whereNull('fecha_fin')
+                    ->orWhereDate('fecha_fin', '>=', $fecha);
+            })
+            ->pluck('id');
     }
 }
