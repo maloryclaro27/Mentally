@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Medicamento;
 use App\Models\TomaMedicamento;
+use App\Services\AdherenciaService;
 
 class AdherenciaController extends Controller
 {
+    protected $adherenciaService;
+
+    public function __construct(AdherenciaService $adherenciaService)
+    {
+        $this->adherenciaService = $adherenciaService;
+    }
     public function index()
     {
         // Datos simulados para desarrollo
@@ -17,7 +24,7 @@ class AdherenciaController extends Controller
 
         $hoy = now()->toDateString();
 
-        $medicamentosActivosEnFecha = fn($fecha) => $this->getActiveMedicationIdsByDate($usuario->id, $fecha);
+        $medicamentosActivosEnFecha = fn($fecha) => $this->adherenciaService->getActiveMedicationIdsByDate($usuario->id, $fecha);
 
         $carbonHoy = now()->startOfDay();
 
@@ -174,7 +181,7 @@ class AdherenciaController extends Controller
             ->latest('id')
             ->first();
 
-        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+        $medicamentosActivosHoyIds = $this->adherenciaService->getActiveMedicationIdsByDate(Auth::id(), $hoy);
 
         $medicamentoActivoHoy = Medicamento::where('user_id', Auth::id())
             ->whereIn('id', $medicamentosActivosHoyIds)
@@ -220,7 +227,7 @@ class AdherenciaController extends Controller
 
         $hoy = now()->toDateString();
 
-        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+        $medicamentosActivosHoyIds = $this->adherenciaService->getActiveMedicationIdsByDate(Auth::id(), $hoy);
 
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
@@ -253,7 +260,7 @@ class AdherenciaController extends Controller
     {
         $hoy = now()->toDateString();
 
-        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+        $medicamentosActivosHoyIds = $this->adherenciaService->getActiveMedicationIdsByDate(Auth::id(), $hoy);
 
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
@@ -272,7 +279,7 @@ class AdherenciaController extends Controller
     {
         $hoy = now()->toDateString();
 
-        $medicamentosActivosHoyIds = $this->getActiveMedicationIdsByDate(Auth::id(), $hoy);
+        $medicamentosActivosHoyIds = $this->adherenciaService->getActiveMedicationIdsByDate(Auth::id(), $hoy);
 
         $medicamento = Medicamento::where('id', $id)
             ->where('user_id', Auth::id())
