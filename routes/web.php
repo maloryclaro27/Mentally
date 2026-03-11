@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestAttemptController;
@@ -10,6 +11,12 @@ use App\Http\Controllers\EspecialistaController;
 use App\Http\Controllers\Auth0Controller;
 use App\Http\Controllers\ChequeosController;
 use App\Http\Controllers\AdherenciaController;
+use App\Http\Controllers\MedicationReminderController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RecordatorioMedicamento;
+use App\Models\Medicamento;
+
 
 
 Route::get('/', function () {
@@ -21,6 +28,7 @@ Route::get('/adherencia', [App\Http\Controllers\AdherenciaController::class, 'in
 Route::get('/hola', function () {
     return view('holaa');
 })->name('home');
+
 
 Route::get('/login/google', [Auth0Controller::class, 'loginGoogle'])->name('login.google');
 Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback');
@@ -96,6 +104,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/adherencia/medicamentos/{id}', [AdherenciaController::class, 'actualizarMedicamento'])
         ->name('adherencia.actualizarMedicamento')
         ->middleware('auth');
+
+    Route::get('/medicamentos/confirmar-toma/{schedule}/{user}', [MedicationReminderController::class, 'confirm'])
+        ->name('medications.confirm-intake')
+        ->middleware('signed');
+
+
     // Views protegidas (si así las quieres)
     Route::get('/listado_psiquiatras', function () {
         return view('listado_psiquiatras');
