@@ -1096,14 +1096,6 @@
                     <p class="access-description">Continúa tu registro personal</p>
                 </a>
 
-                <a href="#" class="access-card">
-                    <div class="access-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="access-name">Mi registro diario</h3>
-                    <p class="access-description">Seguimiento de síntomas y estado de ánimo</p>
-                </a>
-
                 <a href="{{ route('chatbot') }}" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-calendar-plus"></i>
@@ -1113,7 +1105,7 @@
                 </a>
 
 
-                <a href="#" class="access-card">
+                <a href="{{ route('adherencia') }}" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-bell"></i>
                     </div>

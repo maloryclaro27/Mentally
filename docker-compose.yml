@@ -52,6 +52,18 @@ services:
     networks:
       - laravel_net
 
+  chatbot:
+    build:
+      context: ./chatbot/chatbot
+      dockerfile: Dockerfile
+    container_name: mentally_pg_chatbot
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./chatbot/chatbot/app:/app
+    networks:
+      - laravel_net
+
 networks:
   laravel_net:
     driver: bridge

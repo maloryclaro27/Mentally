@@ -16,19 +16,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RecordatorioMedicamento;
 use App\Models\Medicamento;
+use App\Http\Controllers\ChatbotController;
 
 
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
-
-Route::get('/adherencia', [App\Http\Controllers\AdherenciaController::class, 'index'])->name('adherencia');
-
-Route::get('/hola', function () {
-    return view('holaa');
-})->name('home');
-
 
 Route::get('/login/google', [Auth0Controller::class, 'loginGoogle'])->name('login.google');
 Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback');
@@ -90,6 +84,9 @@ Route::middleware(['auth'])->group(function () {
         ->defaults('testType', 'anxiety')
         ->name('test.ansiedad.submit');
 
+    Route::get('/adherencia', [App\Http\Controllers\AdherenciaController::class, 'index'])
+        ->name('adherencia');
+
     Route::post('/adherencia/medicamentos', [AdherenciaController::class, 'guardarMedicamento'])
         ->name('adherencia.guardarMedicamento')
         ->middleware('auth');
@@ -108,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/medicamentos/confirmar-toma/{schedule}/{user}', [MedicationReminderController::class, 'confirm'])
         ->name('medications.confirm-intake')
         ->middleware('signed');
+    Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot.index');
+    Route::post('/chatbot/send', [ChatbotController::class, 'send'])->name('chatbot.send');
 
 
     // Views protegidas (si así las quieres)
@@ -118,10 +117,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/diario_emocional', function () {
         return view('diario_emocional');
     })->name('diario.emocional');
-
-    Route::get('/chatbot', function () {
-        return view('chatbot');
-    })->name('chatbot');
 
     Route::get('/dashboard_paciente', function () {
         return view('dashboard_paciente');
