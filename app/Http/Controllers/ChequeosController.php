@@ -86,6 +86,11 @@ class ChequeosController extends Controller
                 if ($lastInBucket && $lastInBucket->score !== null) {
                     $raw = (int) $lastInBucket->score;
                     $percent = (int) round(($raw / $max) * 100);
+
+                    if (in_array($type, ['depression', 'anxiety'])) {
+                        $percent = 100 - $percent;
+                    }
+
                     $series[$type][$i] = $percent;
                 }
             }

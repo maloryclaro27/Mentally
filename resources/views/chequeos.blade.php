@@ -275,12 +275,48 @@
             color: #27ae60;
         }
 
+        .level-low {
+            background: rgba(231, 76, 60, 0.08);
+            color: #c0392b;
+        }
+
+        .level-moderate {
+            background: rgba(243, 156, 18, 0.14);
+            color: #d68910;
+        }
+
+        .level-mod-severe {
+            background: rgba(230, 126, 34, 0.12);
+            color: #d35400;
+        }
+
+        .level-severe {
+            background: rgba(231, 76, 60, 0.10);
+            color: #e74c3c;
+        }
+
         .test-dates {
             margin: 1rem 0;
             padding: 0.8rem;
             background: rgba(77, 184, 168, 0.05);
             border-radius: 16px;
             font-size: 0.85rem;
+        }
+
+        .mini-chart-wrap {
+            margin-top: 0.8rem;
+        }
+
+        .mini-chart-box {
+            position: relative;
+            width: 100%;
+            height: 60px;
+        }
+
+        .mini-chart-box canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
         }
 
         .date-item {
@@ -728,10 +764,15 @@
                     $status = 'Pendiente';
                     $statusClass = 'status-pending';
                 } else {
-                    if ($nextAt->isPast() || $nextAt->isToday()) {
+                    if ($nextAt->lt($now->copy()->startOfDay())) {
                         $status = 'Vencido';
                         $statusClass = 'status-expired';
-                    } elseif ($now->diffInDays($nextAt) <= 3) {
+                    } elseif (
+                        $now
+                            ->copy()
+                            ->startOfDay()
+                            ->diffInDays($nextAt->copy()->startOfDay()) <= 3
+                    ) {
                         $status = 'Próximo';
                         $statusClass = 'status-pending';
                     } else {
@@ -765,6 +806,40 @@
                 // Nivel: usa el "result" guardado (tu TestAttempt ya lo guarda)
                 $levelText = $attempt?->result ?? '—';
 
+                if ($score !== null) {
+                    if ($type === 'depression') {
+                        if ($score <= 4) {
+                            $levelText = 'Depresión mínima';
+                        } elseif ($score <= 9) {
+                            $levelText = 'Depresión leve';
+                        } elseif ($score <= 14) {
+                            $levelText = 'Depresión moderada';
+                        } elseif ($score <= 19) {
+                            $levelText = 'Depresión moderadamente severa';
+                        } else {
+                            $levelText = 'Depresión severa';
+                        }
+                    } elseif ($type === 'anxiety') {
+                        if ($score <= 4) {
+                            $levelText = 'Ansiedad mínima';
+                        } elseif ($score <= 9) {
+                            $levelText = 'Ansiedad leve';
+                        } elseif ($score <= 14) {
+                            $levelText = 'Ansiedad moderada';
+                        } else {
+                            $levelText = 'Ansiedad grave';
+                        }
+                    } else {
+                        if ($score >= 18) {
+                            $levelText = 'Bienestar general alto';
+                        } elseif ($score >= 14) {
+                            $levelText = 'Bienestar general medio';
+                        } else {
+                            $levelText = 'Bienestar general bajo';
+                        }
+                    }
+                }
+
                 // Para no romper tus clases, asignamos una clase simple según severidad aproximada
                 // (luego lo refinamos si quieres)
                 $levelClass = 'level-high';
@@ -781,9 +856,15 @@
                     } elseif ($score <= 9) {
                         $levelClass = 'level-mild';
                         $levelIcon = 'fa-arrow-down';
-                    } else {
-                        $levelClass = 'level-mild';
+                    } elseif ($score <= 14) {
+                        $levelClass = 'level-moderate';
                         $levelIcon = 'fa-exclamation';
+                    } elseif ($score <= 19) {
+                        $levelClass = 'level-mod-severe';
+                        $levelIcon = 'fa-triangle-exclamation';
+                    } else {
+                        $levelClass = 'level-severe';
+                        $levelIcon = 'fa-triangle-exclamation';
                     }
                 } elseif ($type === 'anxiety') {
                     // GAD-7: 0-4 mínima, 5-9 leve, 10-14 moderada, 15-21 grave
@@ -796,12 +877,15 @@
                     } elseif ($score <= 9) {
                         $levelClass = 'level-mild';
                         $levelIcon = 'fa-arrow-down';
-                    } else {
-                        $levelClass = 'level-mild';
+                    } elseif ($score <= 14) {
+                        $levelClass = 'level-moderate';
                         $levelIcon = 'fa-exclamation';
+                    } else {
+                        $levelClass = 'level-severe';
+                        $levelIcon = 'fa-triangle-exclamation';
                     }
                 } else {
-                    // OMS-5: si score alto lo marcamos high, si bajo mild
+                    // OMS-5
                     if ($score === null) {
                         $levelClass = 'level-mild';
                         $levelIcon = 'fa-minus';
@@ -812,7 +896,7 @@
                         $levelClass = 'level-mild';
                         $levelIcon = 'fa-minus';
                     } else {
-                        $levelClass = 'level-mild';
+                        $levelClass = 'level-low';
                         $levelIcon = 'fa-arrow-down';
                     }
                 }
@@ -859,6 +943,12 @@
             // Conteo de vencidos para el badge rojo del header
             $expiredCount = collect($tests)->filter(fn($t) => $t['status'] === 'Vencido')->count();
 
+            $latestAttemptDate = collect($lastAttempts)
+                ->filter()
+                ->map(fn($attempt) => \Carbon\Carbon::parse($attempt->taken_at))
+                ->sortDesc()
+                ->first();
+
         @endphp
         <!-- HEADER -->
         <div class="checks-header animate-item" style="animation-delay: 0.1s;">
@@ -869,7 +959,12 @@
                 <div class="header-info">
                     <h1>Mis Chequeos de Salud Mental</h1>
                     <p>
-                        <i class="fas fa-calendar"></i> Última actualización: {{ now()->format('d/m/Y') }}
+                        <i class="fas fa-calendar"></i>
+                        Última actualización: {{ now()->format('d/m/Y') }}
+                        @if ($latestAttemptDate)
+                            <span style="margin-left:.35rem;">• Último chequeo:
+                                {{ $latestAttemptDate->format('d/m/Y') }}</span>
+                        @endif
                         <i class="fas fa-clock"></i> Cada test se realiza cada 14 días
                     </p>
                 </div>
@@ -909,15 +1004,18 @@
                         <span>{{ $test['level'] }}</span>
                     </div>
 
-                    @if (!empty($charts['labels']))
-                        <div style="margin-top: .8rem;">
-                            <canvas id="miniChart_{{ $key }}" height="60"></canvas>
+                    @if (
+                        !empty($charts['labels']) &&
+                            collect($charts[$key] ?? [])->filter(fn($v) => $v !== null)->isNotEmpty())
+                        <div class="mini-chart-wrap">
+                            <div class="mini-chart-box">
+                                <canvas id="miniChart_{{ $key }}"></canvas>
+                            </div>
+
                             @php
                                 $dlt = $delta[$key] ?? null;
                                 $deltaText = null;
 
-                                // En depresión/ansiedad: bajar puntaje = mejora.
-                                // En bienestar: subir puntaje = mejora.
                                 if ($dlt !== null) {
                                     $improved = false;
 
@@ -945,8 +1043,13 @@
                                     {{ $deltaText }}
                                 </div>
                             @endif
+                            <div
+                                style="margin-top:.35rem; text-align:center; font-size:.72rem; color: var(--gray); opacity:.8;">
+                                Tendencia de los últimos 6 meses (escala porcentual)
+                            </div>
                         </div>
                     @endif
+
 
                     <div class="test-dates">
                         <div class="date-item">
@@ -955,7 +1058,9 @@
                         </div>
                         <div class="date-item">
                             <span class="date-label"><i class="fas fa-clock"></i> Hace:</span>
-                            <span class="date-value">{{ $test['last_days'] }} días</span>
+                            <span class="date-value">
+                                {{ $test['last_days'] !== null ? $test['last_days'] . ' días' : '—' }}
+                            </span>
                         </div>
                         <div class="date-item">
                             <span class="date-label"><i class="fas fa-hourglass-half"></i> Próximo:</span>
@@ -967,36 +1072,48 @@
                         {{ $test['status'] }}
                     </div>
 
-                    <div class="test-action" style="display:flex; gap:.6rem;">
+                    <div class="test-action" style="display:flex; gap:.6rem; flex-wrap:wrap;">
                         @if ($test['has_attempt'] && $test['route_results'])
                             <a href="{{ $test['route_results'] }}" class="btn-test"
-                                style="background: transparent; color: var(--primary-dark); border: 1.5px solid rgba(77,184,168,.6);">
+                                style="flex:1; background: transparent; color: var(--primary-dark); border: 1.5px solid rgba(77,184,168,.6);">
                                 <i class="fas fa-eye"></i> Ver resultados
                             </a>
                         @endif
 
-                        <div class="test-action" style="display:flex; gap:.6rem; flex-wrap:wrap;">
+                        @if (in_array($test['status'], ['Vencido', 'Próximo', 'Pendiente']))
+                            @php
+                                $actionLabel = match ($test['status']) {
+                                    'Pendiente' => 'Comenzar test',
+                                    'Próximo' => 'Realizar anticipadamente',
+                                    'Vencido' => 'Realizar ahora',
+                                    default => 'Realizar ahora',
+                                };
+                            @endphp
 
-                            {{-- Botón Realizar ahora (si corresponde) --}}
-                            @if (in_array($test['status'], ['Vencido', 'Próximo', 'Pendiente']))
-                                <a href="{{ $test['route_take'] }}" class="btn-test" style="flex:1;">
-                                    <i class="fas fa-play"></i> Realizar ahora
-                                </a>
-                            @endif
-
-                        </div>
+                            <a href="{{ $test['route_take'] }}" class="btn-test" style="flex:1;">
+                                <i class="fas fa-play"></i> {{ $actionLabel }}
+                            </a>
+                        @endif
                     </div>
                 </div>
             @endforeach
         </div>
 
+        @php
+            $hasEvolutionData = collect($charts['wellbeing'] ?? [])
+                ->merge($charts['depression'] ?? [])
+                ->merge($charts['anxiety'] ?? [])
+                ->contains(fn($v) => $v !== null);
+        @endphp
+
         <!-- GRÁFICO DE EVOLUCIÓN COMBINADO -->
-        <div class="chart-card animate-item" style="animation-delay: 0.8s;">
-            <div class="chart-header">
-                <div class="chart-title">
-                    <i class="fas fa-chart-line"></i>
-                    <h2>Evolución comparativa</h2>
-                </div>
+        <div class="chart-header">
+            <div class="chart-title">
+                <i class="fas fa-chart-line"></i>
+                <h2>Evolución comparativa</h2>
+            </div>
+
+            @if ($hasEvolutionData)
                 <div class="chart-legend">
                     <div class="legend-item">
                         <div class="legend-color color-wellbeing"></div>
@@ -1011,47 +1128,56 @@
                         <span>Ansiedad</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="chart-container">
-                <canvas id="evolutionChart" height="320"></canvas>
-            </div>
-
-            <div
-                style="display: flex; justify-content: space-between; margin-top: 1rem; color: var(--gray); font-size: 0.8rem;">
-                <span>Hace 6 meses</span>
-                <span>Hace 3 meses</span>
-                <span>Actual</span>
-            </div>
+            @endif
         </div>
 
-        <!-- ALERTAS IMPORTANTES (DINÁMICAS) -->
-        @php
-            $alerts = [];
+        <div class="chart-container">
+            <canvas id="evolutionChart" height="320"></canvas>
+        </div>
 
-            // Alertas por vencimiento
-            foreach ($tests as $k => $t) {
-                if ($t['status'] === 'Vencido') {
-                    $alerts[] = [
-                        'icon' => 'fa-clock',
-                        'title' => "Test de {$t['name']} vencido",
-                        'text' =>
-                            $t['last_date'] === '—'
-                                ? 'Aún no has realizado este test. Se recomienda hacerlo cada 14 días.'
-                                : "Debes realizarlo cada 14 días. Último chequeo: {$t['last_date']}.",
-                        'action_text' => 'Realizar',
-                        'action_href' => $t['route_take'],
-                        'priority' => 1,
-                    ];
-                }
+        @if ($hasEvolutionData)
+            <div style="margin-top: 1rem; color: var(--gray); font-size: 0.8rem; text-align: center;">
+                Evolución de los últimos 6 meses en cortes quincenales. En esta gráfica, valores más altos indican una
+                evolución más favorable.
+            </div>
+        @endif
+    </div>
+
+    <!-- ALERTAS IMPORTANTES (DINÁMICAS) -->
+    @php
+        $alerts = [];
+
+        // Alertas por estado del test
+        foreach ($tests as $k => $t) {
+            if ($t['status'] === 'Vencido') {
+                $alerts[] = [
+                    'icon' => 'fa-clock',
+                    'title' => "Test de {$t['name']} vencido",
+                    'text' => "Debes realizarlo cada 14 días. Último chequeo: {$t['last_date']}.",
+                    'action_text' => 'Realizar',
+                    'action_href' => $t['route_take'],
+                    'priority' => 1,
+                ];
+            } elseif ($t['status'] === 'Pendiente') {
+                $alerts[] = [
+                    'icon' => 'fa-circle-info',
+                    'title' => "Test de {$t['name']} pendiente",
+                    'text' =>
+                        'Aún no has realizado este test. Te recomendamos completarlo para iniciar tu seguimiento.',
+                    'action_text' => 'Realizar',
+                    'action_href' => $t['route_take'],
+                    'priority' => 5,
+                ];
             }
+        }
 
-            // Alertas clínicas básicas por severidad (usamos score bruto actual)
-            $depScore = $tests['depression']['score'];
-            $anxScore = $tests['anxiety']['score'];
-            $wbScore = $tests['wellbeing']['score'];
+        // Alertas clínicas básicas por severidad (usamos score bruto actual)
+        $depScore = $tests['depression']['score'];
+        $anxScore = $tests['anxiety']['score'];
+        $wbScore = $tests['wellbeing']['score'];
 
-            if ($depScore !== null && $depScore >= 20) {
+        if ($depScore !== null) {
+            if ($depScore >= 20) {
                 $alerts[] = [
                     'icon' => 'fa-triangle-exclamation',
                     'title' => 'Depresión severa (PHQ-9)',
@@ -1060,90 +1186,87 @@
                     'action_href' => route('tests.resultados.show', $lastAttempts['depression']),
                     'priority' => 0,
                 ];
-            } elseif ($depScore !== null && $depScore >= 15) {
+            } elseif ($depScore >= 15) {
                 $alerts[] = [
                     'icon' => 'fa-circle-exclamation',
                     'title' => 'Depresión moderadamente severa (PHQ-9)',
-                    'text' => "Tu puntuación actual es {$depScore}/27. Considera seguimiento profesional.",
+                    'text' => "Tu puntuación actual es {$depScore}/27. Considera seguimiento profesional cercano.",
                     'action_text' => 'Ver resultados',
                     'action_href' => route('tests.resultados.show', $lastAttempts['depression']),
                     'priority' => 2,
                 ];
             }
+        }
 
-            if ($anxScore !== null && $anxScore >= 15) {
-                $alerts[] = [
-                    'icon' => 'fa-triangle-exclamation',
-                    'title' => 'Ansiedad grave (GAD-7)',
-                    'text' => "Tu puntuación actual es {$anxScore}/21. Se recomienda evaluación profesional prioritaria.",
-                    'action_text' => 'Ver resultados',
-                    'action_href' => route('tests.resultados.show', $lastAttempts['anxiety']),
-                    'priority' => 0,
-                ];
-            } elseif ($anxScore !== null && $anxScore >= 10) {
-                $alerts[] = [
-                    'icon' => 'fa-circle-exclamation',
-                    'title' => 'Ansiedad moderada (GAD-7)',
-                    'text' => "Tu puntuación actual es {$anxScore}/21. Considera seguimiento profesional.",
-                    'action_text' => 'Ver resultados',
-                    'action_href' => route('tests.resultados.show', $lastAttempts['anxiety']),
-                    'priority' => 3,
-                ];
-            }
+        if ($anxScore !== null && $anxScore >= 15) {
+            $alerts[] = [
+                'icon' => 'fa-triangle-exclamation',
+                'title' => 'Ansiedad grave (GAD-7)',
+                'text' => "Tu puntuación actual es {$anxScore}/21. Se recomienda evaluación profesional prioritaria.",
+                'action_text' => 'Ver resultados',
+                'action_href' => route('tests.resultados.show', $lastAttempts['anxiety']),
+                'priority' => 0,
+            ];
+        } elseif ($anxScore !== null && $anxScore >= 10) {
+            $alerts[] = [
+                'icon' => 'fa-circle-exclamation',
+                'title' => 'Ansiedad moderada (GAD-7)',
+                'text' => "Tu puntuación actual es {$anxScore}/21. Considera seguimiento profesional.",
+                'action_text' => 'Ver resultados',
+                'action_href' => route('tests.resultados.show', $lastAttempts['anxiety']),
+                'priority' => 3,
+            ];
+        }
 
-            if ($wbScore !== null && $wbScore <= 13) {
-                $alerts[] = [
-                    'icon' => 'fa-heart-crack',
-                    'title' => 'Bienestar bajo (OMS-5)',
-                    'text' => "Tu puntuación actual es {$wbScore}/25. Considera reforzar rutinas de autocuidado y apoyo.",
-                    'action_text' => 'Ver resultados',
-                    'action_href' => route('tests.resultados.show', $lastAttempts['wellbeing']),
-                    'priority' => 4,
-                ];
-            }
+        if ($wbScore !== null && $wbScore <= 13) {
+            $alerts[] = [
+                'icon' => 'fa-heart-crack',
+                'title' => 'Bienestar bajo (OMS-5)',
+                'text' => "Tu puntuación actual es {$wbScore}/25. Considera reforzar rutinas de autocuidado y apoyo.",
+                'action_text' => 'Ver resultados',
+                'action_href' => route('tests.resultados.show', $lastAttempts['wellbeing']),
+                'priority' => 4,
+            ];
+        }
 
-            // Ordenar por prioridad (0 = más importante)
-            usort($alerts, fn($a, $b) => ($a['priority'] ?? 99) <=> ($b['priority'] ?? 99));
-        @endphp
+        // Ordenar por prioridad (0 = más importante)
+        usort($alerts, fn($a, $b) => ($a['priority'] ?? 99) <=> ($b['priority'] ?? 99));
+    @endphp
 
-        @if (count($alerts))
-            <div class="alerts-card animate-item" style="animation-delay: 1.2s;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-exclamation-circle" style="color: var(--danger); font-size: 1.5rem;"></i>
-                    <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark);">Alertas importantes</h3>
-                </div>
-
-                @foreach ($alerts as $al)
-                    <div class="alert-item">
-                        <div class="alert-icon">
-                            <i class="fas {{ $al['icon'] }}"></i>
-                        </div>
-                        <div class="alert-content">
-                            <div class="alert-title">{{ $al['title'] }}</div>
-                            <div class="alert-text">{{ $al['text'] }}</div>
-                        </div>
-
-                        @if (!empty($al['action_href']))
-                            <a href="{{ $al['action_href'] }}"
-                                class="alert-action">{{ $al['action_text'] ?? 'Ver' }}</a>
-                        @endif
-                    </div>
-                @endforeach
+    @if (count($alerts))
+        <div class="alerts-card animate-item" style="animation-delay: 1.2s;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <i class="fas fa-exclamation-circle" style="color: var(--danger); font-size: 1.5rem;"></i>
+                <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark);">Alertas importantes</h3>
             </div>
-        @endif
 
-        <!-- BOTONES DE ACCIÓN -->
-        <div class="action-buttons">
-            <a href="#" class="btn btn-secondary">
-                <i class="fas fa-sync-alt"></i> Actualizar
-            </a>
-            <a href="#" class="btn btn-secondary">
-                <i class="fas fa-file-pdf"></i> Exportar PDF
-            </a>
-            <a href="#" class="btn btn-primary">
-                <i class="fas fa-share-alt"></i> Compartir con especialista
-            </a>
+            @foreach ($alerts as $al)
+                <div class="alert-item">
+                    <div class="alert-icon">
+                        <i class="fas {{ $al['icon'] }}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">{{ $al['title'] }}</div>
+                        <div class="alert-text">{{ $al['text'] }}</div>
+                    </div>
+
+                    @if (!empty($al['action_href']))
+                        <a href="{{ $al['action_href'] }}" class="alert-action">{{ $al['action_text'] ?? 'Ver' }}</a>
+                    @endif
+                </div>
+            @endforeach
         </div>
+    @endif
+
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="action-buttons">
+        <a href="{{ url()->current() }}" class="btn btn-secondary">
+            <i class="fas fa-sync-alt"></i> Actualizar
+        </a>
+        <a href="#" class="btn btn-primary">
+            <i class="fas fa-share-alt"></i> Compartir con especialista
+        </a>
+    </div>
     </div>
 
     <!-- Scripts -->
@@ -1157,12 +1280,15 @@
             const dataD = @json($charts['depression'] ?? []);
             const dataA = @json($charts['anxiety'] ?? []);
 
+            const hasLabels = labels.length > 0;
+            const hasMainData = [...dataW, ...dataD, ...dataA].some(value => value !== null && value !== undefined);
+
             // ===== Gráfica grande =====
             const mainCanvas = document.getElementById('evolutionChart');
-            if (mainCanvas && labels.length) {
+
+            if (mainCanvas && hasLabels && hasMainData) {
                 const ctx = mainCanvas.getContext('2d');
 
-                const labels = @json($charts['labels'] ?? []);
                 const wData = @json($charts['wellbeing'] ?? []);
                 const dData = @json($charts['depression'] ?? []);
                 const aData = @json($charts['anxiety'] ?? []);
@@ -1231,14 +1357,17 @@
                         },
                         scales: {
                             y: {
-                                beginAtZero: true,
-                                suggestedMax: 100,
+                                min: 0,
+                                max: 100,
                                 grid: {
                                     color: 'rgba(77,184,168,0.06)'
                                 },
                                 ticks: {
                                     stepSize: 20,
-                                    color: '#5a7c7a'
+                                    color: '#5a7c7a',
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
                                 }
                             },
                             x: {
@@ -1267,17 +1396,23 @@
             // ===== Mini gráficas =====
             function renderMiniChart(id, data, color) {
                 const c = document.getElementById(id);
-                if (!c || !labels.length) return;
+                if (!c || !hasLabels) return;
+
+                const cleanData = Array.isArray(data) ? data : [];
+                const hasMiniData = cleanData.some(value => value !== null && value !== undefined);
+
+                if (!hasMiniData) return;
 
                 new Chart(c.getContext('2d'), {
                     type: 'line',
                     data: {
                         labels,
                         datasets: [{
-                            data,
+                            data: cleanData,
                             borderColor: color,
                             borderWidth: 2,
                             pointRadius: 0,
+                            pointHitRadius: 0,
                             tension: 0.35,
                             fill: false,
                             spanGaps: true
@@ -1286,12 +1421,19 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        animation: false,
+                        events: [],
                         plugins: {
                             legend: {
                                 display: false
                             },
                             tooltip: {
                                 enabled: false
+                            }
+                        },
+                        elements: {
+                            line: {
+                                capBezierPoints: true
                             }
                         },
                         scales: {
