@@ -1096,7 +1096,7 @@
                     <p class="access-description">Continúa tu registro personal</p>
                 </a>
 
-                <a href="{{ route('chatbot') }}" class="access-card">
+                <a href="{{ route('chatbot.index') }}" class="access-card">
                     <div class="access-icon">
                         <i class="fas fa-calendar-plus"></i>
                     </div>

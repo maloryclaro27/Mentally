@@ -11,7 +11,11 @@ class ChatbotController extends Controller
 {
     public function index()
     {
-        return view('chatbot.index');
+        $messages = \App\Models\ChatMessage::where('user_id', auth()->id())
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('chatbot.index', compact('messages'));
     }
 
     public function send(Request $request)

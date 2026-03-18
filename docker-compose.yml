@@ -61,6 +61,7 @@ services:
       - "5000:5000"
     volumes:
       - ./chatbot/chatbot/app:/app
+      - ./chatbot/chatbot/model:/app/model
     networks:
       - laravel_net
 

@@ -22,3 +22,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+modelo_bert/
+chatbot/chatbot/app/__pycache__/
+*.pyc
+chatbot/chatbot/model/model.safetensors

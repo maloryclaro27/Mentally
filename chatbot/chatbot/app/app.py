@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from chat_service import get_bot_response
 
 app = Flask(__name__)
 
@@ -11,9 +12,11 @@ def get_response():
     data = request.get_json(silent=True) or {}
     message = data.get("message", "")
 
+    result = get_bot_response(message)
+
     return jsonify({
-        "reply": f"Mensaje recibido: {message}",
-        "emotion": "neutral"
+        "reply": result.get("reply", "Sin respuesta"),
+        "emotion": result.get("emotion", "neutral")
     })
 
 if __name__ == "__main__":
