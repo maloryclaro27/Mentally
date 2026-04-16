@@ -17,12 +17,36 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RecordatorioMedicamento;
 use App\Models\Medicamento;
 use App\Http\Controllers\ChatbotController;
+use App\Services\Chatbot\ChatProviderManager;
+use App\Services\Chatbot\EmotionalResponseBuilder;
+use App\Services\Chatbot\EmotionalChatbotService;
+use App\Http\Controllers\DashboardPacienteController;
 
 
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('/test-chat-provider', function (EmotionalChatbotService $chatbot) {
+    $result = $chatbot->respond([
+        'message' => 'voy perdiendo una materia en la universidad',
+        'emotion' => 'ansiedad',
+        'topic' => 'universidad',
+        'previous_messages' => [
+            [
+                'role' => 'user',
+                'content' => 'Me siento muy ansioso hoy',
+            ],
+            [
+                'role' => 'assistant',
+                'content' => 'Gracias por decirlo. Cuando la ansiedad aparece así, el día puede sentirse más pesado. ¿Qué crees que la detonó hoy?',
+            ],
+        ],
+    ]);
+
+    return response()->json($result);
+});
 
 Route::get('/login/google', [Auth0Controller::class, 'loginGoogle'])->name('login.google');
 Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback');
@@ -118,9 +142,8 @@ Route::middleware(['auth'])->group(function () {
         return view('diario_emocional');
     })->name('diario.emocional');
 
-    Route::get('/dashboard_paciente', function () {
-        return view('dashboard_paciente');
-    })->name('dashboard.paciente');
+    Route::get('/dashboard_paciente', [DashboardPacienteController::class, 'index'])
+        ->name('dashboard.paciente');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/chequeos', [ChequeosController::class, 'index'])->name('chequeos');

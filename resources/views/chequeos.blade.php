@@ -1059,7 +1059,7 @@
                         <div class="date-item">
                             <span class="date-label"><i class="fas fa-clock"></i> Hace:</span>
                             <span class="date-value">
-                                {{ $test['last_days'] !== null ? $test['last_days'] . ' días' : '—' }}
+                                {{ $test['last_days'] !== null ? (int) $test['last_days'] . ' días' : '—' }}
                             </span>
                         </div>
                         <div class="date-item">

@@ -566,25 +566,40 @@
             line-height: 1.4;
         }
 
-        /* Mascota de adherencia */
+        /* ========== SECCIÓN DE LA MASCOTA ========== */
         .adherence-pet {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 252, 251, 0.98));
-            border-radius: 25px;
+            border-radius: 30px;
             padding: 2.5rem;
             margin-bottom: 3rem;
-            box-shadow: 0 15px 40px rgba(77, 184, 168, 0.15);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            animation: slideInUp 0.8s ease 0.8s backwards;
+            box-shadow: 0 20px 50px rgba(77, 184, 168, 0.2);
+            border: 1px solid rgba(77, 184, 168, 0.15);
+            animation: slideInUp 0.8s ease 0.2s backwards;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .adherence-pet::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(77, 184, 168, 0.05) 0%, transparent 70%);
+            animation: shimmer 15s infinite linear;
         }
 
         .pet-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
         }
 
         .pet-title {
             font-family: 'Quicksand', sans-serif;
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 700;
             color: #2c5f5d;
             margin-bottom: 0.5rem;
@@ -600,8 +615,11 @@
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             align-items: center;
+            position: relative;
+            z-index: 2;
         }
 
+        /* ========== MASCOTA INTERACTIVA ========== */
         .pet-visual {
             position: relative;
             display: flex;
@@ -610,20 +628,46 @@
         }
 
         .pet-character {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             position: relative;
             margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pet-character:hover {
+            transform: scale(1.02);
         }
 
         .pet-body {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             position: relative;
             overflow: hidden;
             animation: gentleFloat 6s ease-in-out infinite;
+            transition: all 0.5s ease;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pet-character[data-energy="high"] .pet-body {
+            background: linear-gradient(135deg, #4db8a8, #5bc4b3, #6dd0c0);
+            animation: gentleFloat 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+        }
+
+        .pet-character[data-energy="medium"] .pet-body {
+            background: linear-gradient(135deg, #8a9ba8, #9fb0bd, #b5c6d2);
+            animation: gentleFloat 8s ease-in-out infinite;
+            opacity: 0.9;
+        }
+
+        .pet-character[data-energy="low"] .pet-body {
+            background: linear-gradient(135deg, #b8c5d0, #cbd5e0, #dee5ed);
+            animation: gentleFloat 12s ease-in-out infinite;
+            opacity: 0.7;
+            filter: grayscale(0.3);
         }
 
         .pet-eyes {
@@ -632,28 +676,31 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 3rem;
+            gap: 3.5rem;
+            z-index: 3;
         }
 
         .eye {
-            width: 30px;
-            height: 40px;
+            width: 35px;
+            height: 45px;
             background: white;
             border-radius: 50%;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
         .eye::after {
             content: '';
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 15px;
-            height: 15px;
+            top: 12px;
+            left: 12px;
+            width: 18px;
+            height: 18px;
             background: #253138;
             border-radius: 50%;
             animation: blink 5s infinite;
+            transition: all 0.3s ease;
         }
 
         .pet-mouth {
@@ -661,141 +708,170 @@
             top: 60%;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 30px;
+            width: 70px;
+            height: 35px;
             border-bottom: 6px solid #253138;
-            border-radius: 0 0 30px 30px;
+            border-radius: 0 0 35px 35px;
+            transition: all 0.3s ease;
+        }
+
+        .sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.5);
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: 70%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .sparkle:nth-child(4) {
+            top: 30%;
+            right: 25%;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .pet-stats {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             margin-top: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 1.5rem 2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         .stat {
             text-align: center;
+            position: relative;
         }
 
         .stat-value {
             font-family: 'Quicksand', sans-serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: #4db8a8;
             display: block;
+            line-height: 1.2;
+            transition: all 0.3s ease;
         }
 
         .stat-label {
             color: #5a7c7a;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .pet-info {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .streak-info {
-            background: rgba(77, 184, 168, 0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border-left: 4px solid #4db8a8;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9));
+            padding: 2rem;
+            border-radius: 20px;
+            border-left: 6px solid #4db8a8;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .streak-info:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(77, 184, 168, 0.15);
         }
 
         .streak-title {
             font-weight: 600;
             color: #2c5f5d;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
         .streak-description {
             color: #5a7c7a;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
 
         .streak-progress {
-            height: 10px;
-            background: rgba(77, 184, 168, 0.2);
-            border-radius: 5px;
+            height: 12px;
+            background: rgba(77, 184, 168, 0.15);
+            border-radius: 20px;
             overflow: hidden;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            position: relative;
         }
 
         .streak-progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #4db8a8, #5bc4b3);
-            border-radius: 5px;
-            width: 70%;
+            background: linear-gradient(90deg, #4db8a8, #5bc4b3, #6dd0c0);
+            border-radius: 20px;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
 
-        .medication-form {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 2px solid rgba(77, 184, 168, 0.2);
+        .streak-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        .form-title {
-            font-weight: 600;
-            color: #2c5f5d;
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-label {
-            display: block;
-            color: #5a7c7a;
-            margin-bottom: 0.5rem;
+        .streak-message {
             font-size: 0.9rem;
-        }
-
-        .form-select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid rgba(77, 184, 168, 0.3);
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            color: #2c5f5d;
-            transition: all 0.3s ease;
-        }
-
-        .form-select:focus {
-            outline: none;
-            border-color: #4db8a8;
-            box-shadow: 0 0 0 3px rgba(77, 184, 168, 0.1);
-        }
-
-        .form-button {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #4db8a8, #5bc4b3);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .form-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(77, 184, 168, 0.3);
-        }
-
-        .form-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+            color: #5a7c7a;
+            font-style: italic;
         }
 
         /* Artículos y blog */
@@ -1055,12 +1131,47 @@
 
 @section('content')
     <!-- Elementos decorativos flotantes -->
+
+    @php
+        $evolutionStage = $evolutionStage ?? 1;
+        $companionEnergyLevel = $companionEnergyLevel ?? 'low';
+        $companionEnergy = $companionEnergy ?? 0;
+        $streakDays = $streakDays ?? 0;
+        $adherenceRate = $adherenceRate ?? 0;
+
+        $petColors =
+            $petColors ??
+            (object) [
+                'primary' => '#4db8a8',
+                'secondary' => '#5bc4b3',
+            ];
+
+        $motivationalMessage =
+            $motivationalMessage ??
+            (object) [
+                'title' => '¡Vamos paso a paso!',
+                'description' => 'Tu compañero reflejará tu progreso real a medida que registres tus tomas.',
+            ];
+
+        $progressToNextAchievement = $progressToNextAchievement ?? 0;
+
+        $dailyAffirmation = $dailyAffirmation ?? 'Cada paso que das hacia tu bienestar es un acto de amor propio.';
+
+        $allAchievements = $allAchievements ?? collect();
+
+        $nextAchievement = $nextAchievement ?? null;
+
+        $user = $usuario ?? Auth::user();
+    @endphp
+
+
     <div class="floating-circle circle-1"></div>
     <div class="floating-circle circle-2"></div>
 
     <!-- Navbar actualizado -->
     <!-- Navigation -->
     @include('partials.navbar')
+
 
     <!-- Contenido principal -->
     <main class="main-content">
@@ -1112,46 +1223,60 @@
                     <h3 class="access-name">Recordatorios</h3>
                     <p class="access-description">Configura alertas personalizadas</p>
                 </a>
-
-                <a href="#" class="access-card">
-                    <div class="access-icon">
-                        <i class="fas fa-capsules"></i>
-                    </div>
-                    <h3 class="access-name">Medicación</h3>
-                    <p class="access-description">Control de tratamiento farmacológico</p>
-                </a>
             </div>
         </section>
 
-        <!-- Mascota de adherencia -->
+
+
+        <!-- Sección de la Mascota -->
         <section class="adherence-pet">
             <div class="pet-header">
-                <h2 class="pet-title">¡Empieza la racha para cuidar tu salud mental!</h2>
-                <p class="pet-subtitle">Tu compañero de bienestar necesita tu compromiso diario</p>
+                <h2 class="pet-title">✨ Tu Compañero de Bienestar ✨</h2>
+                <p class="pet-subtitle">Él refleja tu compromiso y crece contigo. Cada medicamento tomado es un paso juntos.
+                </p>
             </div>
 
             <div class="pet-container">
                 <div class="pet-visual">
-                    <div class="pet-character">
-                        <div class="pet-body"></div>
+                    <div class="pet-character" id="petCharacter" data-energy="{{ $companionEnergyLevel }}"
+                        data-evolution="{{ $evolutionStage }}">
+                        <div class="sparkles">
+                            <div class="sparkle"></div>
+                            <div class="sparkle"></div>
+                            <div class="sparkle"></div>
+                            <div class="sparkle"></div>
+                        </div>
+
+                        <div class="pet-body"
+                            style="background: linear-gradient(135deg, {{ $petColors->primary }} 0%, {{ $petColors->secondary }} 100%);">
+                        </div>
+
                         <div class="pet-eyes">
                             <div class="eye"></div>
                             <div class="eye"></div>
                         </div>
+
                         <div class="pet-mouth"></div>
+
+                        @if ($evolutionStage >= 2)
+                            <div style="position: absolute; top: 15%; right: 20%; font-size: 1.5rem;">👑</div>
+                        @endif
+                        @if ($evolutionStage >= 3)
+                            <div style="position: absolute; bottom: 20%; left: 15%; font-size: 1.5rem;">⭐</div>
+                        @endif
                     </div>
 
                     <div class="pet-stats">
                         <div class="stat">
-                            <span class="stat-value" id="streakDays">7</span>
+                            <span class="stat-value" id="streakDays">{{ $streakDays }}</span>
                             <span class="stat-label">Días de racha</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-value" id="petMood">85%</span>
-                            <span class="stat-label">Estado del compañero</span>
+                            <span class="stat-value" id="companionEnergy">{{ $companionEnergy }}%</span>
+                            <span class="stat-label">Energía</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-value" id="adherenceRate">92%</span>
+                            <span class="stat-value" id="adherenceRate">{{ $adherenceRate }}%</span>
                             <span class="stat-label">Adherencia</span>
                         </div>
                     </div>
@@ -1159,46 +1284,60 @@
 
                 <div class="pet-info">
                     <div class="streak-info">
-                        <h3 class="streak-title">Tu compromiso hace la diferencia</h3>
+                        <h3 class="streak-title">
+                            <i class="fas fa-heart" style="color: #4db8a8; margin-right: 0.5rem;"></i>
+                            {{ $motivationalMessage->title }}
+                        </h3>
                         <p class="streak-description">
-                            Cada día que registras tu medicación, tu compañero de bienestar se fortalece.
-                            Mantén la racha para verlo crecer y desarrollarse, reflejando tu propio progreso
-                            en el camino hacia una mejor salud mental.
+                            {{ $motivationalMessage->description }}
                         </p>
+
                         <div class="streak-progress">
-                            <div class="streak-progress-bar" id="streakProgress"></div>
+                            <div class="streak-progress-bar" id="streakProgressBar"
+                                style="width: {{ $progressToNextAchievement }}%;"></div>
                         </div>
-                        <small>Progreso hacia el siguiente nivel: 7/10 días</small>
+
+                        <p class="streak-message">
+                            <i class="fas fa-star" style="color: #ffc107; margin-right: 0.5rem;"></i>
+                            <span id="nextAchievementMessage">
+                                @if ($nextAchievement)
+                                    ¡A {{ $nextAchievement->days_remaining }} días de "{{ $nextAchievement->name }}"!
+                                @else
+                                    ¡Has alcanzado todos los logros! Eres increíble.
+                                @endif
+                            </span>
+                        </p>
                     </div>
 
-                    <div class="medication-form">
-                        <h3 class="form-title">Registrar medicación de hoy</h3>
-                        <div class="form-group">
-                            <label class="form-label">Medicamento</label>
-                            <select class="form-select" id="medicationSelect">
-                                <option value="">Selecciona un medicamento</option>
-                                <option value="sertraline">Sertralina 50mg</option>
-                                <option value="escitalopram">Escitalopram 10mg</option>
-                                <option value="bupropion">Bupropion 150mg</option>
-                                <option value="other">Otro medicamento</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Hora de toma</label>
-                            <select class="form-select" id="timeSelect">
-                                <option value="">Selecciona la hora</option>
-                                <option value="morning">Mañana (8:00 AM)</option>
-                                <option value="afternoon">Tarde (2:00 PM)</option>
-                                <option value="evening">Noche (8:00 PM)</option>
-                                <option value="custom">Hora personalizada</option>
-                            </select>
-                        </div>
-                        <button class="form-button" id="registerMedication">
-                            <i class="fas fa-check-circle"></i>
-                            Confirmar toma
-                        </button>
+                    <div
+                        style="background: rgba(255, 255, 255, 0.7); border-radius: 15px; padding: 1rem; border-left: 4px solid #4db8a8;">
+                        <p style="color: #2c5f5d; font-style: italic; margin: 0;">
+                            <i class="fas fa-quote-left" style="color: #4db8a8; margin-right: 0.5rem;"></i>
+                            {{ $dailyAffirmation }}
+                        </p>
                     </div>
                 </div>
+                <a href="{{ route('adherencia') }}"
+                    style="
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        margin-top: 1rem;
+        padding: 0.95rem 1.4rem;
+        background: linear-gradient(135deg, #4db8a8, #5bc4b3);
+        color: white;
+        text-decoration: none;
+        border-radius: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(77, 184, 168, 0.25);
+        transition: all 0.3s ease;
+   "
+                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 24px rgba(77, 184, 168, 0.35)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(77, 184, 168, 0.25)';">
+                    <i class="fas fa-pills"></i>
+                    Registrar toma de hoy
+                </a>
             </div>
         </section>
 
@@ -1535,168 +1674,66 @@
 
         // Mascota de adherencia
         function initAdherencePet() {
-            const medicationButton = document.getElementById('registerMedication');
+            const petCharacter = document.getElementById('petCharacter');
             const streakDaysElement = document.getElementById('streakDays');
-            const petMoodElement = document.getElementById('petMood');
+            const companionEnergyElement = document.getElementById('companionEnergy');
             const adherenceRateElement = document.getElementById('adherenceRate');
-            const streakProgressElement = document.getElementById('streakProgress');
+            const streakProgressBar = document.getElementById('streakProgressBar');
 
-            // Estado inicial
-            let streakDays = 7;
-            let petMood = 85;
-            let adherenceRate = 92;
-            let progress = 70;
-
-            // Actualizar visualización
-            function updatePetStats() {
-                streakDaysElement.textContent = streakDays;
-                petMoodElement.textContent = `${petMood}%`;
-                adherenceRateElement.textContent = `${adherenceRate}%`;
-                streakProgressElement.style.width = `${progress}%`;
+            if (!petCharacter || !streakDaysElement || !companionEnergyElement || !adherenceRateElement) {
+                return;
             }
 
-            // Registrar medicación
-            medicationButton.addEventListener('click', function() {
-                const medicationSelect = document.getElementById('medicationSelect');
-                const timeSelect = document.getElementById('timeSelect');
+            const petBody = document.querySelector('.pet-body');
+            const eyes = document.querySelectorAll('.eye');
+            const mouth = document.querySelector('.pet-mouth');
 
-                // Validación
-                if (!medicationSelect.value || !timeSelect.value) {
-                    showNotification('Por favor, completa todos los campos', 'warning');
-                    return;
+            const streakDays = parseInt(streakDaysElement.textContent) || 0;
+            const companionEnergy = parseInt(companionEnergyElement.textContent.replace('%', '')) || 0;
+            const adherenceRate = parseInt(adherenceRateElement.textContent.replace('%', '')) || 0;
+
+            if (streakProgressBar) {
+                const currentWidth = parseInt(streakProgressBar.style.width) || 0;
+                streakProgressBar.style.width = `${currentWidth}%`;
+            }
+
+            if (companionEnergy >= 80) {
+                petCharacter.setAttribute('data-energy', 'high');
+                if (mouth) {
+                    mouth.style.borderBottom = '8px solid #253138';
+                    mouth.style.borderRadius = '0 0 40px 40px';
                 }
-
-                // Simular carga
-                this.disabled = true;
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
-
-                setTimeout(() => {
-                    // Actualizar estadísticas
-                    streakDays++;
-                    petMood = Math.min(100, petMood + 3);
-                    adherenceRate = Math.min(100, adherenceRate + 2);
-                    progress = Math.min(100, progress + 10);
-
-                    // Si la racha llega a un hito
-                    if (streakDays % 10 === 0) {
-                        showNotification(`¡Felicidades! Has alcanzado ${streakDays} días de racha`,
-                            'success');
-                        animatePetCelebration();
-                    } else {
-                        showNotification('Medicación registrada exitosamente', 'success');
-                        animatePetHappiness();
-                    }
-
-                    // Actualizar interfaz
-                    updatePetStats();
-
-                    // Restaurar botón
-                    this.disabled = false;
-                    this.innerHTML = '<i class="fas fa-check-circle"></i> Confirmar toma';
-
-                    // Resetear formulario
-                    medicationSelect.value = '';
-                    timeSelect.value = '';
-
-                }, 1500);
-            });
-
-            // Animaciones de la mascota
-            function animatePetHappiness() {
-                const petBody = document.querySelector('.pet-body');
-                const eyes = document.querySelectorAll('.eye');
-                const mouth = document.querySelector('.pet-mouth');
-
-                // Efecto de felicidad
-                petBody.style.animation = 'none';
-                petBody.style.transform = 'scale(1.05)';
-
-                // Ojos felices
-                eyes.forEach(eye => {
-                    eye.style.borderRadius = '50% 50% 50% 50%';
-                });
-
-                // Sonrisa
-                mouth.style.borderBottom = '8px solid #253138';
-                mouth.style.borderRadius = '0 0 40px 40px';
-
-                setTimeout(() => {
-                    petBody.style.animation = 'gentleFloat 6s ease-in-out infinite';
-                    petBody.style.transform = '';
-
-                    eyes.forEach(eye => {
-                        eye.style.borderRadius = '';
-                    });
-
+            } else if (companionEnergy >= 40) {
+                petCharacter.setAttribute('data-energy', 'medium');
+                if (mouth) {
                     mouth.style.borderBottom = '6px solid #253138';
                     mouth.style.borderRadius = '0 0 30px 30px';
-                }, 1000);
-            }
-
-            function animatePetCelebration() {
-                const petBody = document.querySelector('.pet-body');
-
-                // Efecto especial de celebración
-                petBody.style.animation = 'none';
-                petBody.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-
-                // Crear partículas de celebración
-                for (let i = 0; i < 20; i++) {
-                    createCelebrationParticle();
                 }
-
-                setTimeout(() => {
-                    petBody.style.animation = 'gentleFloat 6s ease-in-out infinite';
-                    petBody.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                }, 2000);
-            }
-
-            function createCelebrationParticle() {
-                const particle = document.createElement('div');
-                particle.style.cssText = `
-                    position: absolute;
-                    width: 8px;
-                    height: 8px;
-                    background: linear-gradient(135deg, #FFD700, #FFA500);
-                    border-radius: 50%;
-                    top: 150px;
-                    left: 150px;
-                    pointer-events: none;
-                    z-index: 10;
-                `;
-
-                document.querySelector('.pet-character').appendChild(particle);
-
-                // Animación de partícula
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = 2 + Math.random() * 3;
-                const vx = Math.cos(angle) * velocity;
-                const vy = Math.sin(angle) * velocity;
-
-                let x = 150;
-                let y = 150;
-                let opacity = 1;
-
-                function animateParticle() {
-                    x += vx;
-                    y += vy;
-                    opacity -= 0.02;
-
-                    particle.style.transform = `translate(${x - 150}px, ${y - 150}px)`;
-                    particle.style.opacity = opacity;
-
-                    if (opacity > 0) {
-                        requestAnimationFrame(animateParticle);
-                    } else {
-                        particle.remove();
-                    }
+            } else {
+                petCharacter.setAttribute('data-energy', 'low');
+                if (mouth) {
+                    mouth.style.borderBottom = '4px solid #253138';
+                    mouth.style.borderRadius = '0 0 20px 20px';
                 }
-
-                animateParticle();
             }
 
-            // Inicializar estadísticas
-            updatePetStats();
+            petCharacter.addEventListener('mouseenter', function() {
+                if (petBody) {
+                    petBody.style.transform = 'scale(1.03)';
+                }
+                eyes.forEach(eye => {
+                    eye.style.transform = 'scale(1.05)';
+                });
+            });
+
+            petCharacter.addEventListener('mouseleave', function() {
+                if (petBody) {
+                    petBody.style.transform = '';
+                }
+                eyes.forEach(eye => {
+                    eye.style.transform = '';
+                });
+            });
         }
 
         // Configurar otras interacciones

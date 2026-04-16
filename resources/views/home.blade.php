@@ -2207,7 +2207,7 @@
             <p class="hero-subtitle">Un espacio digital para comprenderte, cuidarte y fortalecer tu bienestar emocional.
             </p>
             @auth
-                <a href="{{ route('chatbot') }}" class="cta-button" id="ctaBtn">
+                <a href="{{ route('chatbot.index') }}" class="cta-button" id="ctaBtn">
                     Habla con Cereon
                 </a>
             @else

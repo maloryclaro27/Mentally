@@ -18,15 +18,21 @@ class AdherenciaController extends Controller
     }
     public function index()
     {
-        // Datos simulados para desarrollo
         $usuario = Auth::user();
-        $evolutionStage = 1;
 
+        $petData = $this->getPetData($usuario);
+
+        return view('adherencia', array_merge($petData, [
+            'usuario' => $usuario,
+        ]));
+    }
+
+    private function getPetData($usuario)
+    {
         $hoy = now()->toDateString();
 
         $medicamentosActivosEnFecha = fn($fecha) => $this->adherenciaService->getActiveMedicationIdsByDate($usuario->id, $fecha);
 
-        $carbonHoy = now()->startOfDay();
         $medicamentosActivosHoyIds = $medicamentosActivosEnFecha($hoy);
 
         $tomasHoyIds = TomaMedicamento::where('user_id', $usuario->id)
@@ -50,37 +56,23 @@ class AdherenciaController extends Controller
 
         $totalMedicamentosActivos = $medicamentos->count();
 
-        $medicamentosTomadosHoy = $tomasHoyIds->unique()->count();
-
         $adherenceRate = $this->adherenciaService->calculateAdherenceRateLast7Days($usuario->id, $hoy);
         $companionEnergy = $this->adherenciaService->getCompanionEnergy($totalMedicamentosActivos, $adherenceRate);
         $companionEnergyLevel = $this->adherenciaService->getCompanionEnergyLevel($totalMedicamentosActivos, $companionEnergy);
-        // Datos de la mascota
         $streakDays = $this->adherenciaService->calculateStreakDays($usuario->id, $hoy);
 
-        // Mensaje motivacional
         $motivationalMessage = $this->adherenciaService->getMotivationalMessage($totalMedicamentosActivos, $adherenceRate);
-
-        // Progreso
         $dailyAffirmation = $this->adherenciaService->getDailyAffirmation();
 
-        // Logros
         $allAchievements = $this->getAchievements();
-
-        // Logros del usuario (simulados)
         $allAchievements = $this->adherenciaService->markUnlockedAchievements($allAchievements, $streakDays);
 
-
-        // Próximo logro
         $nextAchievement = $this->adherenciaService->getNextAchievement($allAchievements, $streakDays);
         $evolutionStage = $this->adherenciaService->getEvolutionStage($streakDays);
-
         $petColors = $this->adherenciaService->getPetColors($evolutionStage);
-
         $progressToNextAchievement = $this->adherenciaService->getProgressToNextAchievement($nextAchievement, $streakDays);
 
-        return view('adherencia', compact(
-            'usuario',
+        return compact(
             'medicamentos',
             'evolutionStage',
             'companionEnergyLevel',
@@ -93,7 +85,7 @@ class AdherenciaController extends Controller
             'dailyAffirmation',
             'allAchievements',
             'nextAchievement'
-        ));
+        );
     }
 
     // Nota de diseño:
@@ -102,6 +94,8 @@ class AdherenciaController extends Controller
     // cerrar un medicamento y volver a crearlo o reactivarlo después.
     // La protección única a nivel BD sí existe en tomas_medicamentos
     // mediante (medicamento_id, fecha_toma), evitando duplicados de toma por día.
+
+    
 
     public function guardarMedicamento(Request $request)
     {
@@ -255,7 +249,4 @@ class AdherenciaController extends Controller
             (object) ['id' => 7, 'name' => 'Leyenda', 'description' => '365 días de racha', 'days_required' => 365, 'icon_html' => '🌟'],
         ]);
     }
-
-    
-
 }
