@@ -1354,7 +1354,7 @@
                                     Identifica patrones, celebra tus progresos y desarrolla mayor consciencia emocional
                                     con análisis automáticos y reflexiones personalizadas.
                                 </p>
-                                <a href="#" class="slide-button">
+                                <a href="{{ route('diario.emocional') }}" class="slide-button">
                                     <i class="fas fa-book-open"></i>
                                     Abrir mi diario
                                 </a>
@@ -1363,30 +1363,6 @@
                                 <div class="slide-visual">
                                     <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                                         alt="Diario Emocional">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: Registro de sintomatología -->
-                    <div class="carousel-slide">
-                        <div class="slide-content">
-                            <div class="slide-text">
-                                <h2 class="slide-title">Registro de Sintomatología</h2>
-                                <p class="slide-description">
-                                    Monitorea tu bienestar con nuestro sistema de seguimiento diario.
-                                    Visualiza tu progreso, identifica desencadenantes y comparte informes
-                                    detallados con tu especialista para un tratamiento más personalizado.
-                                </p>
-                                <a href="#" class="slide-button">
-                                    <i class="fas fa-chart-line"></i>
-                                    Registrar síntomas
-                                </a>
-                            </div>
-                            <div class="slide-image">
-                                <div class="slide-visual">
-                                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                        alt="Registro de síntomas">
                                 </div>
                             </div>
                         </div>
@@ -1402,7 +1378,7 @@
                                     ofrecerte recursos personalizados y guiarte en ejercicios de mindfulness.
                                     Cereon aprende de tus conversaciones para brindarte apoyo cada vez más relevante.
                                 </p>
-                                <a href="#" class="slide-button">
+                                <a href="{{ route('chatbot.index') }}" class="slide-button">
                                     <i class="fas fa-comments"></i>
                                     Conversar con Cereon
                                 </a>
@@ -1426,7 +1402,7 @@
                                     de recordatorios inteligentes y seguimiento de adherencia te ayuda a
                                     mantener la consistencia en tu tratamiento médico.
                                 </p>
-                                <a href="#" class="slide-button">
+                                <a href="{{ route('adherencia') }}" class="slide-button">
                                     <i class="fas fa-pills"></i>
                                     Gestionar medicación
                                 </a>

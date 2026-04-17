@@ -16,10 +16,16 @@
         <li class="nav-item">
             <a href="#" class="nav-link">Servicios</a>
             <div class="dropdown-menu nav-dropdown services-dropdown">
+                <a href="#" class="dropdown-item require-auth" data-url="/chequeos">
+                    Mis chequeos
+                </a>
                 <a href="{{ route('diario.emocional') }}" class="dropdown-item require-auth"
                     data-url="/diario_emocional">Diario Emocional</a>
                 <a href="#" class="dropdown-item require-auth" data-url="/chatbot">
                     Chatbot: Habla con Cereon 🧠
+                </a>
+                <a href="#" class="dropdown-item require-auth" data-url="/adherencia">
+                    Recordatorios
                 </a>
                 <div class="dropdown-submenu">
                     <a href="#" class="dropdown-item dropdown-toggle">Blog</a>
