@@ -22,6 +22,7 @@ use App\Services\Chatbot\EmotionalResponseBuilder;
 use App\Services\Chatbot\EmotionalChatbotService;
 use App\Http\Controllers\DashboardPacienteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EspecialistaPacienteController;
 
 
 
@@ -70,6 +71,9 @@ Route::get('/registro_especialista', [EspecialistaController::class, 'showRegist
 Route::post('/registro_especialista', [EspecialistaController::class, 'register'])
     ->name('registro.especialista.post');
 
+Route::post('/especialista/pacientes/vincular', [EspecialistaPacienteController::class, 'vincular'])
+    ->middleware(['auth'])
+    ->name('especialista.pacientes.vincular');
 
 // Protegidas
 // Protegidas (general: paciente y cualquiera autenticado)
@@ -190,6 +194,7 @@ Route::prefix('especialista')
             Route::get('/dashboard', [EspecialistaController::class, 'dashboard'])
                 ->name('especialista.dashboard');
 
-            // futuras rutas...
+            Route::get('/pacientes/{paciente}/chequeos', [ChequeosController::class, 'index'])
+                ->name('especialista.pacientes.chequeos');
         });
     });

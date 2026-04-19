@@ -1,7 +1,7 @@
 <nav class="specialist-nav">
     <div class="logo-section">
         <div class="logo-placeholder">
-            <img src="{{ asset('logo_pg.png') }}" alt="Logo Mentally">
+            <img src="{{ asset('logo_pg.png') }}" alt="Logo Mentally" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <span class="brand-name">Mentally</span>
         <span class="specialist-badge">Especialistas</span>
@@ -11,14 +11,12 @@
         <li class="nav-item">
             <a href="{{ route('especialista.dashboard') }}"
                 class="nav-link {{ request()->routeIs('especialista.dashboard') ? 'active' : '' }}">
-                <i class="fas fa-chart-pie"></i>
                 Vista General
             </a>
         </li>
 
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fas fa-users"></i>
                 Mis Pacientes
                 <span class="nav-badge">24</span>
             </a>
@@ -26,7 +24,6 @@
 
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fas fa-pills"></i>
                 Seguimiento Farmacológico
             </a>
             <div class="dropdown-menu nav-dropdown">
@@ -52,7 +49,6 @@
 
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fas fa-file-alt"></i>
                 Reportes
             </a>
             <div class="dropdown-menu nav-dropdown">
@@ -73,7 +69,6 @@
 
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <i class="fas fa-book-open"></i>
                 Recursos
             </a>
             <div class="dropdown-menu nav-dropdown">
@@ -141,17 +136,8 @@
 
 <style>
     /* Estilos específicos para navbar de especialista */
-    .specialist-nav {
-        background: linear-gradient(135deg, rgba(44, 95, 93, 0.98), rgba(30, 74, 71, 0.98));
-        backdrop-filter: blur(12px);
-    }
-
-    .specialist-nav .brand-name {
-        color: white;
-    }
-
     .specialist-badge {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(77, 184, 168, 0.1);
         color: #4db8a8;
         padding: 0.3rem 1rem;
         border-radius: 20px;
@@ -161,20 +147,11 @@
         border: 1px solid rgba(77, 184, 168, 0.3);
     }
 
-    .specialist-nav .nav-link {
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    .specialist-nav .nav-link:hover {
-        color: white;
-    }
-
-    .specialist-nav .nav-link.active {
+    .nav-link.active {
         color: #4db8a8;
     }
 
-    .specialist-nav .nav-link.active::after {
-        background: #4db8a8;
+    .nav-link.active::after {
         width: 100%;
     }
 
@@ -202,15 +179,16 @@
     }
 
     .specialist-role {
-        color: #4db8a8;
-        font-size: 0.8rem;
+        color: #5a7c7a;
+        font-size: 0.9rem;
         display: flex;
         align-items: center;
         gap: 0.2rem;
     }
 
     .specialist-role i {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        color: #4db8a8;
     }
 
     .dropdown-divider {

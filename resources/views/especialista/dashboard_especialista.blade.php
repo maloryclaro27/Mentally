@@ -1025,6 +1025,89 @@
             </div>
         </div>
 
+        @if (session('success'))
+            <div style="background:#d1fae5; color:#065f46; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())x
+            <div style="background:#fee2e2; color:#991b1b; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
+                <ul style="margin:0; padding-left:18px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div
+            style="background: rgba(255,255,255,0.95); border-radius:20px; padding:1.5rem; margin-bottom:2rem; box-shadow: var(--shadow); border:1px solid rgba(77, 184, 168, 0.1);">
+            <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom:1rem;">
+                <i class="fas fa-link" style="color: var(--primary);"></i>
+                Vincular paciente manualmente
+            </h3>
+
+            <form method="POST" action="{{ route('especialista.pacientes.vincular') }}"
+                style="display:flex; gap:1rem; align-items:end; flex-wrap:wrap;">
+                @csrf
+
+                <div style="min-width:220px; flex:1;">
+                    <label for="paciente_id" class="form-label">ID del paciente</label>
+                    <input type="number" name="paciente_id" id="paciente_id" class="form-input" required
+                        placeholder="Ej: 15">
+                </div>
+
+                <div>
+                    <button type="submit" class="priority-btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Vincular paciente
+                    </button>
+                </div>
+            </form>
+        </div>
+        @if (session('success'))
+            <div style="background:#d1fae5; color:#065f46; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div style="background:#fee2e2; color:#991b1b; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
+                <ul style="margin:0; padding-left:18px;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div
+            style="background: rgba(255,255,255,0.95); border-radius:20px; padding:1.5rem; margin-bottom:2rem; box-shadow: var(--shadow); border:1px solid rgba(77, 184, 168, 0.1);">
+            <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom:1rem;">
+                <i class="fas fa-link" style="color: var(--primary);"></i>
+                Vincular paciente manualmente
+            </h3>
+
+            <form method="POST" action="{{ route('especialista.pacientes.vincular') }}"
+                style="display:flex; gap:1rem; align-items:end; flex-wrap:wrap;">
+                @csrf
+
+                <div style="min-width:220px; flex:1;">
+                    <label for="paciente_id" class="form-label">ID del paciente</label>
+                    <input type="number" name="paciente_id" id="paciente_id" class="form-input" required
+                        placeholder="Ej: 15">
+                </div>
+
+                <div>
+                    <button type="submit" class="priority-btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Vincular paciente
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <!-- Panel de métricas clave -->
         <div class="metrics-grid">
             <div class="metric-card">
@@ -1032,7 +1115,7 @@
                     <div class="metric-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="metric-value">42</div>
+                    <div class="metric-value">{{ $totalPacientes ?? 0 }}</div>
                 </div>
                 <div class="metric-label">Pacientes Activos</div>
                 <div class="metric-change change-positive">
@@ -1046,7 +1129,7 @@
                     <div class="metric-icon">
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
-                    <div class="metric-value">8</div>
+                    <div class="metric-value">{{ $alertasActivas ?? 0 }}</div>
                 </div>
                 <div class="metric-label">Alertas Activas</div>
                 <div class="metric-change change-negative">
@@ -1060,12 +1143,12 @@
                     <div class="metric-icon">
                         <i class="fas fa-pills"></i>
                     </div>
-                    <div class="metric-value">23</div>
+                    <div class="metric-value">{{ $prescripcionesActivas ?? 0 }}</div>
                 </div>
                 <div class="metric-label">Prescripciones Activas</div>
                 <div class="metric-change change-positive">
                     <i class="fas fa-check-circle"></i>
-                    76% adherencia
+                    {{ $adherenciaGlobal ?? 0 }}% adherencia
                 </div>
             </div>
 
@@ -1074,7 +1157,7 @@
                     <div class="metric-icon">
                         <i class="fas fa-file-alt"></i>
                     </div>
-                    <div class="metric-value">15</div>
+                    <div class="metric-value">{{ $testsEsteMes ?? 0 }}</div>
                 </div>
                 <div class="metric-label">Tests este mes</div>
                 <div class="metric-change change-positive">
@@ -1098,636 +1181,611 @@
             </div>
 
             <div class="priority-list">
-                <div class="priority-item severe">
-                    <div class="priority-avatar">MG</div>
-                    <div class="priority-info">
-                        <div class="priority-name">
-                            María González
-                            <span class="priority-badge">Riesgo alto</span>
+                @forelse($pacientesPrioritarios as $paciente)
+                    <div class="priority-item {{ $paciente->nivel_alerta === 'alto' ? 'severe' : 'moderate' }}">
+                        <div class="priority-avatar">
+                            {{ strtoupper(substr($paciente->name, 0, 1)) }}
                         </div>
-                        <div class="priority-details">
-                            <span><i class="fas fa-chart-line"></i> PHQ-9: 22 (Grave)</span>
-                            <span><i class="fas fa-clock"></i> Último test: Hoy</span>
-                            <span><i class="fas fa-pills"></i> Adherencia: 40%</span>
-                        </div>
-                    </div>
-                    <div class="priority-actions">
-                        <button class="priority-btn btn-primary" onclick="showPatientDetails(1)">
-                            <i class="fas fa-eye"></i>
-                            Ver
-                        </button>
-                        <button class="priority-btn btn-outline" onclick="contactPatient(1)">
-                            <i class="fas fa-envelope"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="priority-item moderate">
-                    <div class="priority-avatar">CR</div>
-                    <div class="priority-info">
-                        <div class="priority-name">
-                            Carlos Rodríguez
-                            <span class="priority-badge" style="background: rgba(255,152,0,0.1); color:#ff9800;">Riesgo
-                                moderado</span>
-                        </div>
-                        <div class="priority-details">
-                            <span><i class="fas fa-chart-line"></i> GAD-7: 18 (Severo)</span>
-                            <span><i class="fas fa-clock"></i> Sin registro: 3 días</span>
-                            <span><i class="fas fa-pills"></i> Adherencia: 65%</span>
-                        </div>
-                    </div>
-                    <div class="priority-actions">
-                        <button class="priority-btn btn-primary" onclick="showPatientDetails(2)">
-                            <i class="fas fa-eye"></i>
-                            Ver
-                        </button>
-                        <button class="priority-btn btn-outline" onclick="contactPatient(2)">
-                            <i class="fas fa-envelope"></i>
-                        </button>
-                    </div>
-                </div>
+                        <div class="priority-info">
+                            <div class="priority-name">
+                                {{ $paciente->name }}
 
-                <div class="priority-item moderate">
-                    <div class="priority-avatar">LM</div>
-                    <div class="priority-info">
-                        <div class="priority-name">
-                            Laura Mendoza
-                            <span class="priority-badge"
-                                style="background: rgba(33,150,243,0.1); color:#2196f3;">Seguimiento</span>
-                        </div>
-                        <div class="priority-details">
-                            <span><i class="fas fa-chart-line"></i> PSS: 25 (Alto estrés)</span>
-                            <span><i class="fas fa-clock"></i> Último registro: Ayer</span>
-                            <span><i class="fas fa-pills"></i> Adherencia: 82%</span>
-                        </div>
-                    </div>
-                    <div class="priority-actions">
-                        <button class="priority-btn btn-primary" onclick="showPatientDetails(3)">
-                            <i class="fas fa-eye"></i>
-                            Ver
-                        </button>
-                        <button class="priority-btn btn-outline" onclick="contactPatient(3)">
-                            <i class="fas fa-envelope"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                @if ($paciente->nivel_alerta === 'alto')
+                                    <span class="priority-badge">Riesgo alto</span>
+                                @else
+                                    <span class="priority-badge" style="background: rgba(255,152,0,0.1); color:#ff9800;">
+                                        Atención prioritaria
+                                    </span>
+                                @endif
+                            </div>
 
-        <!-- Gráficos de evolución -->
-        <div class="charts-grid">
-            <!-- Gráfico PHQ-9 -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3 class="chart-title">
-                        <i class="fas fa-chart-line"></i>
-                        Evolución PHQ-9 (Depresión)
-                    </h3>
-                    <span class="chart-period">Últimos 30 días</span>
-                </div>
-                <div class="chart-container">
-                    <canvas id="phq9Chart"></canvas>
-                </div>
+                            <div class="priority-details">
+                                <span><i class="fas fa-exclamation-circle"></i> {{ $paciente->motivo_alerta }}</span>
+                                <span><i class="fas fa-user"></i> ID: {{ $paciente->id }}</span>
+                                <span><i class="fas fa-envelope"></i> {{ $paciente->email }}</span>
+                            </div>
+                        </div>
+
+                        <div class="priority-actions">
+                            <a href="{{ route('especialista.pacientes.chequeos', $paciente->id) }}"
+                                class="priority-btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                                Ver
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="priority-item">
+                        <div class="priority-info">
+                            <div class="priority-name">No hay pacientes con alertas activas</div>
+                            <div class="priority-details">
+                                <span><i class="fas fa-check-circle"></i> No se detectaron pacientes prioritarios por
+                                    ahora</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
             </div>
 
-            <!-- Gráfico GAD-7 -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3 class="chart-title">
-                        <i class="fas fa-chart-line"></i>
-                        Evolución GAD-7 (Ansiedad)
-                    </h3>
-                    <span class="chart-period">Últimos 30 días</span>
+            <!-- Gráficos de evolución -->
+            <div class="charts-grid">
+                <!-- Gráfico PHQ-9 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">
+                            <i class="fas fa-chart-line"></i>
+                            Evolución PHQ-9 (Depresión)
+                        </h3>
+                        <span class="chart-period">Últimos 30 días</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="phq9Chart"></canvas>
+                    </div>
                 </div>
-                <div class="chart-container">
-                    <canvas id="gad7Chart"></canvas>
-                </div>
-            </div>
-        </div>
 
-        
-        <!-- Sistema de alertas tempranas -->
-        <div class="alerts-grid">
-            <div class="alert-card">
-                <div class="alert-header">
-                    <div class="alert-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
+                <!-- Gráfico GAD-7 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">
+                            <i class="fas fa-chart-line"></i>
+                            Evolución GAD-7 (Ansiedad)
+                        </h3>
+                        <span class="chart-period">Últimos 30 días</span>
                     </div>
-                    <div>
-                        <h3 class="alert-title">Alertas de Deterioro</h3>
-                        <div class="alert-count">3 pacientes requieren atención</div>
-                    </div>
-                </div>
-                <div class="alert-list">
-                    <div class="alert-item critical">
-                        <div class="alert-avatar">MG</div>
-                        <div class="alert-info">
-                            <div class="alert-name">María González</div>
-                            <div class="alert-message">Empeoramiento rápido: PHQ-9 aumentó 8 puntos en 7 días</div>
-                            <div class="alert-time">Hace 2 horas</div>
-                        </div>
-                    </div>
-                    <div class="alert-item warning">
-                        <div class="alert-avatar">CR</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Carlos Rodríguez</div>
-                            <div class="alert-message">3 días sin registrar medicación</div>
-                            <div class="alert-time">Hace 5 horas</div>
-                        </div>
-                    </div>
-                    <div class="alert-item info">
-                        <div class="alert-avatar">LM</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Laura Mendoza</div>
-                            <div class="alert-message">Patrón de insomnio detectado en diario emocional</div>
-                            <div class="alert-time">Ayer</div>
-                        </div>
+                    <div class="chart-container">
+                        <canvas id="gad7Chart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="alert-card">
-                <div class="alert-header">
-                    <div class="alert-icon"
-                        style="background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(76,175,80,0.2)); color:#4caf50;">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div>
-                        <h3 class="alert-title">Alertas de Adherencia</h3>
-                        <div class="alert-count">8 pacientes con baja adherencia</div>
-                    </div>
-                </div>
-                <div class="alert-list">
-                    <div class="alert-item warning">
-                        <div class="alert-avatar">JP</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Juan Pérez</div>
-                            <div class="alert-message">Adherencia: 45% - Riesgo de abandono</div>
-                            <div class="alert-time">Hace 1 día</div>
-                        </div>
-                    </div>
-                    <div class="alert-item warning">
-                        <div class="alert-avatar">AS</div>
-                        <div class="alert-info">
-                            <div class="alert-name">Ana Sánchez</div>
-                            <div class="alert-message">Adherencia: 52% - 5 dosis perdidas esta semana</div>
-                            <div class="alert-time">Hace 2 días</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Sistema de notas clínicas -->
-        <div class="notes-section">
-            <h2 class="section-title">
-                <i class="fas fa-notes-medical"></i>
-                Notas Clínicas
-            </h2>
-
-            <div class="notes-container">
-                <div class="notes-list">
-                    <div class="note-item">
-                        <div class="note-header">
-                            <span class="note-patient">
-                                <i class="fas fa-user-circle"></i>
-                                María González
-                            </span>
-                            <span class="note-date">15/02/2024</span>
+            <!-- Sistema de alertas tempranas -->
+            <div class="alerts-grid">
+                <div class="alert-card">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
                         </div>
-                        <div class="note-content">
-                            Ajuste de dosis: Sertralina de 50mg a 100mg. Paciente reporta mejoría en estado de ánimo y
-                            disminución de pensamientos intrusivos.
-                        </div>
-                        <div class="note-author">
-                            <i class="fas fa-stethoscope"></i>
-                            Dra. Ana López - Psiquiatra
+                        <div>
+                            <h3 class="alert-title">Alertas de Deterioro</h3>
+                            <div class="alert-count">3 pacientes requieren atención</div>
                         </div>
                     </div>
-
-                    <div class="note-item">
-                        <div class="note-header">
-                            <span class="note-patient">
-                                <i class="fas fa-user-circle"></i>
-                                Carlos Rodríguez
-                            </span>
-                            <span class="note-date">12/02/2024</span>
+                    <div class="alert-list">
+                        <div class="alert-item critical">
+                            <div class="alert-avatar">MG</div>
+                            <div class="alert-info">
+                                <div class="alert-name">María González</div>
+                                <div class="alert-message">Empeoramiento rápido: PHQ-9 aumentó 8 puntos en 7 días</div>
+                                <div class="alert-time">Hace 2 horas</div>
+                            </div>
                         </div>
-                        <div class="note-content">
-                            Paciente refiere aumento de ansiedad en situaciones sociales. Se recomienda terapia
-                            cognitivo-conductual y se ajusta horario de medicación.
+                        <div class="alert-item warning">
+                            <div class="alert-avatar">CR</div>
+                            <div class="alert-info">
+                                <div class="alert-name">Carlos Rodríguez</div>
+                                <div class="alert-message">3 días sin registrar medicación</div>
+                                <div class="alert-time">Hace 5 horas</div>
+                            </div>
                         </div>
-                        <div class="note-author">
-                            <i class="fas fa-stethoscope"></i>
-                            Dra. Ana López - Psiquiatra
-                        </div>
-                    </div>
-
-                    <div class="note-item">
-                        <div class="note-header">
-                            <span class="note-patient">
-                                <i class="fas fa-user-circle"></i>
-                                Laura Mendoza
-                            </span>
-                            <span class="note-date">10/02/2024</span>
-                        </div>
-                        <div class="note-content">
-                            Buen progreso en adherencia. Reporta mejor calidad de sueño. Continuar con plan actual y próximo
-                            control en 3 semanas.
-                        </div>
-                        <div class="note-author">
-                            <i class="fas fa-stethoscope"></i>
-                            Dra. Ana López - Psiquiatra
+                        <div class="alert-item info">
+                            <div class="alert-avatar">LM</div>
+                            <div class="alert-info">
+                                <div class="alert-name">Laura Mendoza</div>
+                                <div class="alert-message">Patrón de insomnio detectado en diario emocional</div>
+                                <div class="alert-time">Ayer</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="note-form">
-                    <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom: 1.5rem;">
-                        <i class="fas fa-plus-circle" style="color: var(--primary);"></i>
-                        Nueva Nota Clínica
-                    </h3>
-
-                    <div class="form-group">
-                        <label class="form-label">Paciente</label>
-                        <select class="form-select">
-                            <option value="">Seleccionar paciente...</option>
-                            <option value="1">María González</option>
-                            <option value="2">Carlos Rodríguez</option>
-                            <option value="3">Laura Mendoza</option>
-                            <option value="4">Juan Pérez</option>
-                        </select>
+                <div class="alert-card">
+                    <div class="alert-header">
+                        <div class="alert-icon"
+                            style="background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(76,175,80,0.2)); color:#4caf50;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h3 class="alert-title">Alertas de Adherencia</h3>
+                            <div class="alert-count">8 pacientes con baja adherencia</div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tipo de nota</label>
-                        <select class="form-select">
-                            <option value="seguimiento">Seguimiento</option>
-                            <option value="ajuste">Ajuste de medicación</option>
-                            <option value="observacion">Observación</option>
-                            <option value="derivacion">Derivación</option>
-                        </select>
+                    <div class="alert-list">
+                        <div class="alert-item warning">
+                            <div class="alert-avatar">JP</div>
+                            <div class="alert-info">
+                                <div class="alert-name">Juan Pérez</div>
+                                <div class="alert-message">Adherencia: 45% - Riesgo de abandono</div>
+                                <div class="alert-time">Hace 1 día</div>
+                            </div>
+                        </div>
+                        <div class="alert-item warning">
+                            <div class="alert-avatar">AS</div>
+                            <div class="alert-info">
+                                <div class="alert-name">Ana Sánchez</div>
+                                <div class="alert-message">Adherencia: 52% - 5 dosis perdidas esta semana</div>
+                                <div class="alert-time">Hace 2 días</div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Nota clínica</label>
-                        <textarea class="form-textarea" placeholder="Escribe tus observaciones clínicas..."></textarea>
-                    </div>
-
-                    <button class="priority-btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-save"></i>
-                        Guardar Nota
-                    </button>
                 </div>
             </div>
-        </div>
 
-        <!-- Calendario de seguimiento -->
-        <div class="calendar-section">
-            <div class="calendar-header">
+            <!-- Sistema de notas clínicas -->
+            <div class="notes-section">
                 <h2 class="section-title">
-                    <i class="fas fa-calendar-alt"></i>
-                    Calendario de Seguimiento
+                    <i class="fas fa-notes-medical"></i>
+                    Notas Clínicas
                 </h2>
-                <div class="calendar-nav">
-                    <button class="calendar-nav-btn" onclick="previousMonth()">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span class="calendar-month" id="currentMonth">Febrero 2024</span>
-                    <button class="calendar-nav-btn" onclick="nextMonth()">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+
+                <div class="notes-container">
+                    <div class="notes-list">
+                        <div class="note-item">
+                            <div class="note-header">
+                                <span class="note-patient">
+                                    <i class="fas fa-user-circle"></i>
+                                    María González
+                                </span>
+                                <span class="note-date">15/02/2024</span>
+                            </div>
+                            <div class="note-content">
+                                Ajuste de dosis: Sertralina de 50mg a 100mg. Paciente reporta mejoría en estado de ánimo y
+                                disminución de pensamientos intrusivos.
+                            </div>
+                            <div class="note-author">
+                                <i class="fas fa-stethoscope"></i>
+                                Dra. Ana López - Psiquiatra
+                            </div>
+                        </div>
+
+                        <div class="note-item">
+                            <div class="note-header">
+                                <span class="note-patient">
+                                    <i class="fas fa-user-circle"></i>
+                                    Carlos Rodríguez
+                                </span>
+                                <span class="note-date">12/02/2024</span>
+                            </div>
+                            <div class="note-content">
+                                Paciente refiere aumento de ansiedad en situaciones sociales. Se recomienda terapia
+                                cognitivo-conductual y se ajusta horario de medicación.
+                            </div>
+                            <div class="note-author">
+                                <i class="fas fa-stethoscope"></i>
+                                Dra. Ana López - Psiquiatra
+                            </div>
+                        </div>
+
+                        <div class="note-item">
+                            <div class="note-header">
+                                <span class="note-patient">
+                                    <i class="fas fa-user-circle"></i>
+                                    Laura Mendoza
+                                </span>
+                                <span class="note-date">10/02/2024</span>
+                            </div>
+                            <div class="note-content">
+                                Buen progreso en adherencia. Reporta mejor calidad de sueño. Continuar con plan actual y
+                                próximo
+                                control en 3 semanas.
+                            </div>
+                            <div class="note-author">
+                                <i class="fas fa-stethoscope"></i>
+                                Dra. Ana López - Psiquiatra
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="note-form">
+                        <h3
+                            style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom: 1.5rem;">
+                            <i class="fas fa-plus-circle" style="color: var(--primary);"></i>
+                            Nueva Nota Clínica
+                        </h3>
+
+                        <div class="form-group">
+                            <label class="form-label">Paciente</label>
+                            <select class="form-select">
+                                <option value="">Seleccionar paciente...</option>
+                                <option value="1">María González</option>
+                                <option value="2">Carlos Rodríguez</option>
+                                <option value="3">Laura Mendoza</option>
+                                <option value="4">Juan Pérez</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Tipo de nota</label>
+                            <select class="form-select">
+                                <option value="seguimiento">Seguimiento</option>
+                                <option value="ajuste">Ajuste de medicación</option>
+                                <option value="observacion">Observación</option>
+                                <option value="derivacion">Derivación</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nota clínica</label>
+                            <textarea class="form-textarea" placeholder="Escribe tus observaciones clínicas..."></textarea>
+                        </div>
+
+                        <button class="priority-btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-save"></i>
+                            Guardar Nota
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="calendar-weekdays">
-                <div>Lun</div>
-                <div>Mar</div>
-                <div>Mié</div>
-                <div>Jue</div>
-                <div>Vie</div>
-                <div>Sáb</div>
-                <div>Dom</div>
+            <!-- Calendario de seguimiento -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Calendario de Seguimiento
+                    </h2>
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-btn" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="calendar-month" id="currentMonth">Febrero 2024</span>
+                        <button class="calendar-nav-btn" onclick="nextMonth()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="calendar-weekdays">
+                    <div>Lun</div>
+                    <div>Mar</div>
+                    <div>Mié</div>
+                    <div>Jue</div>
+                    <div>Vie</div>
+                    <div>Sáb</div>
+                    <div>Dom</div>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Se generará con JavaScript -->
+                </div>
+
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <span class="legend-color completed"></span>
+                        <span>Todos los registros completados</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color partial"></span>
+                        <span>Registros parciales</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color missed"></span>
+                        <span>Sin registros</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="calendar-grid" id="calendarGrid">
-                <!-- Se generará con JavaScript -->
-            </div>
+            <!-- Generador de informes -->
+            <div class="reports-section">
+                <h2 class="section-title">
+                    <i class="fas fa-file-pdf"></i>
+                    Generador de Informes
+                </h2>
 
-            <div class="calendar-legend">
-                <div class="legend-item">
-                    <span class="legend-color completed"></span>
-                    <span>Todos los registros completados</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color partial"></span>
-                    <span>Registros parciales</span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color missed"></span>
-                    <span>Sin registros</span>
+                <div class="report-generator">
+                    <div class="report-options">
+                        <h3
+                            style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom: 1.5rem;">
+                            Configurar Informe
+                        </h3>
+
+                        <div class="form-group">
+                            <label class="form-label">Paciente</label>
+                            <select class="form-select">
+                                <option value="">Seleccionar paciente...</option>
+                                <option value="1">María González</option>
+                                <option value="2">Carlos Rodríguez</option>
+                                <option value="3">Laura Mendoza</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Periodo</label>
+                            <select class="form-select">
+                                <option value="7">Últimos 7 días</option>
+                                <option value="30">Últimos 30 días</option>
+                                <option value="90">Últimos 3 meses</option>
+                                <option value="180">Últimos 6 meses</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Incluir:</label>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" checked> Resultados de tests
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" checked> Registro de adherencia
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" checked> Notas clínicas
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox"> Diario emocional (resumen)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox"> Gráficos de evolución
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="report-btn btn-generate" onclick="generateReport()">
+                            <i class="fas fa-file-pdf"></i>
+                            Generar Informe
+                        </button>
+                    </div>
+
+                    <div class="report-preview">
+                        <div class="report-preview-header">
+                            <h3 class="report-preview-title">Vista Previa del Informe</h3>
+                            <div class="report-actions">
+                                <button class="report-btn btn-download">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="report-btn btn-print">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="padding: 2rem; background: #f8fafc; border-radius: 10px;">
+                            <div style="text-align: center; margin-bottom: 2rem;">
+                                <h2 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark);">Mentally</h2>
+                                <h3 style="color: var(--primary); margin: 0.5rem 0;">Informe de Evolución Clínica</h3>
+                                <p style="color: var(--secondary);">Paciente: María González | Periodo: 15/01/2024 -
+                                    15/02/2024
+                                </p>
+                            </div>
+
+                            <div style="display: grid; gap: 1.5rem;">
+                                <div>
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Resumen de Tests</h4>
+                                    <div style="background: white; padding: 1rem; border-radius: 10px;">
+                                        <p>PHQ-9: 22 → 12 (mejoría del 45%)</p>
+                                        <p>GAD-7: 18 → 10 (mejoría del 44%)</p>
+                                        <p>Adherencia: 40% → 78% (incremento del 95%)</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Notas Clínicas</h4>
+                                    <div style="background: white; padding: 1rem; border-radius: 10px;">
+                                        <p><strong>15/02/2024</strong> - Ajuste de dosis: Sertralina de 50mg a 100mg...</p>
+                                        <p><strong>01/02/2024</strong> - Paciente reporta mejoría en calidad de sueño...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Generador de informes -->
-        <div class="reports-section">
-            <h2 class="section-title">
-                <i class="fas fa-file-pdf"></i>
-                Generador de Informes
-            </h2>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Fecha actual
+                const dateElement = document.getElementById('currentDate');
+                const now = new Date();
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+                dateElement.textContent = now.toLocaleDateString('es-ES', options);
 
-            <div class="report-generator">
-                <div class="report-options">
-                    <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom: 1.5rem;">
-                        Configurar Informe
-                    </h3>
+                // Inicializar gráficos
+                initCharts();
 
-                    <div class="form-group">
-                        <label class="form-label">Paciente</label>
-                        <select class="form-select">
-                            <option value="">Seleccionar paciente...</option>
-                            <option value="1">María González</option>
-                            <option value="2">Carlos Rodríguez</option>
-                            <option value="3">Laura Mendoza</option>
-                        </select>
-                    </div>
+                // Inicializar calendario
+                initCalendar();
 
-                    <div class="form-group">
-                        <label class="form-label">Periodo</label>
-                        <select class="form-select">
-                            <option value="7">Últimos 7 días</option>
-                            <option value="30">Últimos 30 días</option>
-                            <option value="90">Últimos 3 meses</option>
-                            <option value="180">Últimos 6 meses</option>
-                            <option value="custom">Personalizado</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Incluir:</label>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="checkbox" checked> Resultados de tests
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="checkbox" checked> Registro de adherencia
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="checkbox" checked> Notas clínicas
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="checkbox"> Diario emocional (resumen)
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="checkbox"> Gráficos de evolución
-                            </label>
-                        </div>
-                    </div>
-
-                    <button class="report-btn btn-generate" onclick="generateReport()">
-                        <i class="fas fa-file-pdf"></i>
-                        Generar Informe
-                    </button>
-                </div>
-
-                <div class="report-preview">
-                    <div class="report-preview-header">
-                        <h3 class="report-preview-title">Vista Previa del Informe</h3>
-                        <div class="report-actions">
-                            <button class="report-btn btn-download">
-                                <i class="fas fa-download"></i>
-                            </button>
-                            <button class="report-btn btn-print">
-                                <i class="fas fa-print"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div style="padding: 2rem; background: #f8fafc; border-radius: 10px;">
-                        <div style="text-align: center; margin-bottom: 2rem;">
-                            <h2 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark);">Mentally</h2>
-                            <h3 style="color: var(--primary); margin: 0.5rem 0;">Informe de Evolución Clínica</h3>
-                            <p style="color: var(--secondary);">Paciente: María González | Periodo: 15/01/2024 - 15/02/2024
-                            </p>
-                        </div>
-
-                        <div style="display: grid; gap: 1.5rem;">
-                            <div>
-                                <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Resumen de Tests</h4>
-                                <div style="background: white; padding: 1rem; border-radius: 10px;">
-                                    <p>PHQ-9: 22 → 12 (mejoría del 45%)</p>
-                                    <p>GAD-7: 18 → 10 (mejoría del 44%)</p>
-                                    <p>Adherencia: 40% → 78% (incremento del 95%)</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Notas Clínicas</h4>
-                                <div style="background: white; padding: 1rem; border-radius: 10px;">
-                                    <p><strong>15/02/2024</strong> - Ajuste de dosis: Sertralina de 50mg a 100mg...</p>
-                                    <p><strong>01/02/2024</strong> - Paciente reporta mejoría en calidad de sueño...</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fecha actual
-            const dateElement = document.getElementById('currentDate');
-            const now = new Date();
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            dateElement.textContent = now.toLocaleDateString('es-ES', options);
-
-            // Inicializar gráficos
-            initCharts();
-
-            // Inicializar calendario
-            initCalendar();
-
-            // Configurar interacciones
-            setupInteractions();
-        });
-
-        function initCharts() {
-            // Gráfico PHQ-9
-            const ctx1 = document.getElementById('phq9Chart').getContext('2d');
-            new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Hoy'],
-                    datasets: [{
-                        label: 'PHQ-9',
-                        data: [22, 19, 15, 12, 10],
-                        borderColor: '#4db8a8',
-                        backgroundColor: 'rgba(77, 184, 168, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: '#4db8a8',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 27,
-                            ticks: {
-                                stepSize: 5
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
+                // Configurar interacciones
+                setupInteractions();
             });
 
-            // Gráfico GAD-7
-            const ctx2 = document.getElementById('gad7Chart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'line',
-                data: {
-                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Hoy'],
-                    datasets: [{
-                        label: 'GAD-7',
-                        data: [18, 16, 14, 12, 10],
-                        borderColor: '#ff9800',
-                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: '#ff9800',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 6,
-                        pointHoverRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 21,
-                            ticks: {
-                                stepSize: 3
+            function initCharts() {
+                // Gráfico PHQ-9
+                const ctx1 = document.getElementById('phq9Chart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Hoy'],
+                        datasets: [{
+                            label: 'PHQ-9',
+                            data: [22, 19, 15, 12, 10],
+                            borderColor: '#4db8a8',
+                            backgroundColor: 'rgba(77, 184, 168, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#4db8a8',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 27,
+                                ticks: {
+                                    stepSize: 5
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
                             }
                         }
+                    }
+                });
+
+                // Gráfico GAD-7
+                const ctx2 = document.getElementById('gad7Chart').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Hoy'],
+                        datasets: [{
+                            label: 'GAD-7',
+                            data: [18, 16, 14, 12, 10],
+                            borderColor: '#ff9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#ff9800',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            display: false
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 21,
+                                ticks: {
+                                    stepSize: 3
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
                         }
                     }
-                }
-            });
-        }
-
-        function initCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            const daysInMonth = 29; // Febrero 2024 (año bisiesto)
-
-            let html = '';
-            // Días vacíos al inicio (Febrero 2024 comienza jueves = 3 días vacíos)
-            for (let i = 0; i < 3; i++) {
-                html += '<div class="calendar-day" style="opacity: 0.3; cursor: default;"></div>';
+                });
             }
 
-            // Días del mes
-            for (let day = 1; day <= daysInMonth; day++) {
-                const status = Math.random(); // Simulación - en producción vendría de BD
-                let statusClass = '';
-                if (day < 10) statusClass = 'completed';
-                else if (day < 20) statusClass = 'partial';
-                else statusClass = 'missed';
+            function initCalendar() {
+                const calendarGrid = document.getElementById('calendarGrid');
+                const daysInMonth = 29; // Febrero 2024 (año bisiesto)
 
-                html += `
+                let html = '';
+                // Días vacíos al inicio (Febrero 2024 comienza jueves = 3 días vacíos)
+                for (let i = 0; i < 3; i++) {
+                    html += '<div class="calendar-day" style="opacity: 0.3; cursor: default;"></div>';
+                }
+
+                // Días del mes
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const status = Math.random(); // Simulación - en producción vendría de BD
+                    let statusClass = '';
+                    if (day < 10) statusClass = 'completed';
+                    else if (day < 20) statusClass = 'partial';
+                    else statusClass = 'missed';
+
+                    html += `
                 <div class="calendar-day has-event ${statusClass}" onclick="showDayDetails(${day})">
                     <span class="calendar-day-number">${day}</span>
                     <div class="calendar-day-indicator"></div>
                 </div>
             `;
+                }
+
+                calendarGrid.innerHTML = html;
             }
 
-            calendarGrid.innerHTML = html;
-        }
+            function showPatientDetails(patientId) {
+                // Implementar vista detalle del paciente
+                console.log('Mostrar detalles del paciente:', patientId);
+            }
 
-        function showPatientDetails(patientId) {
-            // Implementar vista detalle del paciente
-            console.log('Mostrar detalles del paciente:', patientId);
-        }
+            function contactPatient(patientId) {
+                // Implementar contacto con paciente
+                console.log('Contactar paciente:', patientId);
+            }
 
-        function contactPatient(patientId) {
-            // Implementar contacto con paciente
-            console.log('Contactar paciente:', patientId);
-        }
+            function previousMonth() {
+                // Implementar navegación meses
+                console.log('Mes anterior');
+            }
 
-        function previousMonth() {
-            // Implementar navegación meses
-            console.log('Mes anterior');
-        }
+            function nextMonth() {
+                // Implementar navegación meses
+                console.log('Mes siguiente');
+            }
 
-        function nextMonth() {
-            // Implementar navegación meses
-            console.log('Mes siguiente');
-        }
+            function showDayDetails(day) {
+                console.log('Mostrar detalles del día:', day);
+            }
 
-        function showDayDetails(day) {
-            console.log('Mostrar detalles del día:', day);
-        }
+            function generateReport() {
+                const btn = event.target.closest('button');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
+                btn.disabled = true;
 
-        function generateReport() {
-            const btn = event.target.closest('button');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
-            btn.disabled = true;
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-file-pdf"></i> Generar Informe';
+                    btn.disabled = false;
 
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-file-pdf"></i> Generar Informe';
-                btn.disabled = false;
+                    // Simular descarga
+                    showNotification('Informe generado exitosamente', 'success');
+                }, 2000);
+            }
 
-                // Simular descarga
-                showNotification('Informe generado exitosamente', 'success');
-            }, 2000);
-        }
-
-        function setupInteractions() {
-            // Efectos hover para priority items
-            document.querySelectorAll('.priority-item').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    if (!e.target.closest('button')) {
-                        this.style.transform = 'scale(0.99)';
-                        setTimeout(() => {
-                            this.style.transform = '';
-                        }, 200);
-                    }
+            function setupInteractions() {
+                // Efectos hover para priority items
+                document.querySelectorAll('.priority-item').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        if (!e.target.closest('button')) {
+                            this.style.transform = 'scale(0.99)';
+                            setTimeout(() => {
+                                this.style.transform = '';
+                            }, 200);
+                        }
+                    });
                 });
-            });
 
-            // Sistema de notificaciones
-            window.showNotification = function(message, type) {
-                const notification = document.createElement('div');
-                notification.style.cssText = `
+                // Sistema de notificaciones
+                window.showNotification = function(message, type) {
+                    const notification = document.createElement('div');
+                    notification.style.cssText = `
                 position: fixed;
                 top: 100px;
                 right: 30px;
@@ -1739,22 +1797,22 @@
                 z-index: 9999;
                 animation: slideInRight 0.3s ease;
             `;
-                notification.innerHTML = `
+                    notification.innerHTML = `
                 <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
                 <span style="margin-left: 0.5rem;">${message}</span>
             `;
-                document.body.appendChild(notification);
+                    document.body.appendChild(notification);
 
-                setTimeout(() => {
-                    notification.style.animation = 'slideOutRight 0.3s ease forwards';
-                    setTimeout(() => notification.remove(), 300);
-                }, 3000);
-            };
-        }
+                    setTimeout(() => {
+                        notification.style.animation = 'slideOutRight 0.3s ease forwards';
+                        setTimeout(() => notification.remove(), 300);
+                    }, 3000);
+                };
+            }
 
-        // Estilos adicionales para animaciones
-        const style = document.createElement('style');
-        style.textContent = `
+            // Estilos adicionales para animaciones
+            const style = document.createElement('style');
+            style.textContent = `
         @keyframes slideInRight {
             from {
                 transform: translateX(100%);
@@ -1777,6 +1835,6 @@
             }
         }
     `;
-        document.head.appendChild(style);
-    </script>
-@endsection
+            document.head.appendChild(style);
+        </script>
+    @endsection

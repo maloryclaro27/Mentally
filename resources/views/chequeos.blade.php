@@ -957,15 +957,39 @@
                     <i class="fas fa-heartbeat"></i>
                 </div>
                 <div class="header-info">
-                    <h1>Mis Chequeos de Salud Mental</h1>
-                    <p>
-                        <i class="fas fa-calendar"></i>
-                        Última actualización: {{ now()->format('d/m/Y') }}
-                        @if ($latestAttemptDate)
-                            <span style="margin-left:.35rem;">• Último chequeo:
-                                {{ $latestAttemptDate->format('d/m/Y') }}</span>
+                    <h1>
+                        @if ($modoEspecialista && $pacienteVisto)
+                            Chequeos de {{ $pacienteVisto->name }}
+                        @else
+                            Mis Chequeos de Salud Mental
                         @endif
-                        <i class="fas fa-clock"></i> Cada test se realiza cada 14 días
+                    </h1>
+                    <p>
+                        @if ($modoEspecialista && $pacienteVisto)
+                            <i class="fas fa-user"></i>
+                            Paciente: {{ $pacienteVisto->name }}
+
+                            @if ($pacienteVisto->email)
+                                <span style="margin-left:.35rem;">• {{ $pacienteVisto->email }}</span>
+                            @endif
+
+                            <span style="margin-left:.35rem;">
+                                • Última actualización: {{ now()->format('d/m/Y') }}
+                            </span>
+
+                            @if ($latestAttemptDate)
+                                <span style="margin-left:.35rem;">• Último chequeo:
+                                    {{ $latestAttemptDate->format('d/m/Y') }}</span>
+                            @endif
+                        @else
+                            <i class="fas fa-calendar"></i>
+                            Última actualización: {{ now()->format('d/m/Y') }}
+                            @if ($latestAttemptDate)
+                                <span style="margin-left:.35rem;">• Último chequeo:
+                                    {{ $latestAttemptDate->format('d/m/Y') }}</span>
+                            @endif
+                            <i class="fas fa-clock"></i> Cada test se realiza cada 14 días
+                        @endif
                     </p>
                 </div>
             </div>
@@ -1080,7 +1104,7 @@
                             </a>
                         @endif
 
-                        @if (in_array($test['status'], ['Vencido', 'Próximo', 'Pendiente']))
+                        @if (!$modoEspecialista && in_array($test['status'], ['Vencido', 'Próximo', 'Pendiente']))
                             @php
                                 $actionLabel = match ($test['status']) {
                                     'Pendiente' => 'Comenzar test',
@@ -1250,7 +1274,7 @@
                         <div class="alert-text">{{ $al['text'] }}</div>
                     </div>
 
-                    @if (!empty($al['action_href']))
+                    @if (!empty($al['action_href']) && !$modoEspecialista)
                         <a href="{{ $al['action_href'] }}" class="alert-action">{{ $al['action_text'] ?? 'Ver' }}</a>
                     @endif
                 </div>
@@ -1260,12 +1284,21 @@
 
     <!-- BOTONES DE ACCIÓN -->
     <div class="action-buttons">
+        @if ($modoEspecialista)
+            <a href="{{ route('especialista.dashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver al panel clínico
+            </a>
+        @endif
+
         <a href="{{ url()->current() }}" class="btn btn-secondary">
             <i class="fas fa-sync-alt"></i> Actualizar
         </a>
-        <a href="#" class="btn btn-primary">
-            <i class="fas fa-share-alt"></i> Compartir con especialista
-        </a>
+
+        @if (!$modoEspecialista)
+            <a href="#" class="btn btn-primary">
+                <i class="fas fa-share-alt"></i> Compartir con especialista
+            </a>
+        @endif
     </div>
     </div>
 

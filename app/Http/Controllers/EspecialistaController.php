@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Especialista;
+use App\Models\TestAttempt;
+use App\Models\Medicamento;
+use App\Models\TomaMedicamento;
 
 class EspecialistaController extends Controller
 {
@@ -82,7 +85,162 @@ class EspecialistaController extends Controller
             abort(403, 'No autorizado');
         }
 
-        return view('especialista.dashboard_especialista', compact('especialista'));
+        $totalPacientes = $user->pacientes()
+            ->wherePivot('estado', 'aceptado')
+            ->count();
+
+        $pacientesVinculados = $user->pacientes()
+            ->wherePivot('estado', 'aceptado')
+            ->select('users.id', 'users.name', 'users.email')
+            ->get();
+
+        $idsPacientes = $pacientesVinculados->pluck('id');
+
+        $testsEsteMes = TestAttempt::whereIn('user_id', $idsPacientes)
+            ->whereMonth('taken_at', now()->month)
+            ->whereYear('taken_at', now()->year)
+            ->count();
+
+        $alertasActivas = 0;
+
+        foreach ($idsPacientes as $pacienteId) {
+            $ultimoDepresion = TestAttempt::where('user_id', $pacienteId)
+                ->where('test_type', 'depression')
+                ->orderByDesc('taken_at')
+                ->first();
+
+            $ultimaAnsiedad = TestAttempt::where('user_id', $pacienteId)
+                ->where('test_type', 'anxiety')
+                ->orderByDesc('taken_at')
+                ->first();
+
+            $ultimoBienestar = TestAttempt::where('user_id', $pacienteId)
+                ->where('test_type', 'wellbeing')
+                ->orderByDesc('taken_at')
+                ->first();
+
+            $alerta = false;
+
+            if ($ultimoDepresion && $ultimoDepresion->score !== null && (int) $ultimoDepresion->score >= 15) {
+                $alerta = true;
+            }
+
+            if ($ultimaAnsiedad && $ultimaAnsiedad->score !== null && (int) $ultimaAnsiedad->score >= 15) {
+                $alerta = true;
+            }
+
+            foreach ([$ultimoDepresion, $ultimaAnsiedad, $ultimoBienestar] as $ultimoTest) {
+                if ($ultimoTest && \Carbon\Carbon::parse($ultimoTest->taken_at)->addDays(14)->isPast()) {
+                    $alerta = true;
+                }
+            }
+
+            if ($alerta) {
+                $alertasActivas++;
+            }
+
+            $pacientesPrioritarios = collect();
+
+            foreach ($pacientesVinculados as $paciente) {
+                $ultimoDepresion = TestAttempt::where('user_id', $paciente->id)
+                    ->where('test_type', 'depression')
+                    ->orderByDesc('taken_at')
+                    ->first();
+
+                $ultimaAnsiedad = TestAttempt::where('user_id', $paciente->id)
+                    ->where('test_type', 'anxiety')
+                    ->orderByDesc('taken_at')
+                    ->first();
+
+                $ultimoBienestar = TestAttempt::where('user_id', $paciente->id)
+                    ->where('test_type', 'wellbeing')
+                    ->orderByDesc('taken_at')
+                    ->first();
+
+                $motivo = null;
+                $nivel = 'moderado';
+
+                if ($ultimoDepresion && $ultimoDepresion->score !== null && (int) $ultimoDepresion->score >= 20) {
+                    $motivo = 'PHQ-9 severo';
+                    $nivel = 'alto';
+                } elseif ($ultimoDepresion && $ultimoDepresion->score !== null && (int) $ultimoDepresion->score >= 15) {
+                    $motivo = 'PHQ-9 elevado';
+                    $nivel = 'moderado';
+                } elseif ($ultimaAnsiedad && $ultimaAnsiedad->score !== null && (int) $ultimaAnsiedad->score >= 15) {
+                    $motivo = 'GAD-7 elevado';
+                    $nivel = 'moderado';
+                } else {
+                    foreach ([$ultimoDepresion, $ultimaAnsiedad, $ultimoBienestar] as $ultimoTest) {
+                        if ($ultimoTest && \Carbon\Carbon::parse($ultimoTest->taken_at)->addDays(14)->isPast()) {
+                            $motivo = 'Test vencido';
+                            $nivel = 'moderado';
+                            break;
+                        }
+                    }
+                }
+
+                if ($motivo) {
+                    $paciente->motivo_alerta = $motivo;
+                    $paciente->nivel_alerta = $nivel;
+                    $pacientesPrioritarios->push($paciente);
+                }
+
+                $prescripcionesActivas = Medicamento::whereIn('user_id', $idsPacientes)
+                    ->where('activo', true)
+                    ->count();
+
+                $hoy = now()->toDateString();
+                $inicioVentana = now()->subDays(6)->toDateString();
+
+                $medicamentosEsperados = Medicamento::whereIn('user_id', $idsPacientes)
+                    ->where('activo', true)
+                    ->whereDate('fecha_inicio', '<=', $hoy)
+                    ->where(function ($q) use ($inicioVentana) {
+                        $q->whereNull('fecha_fin')
+                            ->orWhereDate('fecha_fin', '>=', $inicioVentana);
+                    })
+                    ->get(['id', 'user_id', 'fecha_inicio', 'fecha_fin']);
+
+                $expectedDoses = 0;
+
+                foreach ($medicamentosEsperados as $medicamento) {
+                    $inicioReal = \Carbon\Carbon::parse($medicamento->fecha_inicio)->startOfDay();
+                    $finReal = $medicamento->fecha_fin
+                        ? \Carbon\Carbon::parse($medicamento->fecha_fin)->endOfDay()
+                        : now()->endOfDay();
+
+                    $inicioConteo = \Carbon\Carbon::parse($inicioVentana)->startOfDay();
+                    $finConteo = \Carbon\Carbon::parse($hoy)->endOfDay();
+
+                    $desde = $inicioReal->greaterThan($inicioConteo) ? $inicioReal : $inicioConteo;
+                    $hasta = $finReal->lessThan($finConteo) ? $finReal : $finConteo;
+
+                    if ($desde->lte($hasta)) {
+                        $expectedDoses += $desde->diffInDays($hasta) + 1;
+                    }
+                }
+
+                $registeredDoses = TomaMedicamento::whereIn('user_id', $idsPacientes)
+                    ->whereBetween('fecha_toma', [$inicioVentana, $hoy])
+                    ->distinct('medicamento_id', 'fecha_toma')
+                    ->count('id');
+
+                $adherenciaGlobal = $expectedDoses > 0
+                    ? (int) round(($registeredDoses / $expectedDoses) * 100)
+                    : 0;
+            }
+        }
+
+        return view('especialista.dashboard_especialista', compact(
+            'especialista',
+            'totalPacientes',
+            'pacientesVinculados',
+            'testsEsteMes',
+            'alertasActivas',
+            'pacientesPrioritarios',
+            'prescripcionesActivas',
+            'adherenciaGlobal'
+        ));
     }
 
     public function esperandoVerificacion()

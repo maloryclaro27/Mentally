@@ -139,16 +139,6 @@
                     Mi Perfil
                 </a>
 
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-cog"></i>
-                    Configuración
-                </a>
-
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-question-circle"></i>
-                    Ayuda
-                </a>
-
                 <a href="{{ route('auth0.logout') }}" class="dropdown-item dropdown-button">
                     <i class="fas fa-sign-out-alt"></i>
                     Cerrar Sesión

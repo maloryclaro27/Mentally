@@ -2,15 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\TestAttempt;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChequeosController extends Controller
 {
-    public function index()
+    public function index(Request $request, User $paciente = null)
     {
-        $userId = auth()->id();
+        $authUser = auth()->user();
+
+        if ($authUser->role === 'especialista' && $paciente) {
+            $vinculado = $authUser->pacientes()
+                ->where('users.id', $paciente->id)
+                ->wherePivot('estado', 'aceptado')
+                ->exists();
+
+            if (!$vinculado) {
+                abort(403, 'Este paciente no está vinculado a este especialista.');
+            }
+
+            $userId = $paciente->id;
+        } else {
+            $userId = $authUser->id;
+        }
 
         // Último intento por tipo (para las tarjetas)
         $lastAttempts = [
@@ -121,9 +137,11 @@ class ChequeosController extends Controller
         }
 
         return view('chequeos', [
-            'lastAttempts' => $lastAttempts,
-            'charts'       => $charts,
-            'delta'        => $delta,
+            'lastAttempts'     => $lastAttempts,
+            'charts'           => $charts,
+            'delta'            => $delta,
+            'modoEspecialista' => $authUser->role === 'especialista' && $paciente !== null,
+            'pacienteVisto'    => $paciente,
         ]);
     }
 }

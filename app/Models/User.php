@@ -71,4 +71,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(TomaMedicamento::class, 'user_id');
     }
+
+    public function pacientes()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'especialista_paciente',
+            'especialista_id',
+            'paciente_id'
+        )->withPivot([
+            'estado',
+            'codigo_vinculacion',
+            'consentimiento_aceptado',
+            'consentimiento_aceptado_en',
+        ])->withTimestamps();
+    }
+
+    public function especialistas()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'especialista_paciente',
+            'paciente_id',
+            'especialista_id'
+        )->withPivot([
+            'estado',
+            'codigo_vinculacion',
+            'consentimiento_aceptado',
+            'consentimiento_aceptado_en',
+        ])->withTimestamps();
+    }
 }
