@@ -21,12 +21,14 @@ use App\Services\Chatbot\ChatProviderManager;
 use App\Services\Chatbot\EmotionalResponseBuilder;
 use App\Services\Chatbot\EmotionalChatbotService;
 use App\Http\Controllers\DashboardPacienteController;
+use App\Http\Controllers\ProfileController;
 
 
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
 
 Route::get('/test-chat-provider', function (EmotionalChatbotService $chatbot) {
     $result = $chatbot->respond([
@@ -166,6 +168,11 @@ Route::middleware(['auth'])->group(function () {
         ->name('diary.entries.destroy');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/perfil', [ProfileController::class, 'show'])->name('profile.show');
+    Route::match(['post', 'put'], '/perfil/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/perfil/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
+    Route::post('/perfil/emergency', [ProfileController::class, 'updateEmergency'])->name('profile.emergency');
 });
 
 // Especialista (aquí sí aplicas bloqueos y verificación)

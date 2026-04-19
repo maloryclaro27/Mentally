@@ -101,7 +101,12 @@
     @auth
         <div class="user-profile">
             <div class="user-avatar">
-                {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
+                @if (auth()->user()->avatar)
+                    <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="Avatar"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                @else
+                    {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
+                @endif
             </div>
 
             <div class="user-info">
@@ -129,7 +134,7 @@
             </div>
 
             <div class="dropdown-menu user-dropdown">
-                <a href="#" class="dropdown-item">
+                <a href="{{ route('profile.show') }}" class="dropdown-item">
                     <i class="fas fa-user"></i>
                     Mi Perfil
                 </a>

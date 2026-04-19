@@ -26,6 +26,12 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'avatar',
+        'birthdate',
+        'emergency_name',
+        'emergency_country_code',
+        'emergency_phone',
+        'emergency_relation',
     ];
 
     /**
@@ -47,6 +53,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'birthdate' => 'date',
         ];
     }
 
@@ -63,5 +70,5 @@ class User extends Authenticatable
     public function tomasMedicamentos()
     {
         return $this->hasMany(TomaMedicamento::class, 'user_id');
-    }   
+    }
 }
