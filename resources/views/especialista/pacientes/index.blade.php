@@ -391,7 +391,7 @@
 
                             @if (!empty($p->crisis_risk_reasons) && count($p->crisis_risk_reasons))
                                 <div class="risk-reason">
-                                    {{ $p->crisis_risk_reasons[0] }}
+                                    {{ implode(' • ', array_slice($p->crisis_risk_reasons, 0, 2)) }}
                                 </div>
                             @else
                                 <div class="risk-reason">

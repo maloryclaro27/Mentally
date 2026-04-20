@@ -54,10 +54,40 @@ class EspecialistaPacienteController extends Controller
                     ->orderByDesc('taken_at')
                     ->first();
 
+                $testAnteriorMismoTipo = null;
+
+                if ($ultimoTest && isset($ultimoTest->test_type)) {
+                    $testAnteriorMismoTipo = TestAttempt::where('user_id', $paciente->id)
+                        ->where('test_type', $ultimoTest->test_type)
+                        ->where('id', '!=', $ultimoTest->id)
+                        ->orderByDesc('taken_at')
+                        ->first();
+                }
+
                 // Crisis flag en diario
                 $paciente->crisis_risk_level = 'none';
                 $paciente->crisis_risk_level = 'none';
                 $crisisRiskReasons = [];
+                if (
+                    $ultimoTest &&
+                    $testAnteriorMismoTipo &&
+                    isset($ultimoTest->score) &&
+                    isset($testAnteriorMismoTipo->score) &&
+                    $ultimoTest->score >= ($testAnteriorMismoTipo->score + 5)
+                ) {
+                    if ($paciente->crisis_risk_level === 'none') {
+                        $paciente->crisis_risk_level = 'moderate';
+                    }
+
+                    $crisisRiskReasons[] = 'Empeoramiento clínico respecto al test anterior del mismo tipo';
+                }
+                if ($ultimoTest && isset($ultimoTest->score) && $ultimoTest->score >= 15) {
+                    $paciente->crisis_risk_level = $paciente->crisis_risk_level === 'critical' ? 'critical' : 'high';
+                    $crisisRiskReasons[] = 'Último test clínico con puntuación alta';
+                } elseif ($ultimoTest && isset($ultimoTest->score) && $ultimoTest->score >= 10 && $paciente->crisis_risk_level === 'none') {
+                    $paciente->crisis_risk_level = 'moderate';
+                    $crisisRiskReasons[] = 'Último test clínico con puntuación intermedia';
+                }
                 $crisisFlag = DiaryEntry::where('user_id', $paciente->id)
                     ->where('crisis_flag', true)
                     ->where('created_at', '>=', now()->subDays(7))
@@ -75,6 +105,17 @@ class EspecialistaPacienteController extends Controller
                     $crisisRiskReasons = [
                         'Múltiples señales de alto riesgo registradas en las últimas 72 horas'
                     ];
+                }
+
+                $negativeRecentEntries = DiaryEntry::where('user_id', $paciente->id)
+                    ->where('analysis_opt_in', true)
+                    ->where('created_at', '>=', now()->subDays(7))
+                    ->whereIn('sentiment_label', ['negativo', 'muy_negativo', 'negativo_alto', 'depresivo'])
+                    ->count();
+
+                if ($paciente->crisis_risk_level === 'none' && $negativeRecentEntries >= 3) {
+                    $paciente->crisis_risk_level = 'moderate';
+                    $crisisRiskReasons[] = 'Tendencia emocional negativa sostenida en los últimos 7 días';
                 }
 
                 // Adherencia 30 días
@@ -104,10 +145,25 @@ class EspecialistaPacienteController extends Controller
                 if ($paciente->crisis_risk_level === 'none' && $adherencia !== null && $adherencia < 70) {
                     $paciente->crisis_risk_level = 'moderate';
                     $crisisRiskReasons[] = 'Adherencia farmacológica baja en los últimos 30 días';
+                } elseif ($paciente->crisis_risk_level === 'moderate' && $adherencia !== null && $adherencia < 70) {
+                    $crisisRiskReasons[] = 'Adherencia farmacológica baja en los últimos 30 días';
+                }
+                if (
+                    $ultimoTest &&
+                    isset($ultimoTest->score) &&
+                    $ultimoTest->score >= 10 &&
+                    $adherencia !== null &&
+                    $adherencia < 70 &&
+                    $paciente->crisis_risk_level !== 'critical'
+                ) {
+                    $paciente->crisis_risk_level = 'high';
+
+                    if (!in_array('Combinación de síntomas clínicos y baja adherencia farmacológica', $crisisRiskReasons)) {
+                        $crisisRiskReasons[] = 'Combinación de síntomas clínicos y baja adherencia farmacológica';
+                    }
                 }
 
-
-                $paciente->crisis_risk_reasons = $crisisRiskReasons;
+                $paciente->crisis_risk_reasons = array_values(array_unique($crisisRiskReasons));
                 $paciente->ultimo_test    = $ultimoTest;
                 $paciente->crisis_flag    = $crisisFlag;
                 $paciente->adherencia     = $adherencia;
