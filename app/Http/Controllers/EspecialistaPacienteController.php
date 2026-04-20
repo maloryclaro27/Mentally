@@ -29,7 +29,7 @@ class EspecialistaPacienteController extends Controller
             $paciente->id => [
                 'estado'                    => 'aceptado',
                 'consentimiento_aceptado'   => true,
-                'consentimiento_aceptado_en'=> now(),
+                'consentimiento_aceptado_en' => now(),
                 'codigo_vinculacion'        => null,
             ]
         ]);
@@ -46,7 +46,7 @@ class EspecialistaPacienteController extends Controller
 
         $pacientes = $user->pacientes()
             ->wherePivot('estado', 'aceptado')
-            ->select('users.id', 'users.name', 'users.email')
+            ->select('users.id', 'users.name', 'users.email', 'users.avatar')
             ->get()
             ->map(function ($paciente) {
                 // Último test
@@ -55,17 +55,34 @@ class EspecialistaPacienteController extends Controller
                     ->first();
 
                 // Crisis flag en diario
+                $paciente->crisis_risk_level = 'none';
+                $paciente->crisis_risk_level = 'none';
+                $crisisRiskReasons = [];
                 $crisisFlag = DiaryEntry::where('user_id', $paciente->id)
                     ->where('crisis_flag', true)
                     ->where('created_at', '>=', now()->subDays(7))
                     ->exists();
+                if ($crisisFlag) {
+                    $paciente->crisis_risk_level = 'high';
+                    $crisisRiskReasons[] = 'Señal de alto riesgo registrada en los últimos 7 días';
+                }
+                $recentCriticalEvents = DiaryEntry::where('user_id', $paciente->id)
+                    ->where('crisis_flag', true)
+                    ->where('created_at', '>=', now()->subDays(3))
+                    ->count();
+                if ($recentCriticalEvents >= 2) {
+                    $paciente->crisis_risk_level = 'critical';
+                    $crisisRiskReasons = [
+                        'Múltiples señales de alto riesgo registradas en las últimas 72 horas'
+                    ];
+                }
 
                 // Adherencia 30 días
                 $medicamentos = Medicamento::where('user_id', $paciente->id)
                     ->where('fecha_inicio', '<=', now())
                     ->where(function ($q) {
                         $q->whereNull('fecha_fin')
-                          ->orWhereDate('fecha_fin', '>=', now()->subDays(30));
+                            ->orWhereDate('fecha_fin', '>=', now()->subDays(30));
                     })
                     ->get();
 
@@ -84,6 +101,13 @@ class EspecialistaPacienteController extends Controller
                     ? (int) round(($registeredDoses / $expectedDoses) * 100)
                     : null;
 
+                if ($paciente->crisis_risk_level === 'none' && $adherencia !== null && $adherencia < 70) {
+                    $paciente->crisis_risk_level = 'moderate';
+                    $crisisRiskReasons[] = 'Adherencia farmacológica baja en los últimos 30 días';
+                }
+
+
+                $paciente->crisis_risk_reasons = $crisisRiskReasons;
                 $paciente->ultimo_test    = $ultimoTest;
                 $paciente->crisis_flag    = $crisisFlag;
                 $paciente->adherencia     = $adherencia;
@@ -132,7 +156,7 @@ class EspecialistaPacienteController extends Controller
             ->where('fecha_inicio', '<=', $hoy)
             ->where(function ($q) use ($inicioVentana) {
                 $q->whereNull('fecha_fin')
-                  ->orWhereDate('fecha_fin', '>=', $inicioVentana);
+                    ->orWhereDate('fecha_fin', '>=', $inicioVentana);
             })
             ->get();
 
@@ -235,7 +259,9 @@ class EspecialistaPacienteController extends Controller
         // Score de riesgo diario (basado en crisis y sentimiento negativo)
         $nivelRiesgo = 'bajo';
         $scoreRiesgo = 0;
-        if ($crisisFlags->count() > 0) { $scoreRiesgo += 40; }
+        if ($crisisFlags->count() > 0) {
+            $scoreRiesgo += 40;
+        }
         $negativosRecientes = DiaryEntry::where('user_id', $paciente->id)
             ->where('created_at', '>=', now()->subDays(7))
             ->whereIn('sentiment_label', ['negativo', 'muy_negativo', 'negativo_alto', 'depresivo'])
@@ -250,9 +276,15 @@ class EspecialistaPacienteController extends Controller
         elseif ($scoreRiesgo >= 30) $nivelRiesgo = 'moderado';
 
         $diario = compact(
-            'diaryLabels', 'diaryScores', 'sentimentDist',
-            'crisisFlags', 'totalEntradas', 'frecuenciaMedia',
-            'temasClave', 'nivelRiesgo', 'scoreRiesgo'
+            'diaryLabels',
+            'diaryScores',
+            'sentimentDist',
+            'crisisFlags',
+            'totalEntradas',
+            'frecuenciaMedia',
+            'temasClave',
+            'nivelRiesgo',
+            'scoreRiesgo'
         );
 
         // ── Chatbot (Análisis IA) ──────────────────────────────────────────────
@@ -300,15 +332,24 @@ class EspecialistaPacienteController extends Controller
         $emocionPrincipal = $emocionDist->keys()->first() ?? 'Sin datos';
 
         $chatbot = compact(
-            'emocionDist', 'chatLabels', 'sesionesSemanales',
-            'mensajesTotales', 'pctNocturno', 'emocionPrincipal'
+            'emocionDist',
+            'chatLabels',
+            'sesionesSemanales',
+            'mensajesTotales',
+            'pctNocturno',
+            'emocionPrincipal'
         );
 
         return view('especialista.pacientes.show', compact(
-            'paciente', 'especialista',
+            'paciente',
+            'especialista',
             'chequeos',
-            'adherenciaGlobal', 'trendLabels', 'trendData', 'medicamentosAdherencia',
-            'expectedTotal', 'registeredTotal',
+            'adherenciaGlobal',
+            'trendLabels',
+            'trendData',
+            'medicamentosAdherencia',
+            'expectedTotal',
+            'registeredTotal',
             'diario',
             'chatbot'
         ));
