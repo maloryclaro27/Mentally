@@ -194,6 +194,15 @@ Route::prefix('especialista')
             Route::get('/dashboard', [EspecialistaController::class, 'dashboard'])
                 ->name('especialista.dashboard');
 
+            Route::get('/adherencia', [EspecialistaController::class, 'adherencia'])
+                ->name('especialista.adherencia');
+
+            Route::get('/pacientes', [EspecialistaPacienteController::class, 'index'])
+                ->name('especialista.pacientes.index');
+
+            Route::get('/pacientes/{paciente}', [EspecialistaPacienteController::class, 'show'])
+                ->name('especialista.pacientes.show');
+
             Route::get('/pacientes/{paciente}/chequeos', [ChequeosController::class, 'index'])
                 ->name('especialista.pacientes.chequeos');
         });

@@ -16,9 +16,9 @@
         </li>
 
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('especialista.pacientes.index') }}"
+                class="nav-link {{ request()->routeIs('especialista.pacientes.*') ? 'active' : '' }}">
                 Mis Pacientes
-                <span class="nav-badge">24</span>
             </a>
         </li>
 
@@ -31,9 +31,9 @@
                     <i class="fas fa-prescription"></i>
                     Prescripciones Activas
                 </a>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-chart-line"></i>
-                    Adherencia por Paciente
+                <a href="{{ route('especialista.adherencia') }}" class="dropdown-item {{ request()->routeIs('especialista.adherencia') ? 'active' : '' }}">
+                    <i class="fas fa-chart-pie"></i>
+                    Análisis de Adherencia
                 </a>
                 <a href="#" class="dropdown-item">
                     <i class="fas fa-exclamation-triangle"></i>

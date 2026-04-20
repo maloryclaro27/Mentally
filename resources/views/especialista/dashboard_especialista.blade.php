@@ -4,16 +4,16 @@
 
 @push('styles')
     <style>
-        /* Variables y estilos base */
         :root {
             --primary: #4db8a8;
             --primary-dark: #2c5f5d;
             --primary-light: #5bc4b3;
             --secondary: #5a7c7a;
             --background: linear-gradient(135deg, #f0f9f8 0%, #e6f4f7 50%, #f2f9f8 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --shadow: 0 10px 30px rgba(77, 184, 168, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --shadow: 0 10px 30px rgba(77, 184, 168, 0.10);
             --shadow-hover: 0 20px 40px rgba(77, 184, 168, 0.15);
+            --border-soft: 1px solid rgba(77, 184, 168, 0.12);
         }
 
         * {
@@ -29,33 +29,24 @@
             overflow-x: hidden;
         }
 
-        /* Contenedor principal */
         .specialist-dashboard {
-            max-width: 1400px;
-            margin: 100px auto 2rem;
-            padding: 0 2rem;
+            max-width: 1440px;
+            margin: 110px auto 3rem;
+            padding: 0 1.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        /* Animaciones */
         @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(28px);
             }
 
             to {
                 opacity: 1;
                 transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
             }
         }
 
@@ -71,27 +62,45 @@
             }
         }
 
-        .welcome-header {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 252, 251, 0.98));
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            margin-top: 8rem;
-            /* ← NUEVA LÍNEA: separa del navbar */
+        .dashboard-card,
+        .welcome-header,
+        .priority-section,
+        .notes-section,
+        .calendar-section,
+        .reports-section,
+        .chart-card,
+        .alert-card,
+        .metric-card {
+            background: var(--card-bg);
+            border-radius: 22px;
+            border: var(--border-soft);
             box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            animation: slideInUp 0.8s ease;
+        }
+
+        .welcome-header,
+        .priority-section,
+        .notes-section,
+        .calendar-section,
+        .reports-section {
+            padding: 2rem;
+            animation: slideInUp 0.7s ease;
+        }
+
+        .welcome-header {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 252, 251, 0.98));
         }
 
         .welcome-title {
             font-family: 'Quicksand', sans-serif;
-            font-size: 2.2rem;
+            font-size: clamp(1.8rem, 2.6vw, 2.4rem);
             font-weight: 700;
             color: var(--primary-dark);
-            margin-bottom: 0.5rem;
+            margin-bottom: .5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
+            line-height: 1.2;
         }
 
         .welcome-title i {
@@ -101,79 +110,116 @@
 
         .welcome-subtitle {
             color: var(--secondary);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.02rem;
+            margin-bottom: 1.25rem;
+            max-width: 900px;
+            line-height: 1.65;
         }
 
         .date-badge {
-            display: inline-block;
-            background: rgba(77, 184, 168, 0.1);
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            background: rgba(77, 184, 168, 0.10);
+            padding: .7rem 1.3rem;
+            border-radius: 999px;
             color: var(--primary);
-            font-weight: 500;
-            border: 1px solid rgba(77, 184, 168, 0.2);
+            font-weight: 600;
+            border: 1px solid rgba(77, 184, 168, 0.18);
         }
 
-        /* Panel de métricas clave */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .section-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .view-all-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            transition: all .25s ease;
+        }
+
+        .view-all-link:hover {
+            color: var(--primary-dark);
+            gap: .75rem;
+        }
+
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.8s ease 0.1s backwards;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.25rem;
         }
 
         .metric-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            transition: all 0.3s ease;
+            padding: 1.4rem;
             position: relative;
             overflow: hidden;
+            transition: all .3s ease;
         }
 
         .metric-card::before {
-            content: '';
+            content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            inset: 0 auto auto 0;
+            width: 100%;
             height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--primary-light));
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transform-origin: left;
+            transition: transform .3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
         }
 
         .metric-card:hover::before {
             transform: scaleX(1);
         }
 
-        .metric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
         .metric-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
         .metric-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, rgba(77, 184, 168, 0.1), rgba(91, 196, 179, 0.2));
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, rgba(77, 184, 168, .10), rgba(91, 196, 179, .18));
             color: var(--primary);
-            font-size: 1.3rem;
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
 
         .metric-value {
@@ -185,100 +231,68 @@
 
         .metric-label {
             color: var(--secondary);
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
+            font-size: .95rem;
         }
 
         .metric-change {
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
-            padding: 0.2rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
+            gap: .35rem;
+            padding: .28rem .8rem;
+            border-radius: 999px;
+            font-size: .78rem;
             font-weight: 600;
-            margin-top: 0.5rem;
+            margin-top: .8rem;
         }
 
         .change-positive {
-            background: rgba(76, 175, 80, 0.1);
-            color: #4caf50;
+            background: rgba(76, 175, 80, 0.10);
+            color: #3d9f44;
         }
 
         .change-negative {
-            background: rgba(244, 67, 54, 0.1);
-            color: #f44336;
+            background: rgba(244, 67, 54, 0.10);
+            color: #d94135;
         }
 
-        /* Panel de pacientes prioritarios */
-        .priority-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            animation: slideInUp 0.8s ease 0.2s backwards;
+        .link-patient-card {
+            padding: 1.5rem;
         }
 
-        .section-header {
+        .link-patient-form {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
         }
 
-        .section-title {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .section-title i {
-            color: var(--primary);
-        }
-
-        .view-all-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .view-all-link:hover {
-            gap: 0.8rem;
-            color: var(--primary-dark);
+        .link-patient-form .field-grow {
+            min-width: 240px;
+            flex: 1;
         }
 
         .priority-list {
             display: grid;
             gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .priority-item {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
             padding: 1.2rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, .72);
+            border-radius: 18px;
             border-left: 4px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            transition: all .28s ease;
+            flex-wrap: wrap;
         }
 
         .priority-item:hover {
             background: white;
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transform: translateX(4px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .05);
         }
 
         .priority-item.severe {
@@ -289,66 +303,85 @@
             border-left-color: #ff9800;
         }
 
-        .priority-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 50%;
+        .priority-avatar,
+        .alert-avatar {
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: 600;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            flex-shrink: 0;
+        }
+
+        .priority-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
         }
 
         .priority-info {
             flex: 1;
+            min-width: 240px;
         }
 
         .priority-name {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.3rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: .6rem;
+            flex-wrap: wrap;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: .35rem;
         }
 
         .priority-badge {
-            background: rgba(244, 67, 54, 0.1);
+            padding: .25rem .75rem;
+            border-radius: 999px;
+            font-size: .72rem;
+            font-weight: 700;
+            background: rgba(244, 67, 54, 0.10);
             color: #f44336;
-            padding: 0.2rem 0.8rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
         }
 
         .priority-details {
             display: flex;
-            gap: 1.5rem;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: .9rem 1.2rem;
             color: var(--secondary);
+            font-size: .92rem;
+            line-height: 1.5;
         }
 
         .priority-details span {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: .4rem;
         }
 
         .priority-actions {
             display: flex;
-            gap: 0.8rem;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .priority-btn,
+        .report-btn {
+            border: none;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            text-decoration: none;
         }
 
         .priority-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
+            padding: .75rem 1.15rem;
+            font-size: .85rem;
         }
 
         .btn-primary {
@@ -358,7 +391,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(77, 184, 168, 0.3);
+            box-shadow: 0 8px 18px rgba(77, 184, 168, .25);
         }
 
         .btn-outline {
@@ -372,80 +405,72 @@
             color: white;
         }
 
-        /* Grid de gráficos */
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.8s ease 0.3s backwards;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
 
         .chart-card {
-            background: var(--card-bg);
-            border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            transition: all 0.3s ease;
+            min-width: 0;
+            transition: all .28s ease;
         }
 
         .chart-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
         }
 
         .chart-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
         }
 
         .chart-title {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: .55rem;
         }
 
         .chart-period {
-            background: rgba(77, 184, 168, 0.1);
-            padding: 0.3rem 1rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
+            background: rgba(77, 184, 168, .10);
             color: var(--primary);
+            padding: .35rem .9rem;
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         .chart-container {
-            height: 300px;
+            height: 320px;
             position: relative;
         }
 
-
-        /* Alertas tempranas */
         .alerts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2rem;
-            animation: slideInUp 0.8s ease 0.5s backwards;
         }
 
         .alert-card {
-            background: var(--card-bg);
-            border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            transition: all 0.3s ease;
+            transition: all .28s ease;
+            min-width: 0;
         }
 
         .alert-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
         }
 
@@ -453,52 +478,61 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .alert-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.2));
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-icon.danger {
+            background: linear-gradient(135deg, rgba(244, 67, 54, .10), rgba(244, 67, 54, .18));
             color: #f44336;
-            font-size: 1.3rem;
+        }
+
+        .alert-icon.success {
+            background: linear-gradient(135deg, rgba(76, 175, 80, .10), rgba(76, 175, 80, .18));
+            color: #4caf50;
         }
 
         .alert-title {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--primary-dark);
         }
 
         .alert-count {
-            font-size: 0.8rem;
+            font-size: .85rem;
             color: var(--secondary);
-            margin-top: 0.2rem;
+            margin-top: .2rem;
         }
 
         .alert-list {
             display: grid;
-            gap: 1rem;
+            gap: .9rem;
         }
 
         .alert-item {
             display: flex;
-            align-items: center;
-            gap: 1rem;
+            align-items: flex-start;
+            gap: .9rem;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, .72);
+            border-radius: 14px;
+            transition: all .25s ease;
         }
 
         .alert-item:hover {
-            background: white;
-            transform: translateX(5px);
+            background: #fff;
+            transform: translateX(4px);
         }
 
         .alert-item.warning {
@@ -514,155 +548,148 @@
         }
 
         .alert-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-size: .9rem;
         }
 
         .alert-info {
             flex: 1;
+            min-width: 0;
         }
 
         .alert-name {
-            font-weight: 600;
             color: var(--primary-dark);
-            margin-bottom: 0.2rem;
+            font-weight: 700;
+            margin-bottom: .2rem;
         }
 
         .alert-message {
-            font-size: 0.85rem;
             color: var(--secondary);
+            font-size: .88rem;
+            line-height: 1.5;
         }
 
         .alert-time {
-            font-size: 0.75rem;
-            color: rgba(90, 124, 122, 0.6);
+            margin-top: .3rem;
+            font-size: .76rem;
+            color: rgba(90, 124, 122, .68);
         }
 
-        /* Notas clínicas */
-        .notes-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            animation: slideInUp 0.8s ease 0.6s backwards;
-        }
-
-        .notes-container {
+        .notes-container,
+        .report-generator {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+            gap: 1.5rem;
+            align-items: start;
         }
 
         .notes-list {
-            max-height: 400px;
+            max-height: 480px;
             overflow-y: auto;
-            padding-right: 1rem;
+            padding-right: .4rem;
         }
 
         .notes-list::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .notes-list::-webkit-scrollbar-track {
-            background: rgba(77, 184, 168, 0.1);
-            border-radius: 2px;
+            width: 6px;
         }
 
         .notes-list::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 2px;
+            background: rgba(77, 184, 168, .35);
+            border-radius: 999px;
+        }
+
+        .note-item,
+        .note-form,
+        .report-options,
+        .report-preview {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid rgba(77, 184, 168, .10);
         }
 
         .note-item {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
+            padding: 1.35rem;
             margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .02);
+            transition: all .25s ease;
         }
 
         .note-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transform: translateX(4px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .05);
             border-left: 4px solid var(--primary);
         }
 
         .note-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.8rem;
+            align-items: flex-start;
+            gap: .75rem;
+            margin-bottom: .8rem;
+            flex-wrap: wrap;
         }
 
         .note-patient {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: .5rem;
         }
 
         .note-date {
-            font-size: 0.8rem;
+            font-size: .82rem;
             color: var(--secondary);
         }
 
         .note-content {
             color: var(--secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 0.8rem;
+            font-size: .94rem;
+            line-height: 1.7;
+            margin-bottom: .8rem;
         }
 
         .note-author {
-            font-size: 0.8rem;
+            font-size: .82rem;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: .5rem;
+            font-weight: 600;
         }
 
-        .note-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+        .note-form,
+        .report-options,
+        .report-preview {
+            padding: 1.5rem;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .03);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-label {
             display: block;
             color: var(--primary-dark);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
+            font-weight: 600;
+            margin-bottom: .55rem;
         }
 
         .form-input,
         .form-select,
         .form-textarea {
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid rgba(77, 184, 168, 0.2);
-            border-radius: 10px;
+            padding: .9rem 1rem;
+            border: 2px solid rgba(77, 184, 168, .18);
+            border-radius: 12px;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
+            font-size: .95rem;
             color: var(--primary-dark);
-            transition: all 0.3s ease;
+            background: #fff;
+            transition: all .25s ease;
         }
 
         .form-input:focus,
@@ -670,116 +697,118 @@
         .form-textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(77, 184, 168, 0.1);
+            box-shadow: 0 0 0 4px rgba(77, 184, 168, .10);
         }
 
         .form-textarea {
-            min-height: 120px;
+            min-height: 140px;
             resize: vertical;
-        }
-
-        /* Calendario de seguimiento */
-        .calendar-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            animation: slideInUp 0.8s ease 0.7s backwards;
         }
 
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .calendar-nav {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: .85rem;
         }
 
         .calendar-month {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--primary-dark);
+            min-width: 150px;
+            text-align: center;
         }
 
         .calendar-nav-btn {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
+            border: 2px solid rgba(77, 184, 168, .18);
             background: transparent;
-            border: 2px solid rgba(77, 184, 168, 0.2);
             color: var(--primary);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all .25s ease;
         }
 
         .calendar-nav-btn:hover {
             background: var(--primary);
             color: white;
-            transform: scale(1.1);
+            transform: scale(1.06);
         }
 
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
+            gap: .5rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-dark);
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: rgba(77, 184, 168, 0.05);
-            border-radius: 10px;
+            margin-bottom: .8rem;
+            padding: .8rem;
+            background: rgba(77, 184, 168, .06);
+            border-radius: 14px;
         }
 
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: .55rem;
         }
 
         .calendar-day {
-            aspect-ratio: 1;
+            min-height: 64px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             background: white;
-            border-radius: 10px;
-            border: 2px solid rgba(77, 184, 168, 0.1);
+            border-radius: 14px;
+            border: 2px solid rgba(77, 184, 168, .12);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all .25s ease;
             position: relative;
         }
 
         .calendar-day:hover {
             border-color: var(--primary);
-            transform: scale(1.05);
+            transform: translateY(-2px);
             z-index: 2;
         }
 
+        .calendar-day.empty {
+            background: transparent;
+            border: none;
+            cursor: default;
+            pointer-events: none;
+            min-height: 64px;
+        }
+
         .calendar-day.has-event {
-            background: rgba(77, 184, 168, 0.05);
-            border-color: var(--primary);
+            background: rgba(77, 184, 168, .05);
+            border-color: rgba(77, 184, 168, .28);
         }
 
         .calendar-day-number {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-dark);
         }
 
         .calendar-day-indicator {
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            margin-top: 2px;
+            margin-top: .35rem;
+            background: var(--primary);
         }
 
         .calendar-day.missed .calendar-day-indicator {
@@ -790,18 +819,23 @@
             background: #4caf50;
         }
 
+        .calendar-day.partial .calendar-day-indicator {
+            background: #ff9800;
+        }
+
         .calendar-legend {
             display: flex;
-            gap: 2rem;
             justify-content: center;
-            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            gap: .55rem;
+            font-size: .9rem;
             color: var(--secondary);
         }
 
@@ -823,81 +857,66 @@
             background: #ff9800;
         }
 
-        /* Reportes y generador */
-        .reports-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(77, 184, 168, 0.1);
-            animation: slideInUp 0.8s ease 0.8s backwards;
-        }
-
-        .report-generator {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
-        }
-
-        .report-options {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
-        }
-
-        .report-preview {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
-        }
-
         .report-preview-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 2px solid rgba(77, 184, 168, 0.1);
+            border-bottom: 2px solid rgba(77, 184, 168, .08);
         }
 
         .report-preview-title {
             font-family: 'Quicksand', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--primary-dark);
         }
 
-        .report-actions {
+        .dashboard-card {
+            background: var(--card-bg);
+            border-radius: 22px;
+            border: 1px solid rgba(77, 184, 168, 0.12);
+            box-shadow: var(--shadow);
+        }
+
+        .link-patient-card {
+            padding: 1.5rem;
+        }
+
+        .link-patient-form {
             display: flex;
             gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .link-patient-form .field-grow {
+            min-width: 240px;
+            flex: 1;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: .75rem;
         }
 
         .report-btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: .78rem 1.2rem;
         }
 
         .btn-generate {
+            width: 100%;
+            margin-top: .5rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            width: 100%;
-            justify-content: center;
-            margin-top: 1rem;
         }
 
         .btn-generate:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(77, 184, 168, 0.3);
+            box-shadow: 0 8px 20px rgba(77, 184, 168, .28);
         }
 
         .btn-download {
@@ -917,92 +936,114 @@
         }
 
         .btn-print:hover {
-            background: #1e4a47;
+            background: #1f4b48;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .specialist-dashboard {
-                padding: 0 1.5rem;
+        .report-preview-body {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 16px;
+        }
+
+        .report-summary-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .report-summary-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 1200px) {
+
+            .metrics-grid,
+            .charts-grid,
+            .alerts-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .notes-container {
-                grid-template-columns: 1fr;
-            }
-
+            .notes-container,
             .report-generator {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .timeline-item {
-                flex-direction: column !important;
-                gap: 1rem;
+        @media (max-width: 900px) {
+            .specialist-dashboard {
+                padding: 0 1rem 2rem;
+                gap: 1.5rem;
             }
 
-            .timeline-content {
-                width: 100%;
+            .metrics-grid,
+            .charts-grid,
+            .alerts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-grid,
+            .calendar-weekdays {
+                gap: .35rem;
             }
         }
 
         @media (max-width: 768px) {
-            .specialist-dashboard {
-                margin-top: 80px;
-                padding: 0 1rem;
+
+            .welcome-header,
+            .priority-section,
+            .notes-section,
+            .calendar-section,
+            .reports-section {
+                padding: 1.4rem;
             }
 
             .welcome-title {
-                font-size: 1.8rem;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr 1fr;
+                font-size: 1.7rem;
+                gap: .75rem;
             }
 
             .priority-item {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .priority-details {
-                flex-direction: column;
-                gap: 0.5rem;
+                align-items: flex-start;
             }
 
             .priority-actions {
                 width: 100%;
             }
 
-            .calendar-grid {
-                gap: 0.2rem;
+            .priority-actions .priority-btn {
+                width: 100%;
             }
 
-            .calendar-day-number {
-                font-size: 0.8rem;
+            .calendar-month {
+                min-width: auto;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 540px) {
+
+            .metric-header,
+            .calendar-header,
+            .report-preview-header,
+            .section-header {
+                align-items: flex-start;
+            }
+
             .metrics-grid {
                 grid-template-columns: 1fr;
             }
 
-            .section-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+            .calendar-day {
+                min-height: 54px;
             }
 
-            .calendar-weekdays {
-                font-size: 0.8rem;
+            .calendar-day-number {
+                font-size: .82rem;
             }
 
             .calendar-legend {
                 flex-direction: column;
-                gap: 0.5rem;
+                align-items: flex-start;
             }
         }
     </style>
@@ -1031,47 +1072,6 @@
             </div>
         @endif
 
-        @if ($errors->any())x
-            <div style="background:#fee2e2; color:#991b1b; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
-                <ul style="margin:0; padding-left:18px;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <div
-            style="background: rgba(255,255,255,0.95); border-radius:20px; padding:1.5rem; margin-bottom:2rem; box-shadow: var(--shadow); border:1px solid rgba(77, 184, 168, 0.1);">
-            <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom:1rem;">
-                <i class="fas fa-link" style="color: var(--primary);"></i>
-                Vincular paciente manualmente
-            </h3>
-
-            <form method="POST" action="{{ route('especialista.pacientes.vincular') }}"
-                style="display:flex; gap:1rem; align-items:end; flex-wrap:wrap;">
-                @csrf
-
-                <div style="min-width:220px; flex:1;">
-                    <label for="paciente_id" class="form-label">ID del paciente</label>
-                    <input type="number" name="paciente_id" id="paciente_id" class="form-input" required
-                        placeholder="Ej: 15">
-                </div>
-
-                <div>
-                    <button type="submit" class="priority-btn btn-primary">
-                        <i class="fas fa-user-plus"></i>
-                        Vincular paciente
-                    </button>
-                </div>
-            </form>
-        </div>
-        @if (session('success'))
-            <div style="background:#d1fae5; color:#065f46; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if ($errors->any())
             <div style="background:#fee2e2; color:#991b1b; padding:10px 14px; border-radius:12px; margin-bottom:20px;">
                 <ul style="margin:0; padding-left:18px;">
@@ -1082,18 +1082,16 @@
             </div>
         @endif
 
-        <div
-            style="background: rgba(255,255,255,0.95); border-radius:20px; padding:1.5rem; margin-bottom:2rem; box-shadow: var(--shadow); border:1px solid rgba(77, 184, 168, 0.1);">
-            <h3 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom:1rem;">
+        <div class="dashboard-card link-patient-card">
+            <h3 style="font-family:'Quicksand',sans-serif;color:var(--primary-dark);margin-bottom:1rem;">
                 <i class="fas fa-link" style="color: var(--primary);"></i>
                 Vincular paciente manualmente
             </h3>
 
-            <form method="POST" action="{{ route('especialista.pacientes.vincular') }}"
-                style="display:flex; gap:1rem; align-items:end; flex-wrap:wrap;">
+            <form method="POST" action="{{ route('especialista.pacientes.vincular') }}" class="link-patient-form">
                 @csrf
 
-                <div style="min-width:220px; flex:1;">
+                <div class="field-grow">
                     <label for="paciente_id" class="form-label">ID del paciente</label>
                     <input type="number" name="paciente_id" id="paciente_id" class="form-input" required
                         placeholder="Ej: 15">
@@ -1230,7 +1228,6 @@
 
             <!-- Gráficos de evolución -->
             <div class="charts-grid">
-                <!-- Gráfico PHQ-9 -->
                 <div class="chart-card">
                     <div class="chart-header">
                         <h3 class="chart-title">
@@ -1244,7 +1241,6 @@
                     </div>
                 </div>
 
-                <!-- Gráfico GAD-7 -->
                 <div class="chart-card">
                     <div class="chart-header">
                         <h3 class="chart-title">
@@ -1258,334 +1254,356 @@
                     </div>
                 </div>
             </div>
+        </div> {{-- CIERRE REAL de .priority-section --}}
 
-
-            <!-- Sistema de alertas tempranas -->
-            <div class="alerts-grid">
-                <div class="alert-card">
-                    <div class="alert-header">
-                        <div class="alert-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div>
-                            <h3 class="alert-title">Alertas de Deterioro</h3>
-                            <div class="alert-count">3 pacientes requieren atención</div>
-                        </div>
+        <!-- Sistema de alertas tempranas -->
+        <div class="alerts-grid">
+            <div class="alert-card">
+                <div class="alert-header">
+                    <div class="alert-icon danger">
+                        <i class="fas fa-exclamation-triangle"></i>
                     </div>
-                    <div class="alert-list">
-                        <div class="alert-item critical">
-                            <div class="alert-avatar">MG</div>
-                            <div class="alert-info">
-                                <div class="alert-name">María González</div>
-                                <div class="alert-message">Empeoramiento rápido: PHQ-9 aumentó 8 puntos en 7 días</div>
-                                <div class="alert-time">Hace 2 horas</div>
-                            </div>
-                        </div>
-                        <div class="alert-item warning">
-                            <div class="alert-avatar">CR</div>
-                            <div class="alert-info">
-                                <div class="alert-name">Carlos Rodríguez</div>
-                                <div class="alert-message">3 días sin registrar medicación</div>
-                                <div class="alert-time">Hace 5 horas</div>
-                            </div>
-                        </div>
-                        <div class="alert-item info">
-                            <div class="alert-avatar">LM</div>
-                            <div class="alert-info">
-                                <div class="alert-name">Laura Mendoza</div>
-                                <div class="alert-message">Patrón de insomnio detectado en diario emocional</div>
-                                <div class="alert-time">Ayer</div>
-                            </div>
-                        </div>
+                    <div>
+                        <h3 class="alert-title">Alertas de Deterioro</h3>
+                        <div class="alert-count">{{ count($alertasDeterioro ?? []) }} pacientes requieren atención</div>
                     </div>
                 </div>
 
-                <div class="alert-card">
-                    <div class="alert-header">
-                        <div class="alert-icon"
-                            style="background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(76,175,80,0.2)); color:#4caf50;">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div>
-                            <h3 class="alert-title">Alertas de Adherencia</h3>
-                            <div class="alert-count">8 pacientes con baja adherencia</div>
-                        </div>
-                    </div>
-                    <div class="alert-list">
-                        <div class="alert-item warning">
-                            <div class="alert-avatar">JP</div>
+                <div class="alert-list">
+                    @forelse($alertasDeterioro as $alerta)
+                        <div class="alert-item {{ $alerta->tipo }}">
+                            <div class="alert-avatar">
+                                {{ strtoupper(substr($alerta->paciente->name, 0, 1)) }}
+                            </div>
                             <div class="alert-info">
-                                <div class="alert-name">Juan Pérez</div>
-                                <div class="alert-message">Adherencia: 45% - Riesgo de abandono</div>
-                                <div class="alert-time">Hace 1 día</div>
+                                <div class="alert-name">{{ $alerta->paciente->name }}</div>
+                                <div class="alert-message">{{ $alerta->mensaje }} — {{ $alerta->detalle }}</div>
                             </div>
                         </div>
-                        <div class="alert-item warning">
-                            <div class="alert-avatar">AS</div>
+                    @empty
+                        <div class="alert-item info">
+                            <div class="alert-avatar">
+                                <i class="fas fa-check"></i>
+                            </div>
                             <div class="alert-info">
-                                <div class="alert-name">Ana Sánchez</div>
-                                <div class="alert-message">Adherencia: 52% - 5 dosis perdidas esta semana</div>
-                                <div class="alert-time">Hace 2 días</div>
+                                <div class="alert-name">Sin alertas de deterioro</div>
+                                <div class="alert-message">
+                                    No se detectaron empeoramientos clínicos significativos por ahora.
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
 
-            <!-- Sistema de notas clínicas -->
-            <div class="notes-section">
+            <div class="alert-card">
+                <div class="alert-header">
+                    <div class="alert-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <h3 class="alert-title">Alertas de Adherencia</h3>
+                        <div class="alert-count">{{ count($alertasAdherencia ?? []) }} pacientes con baja adherencia</div>
+                    </div>
+                </div>
+
+                <div class="alert-list">
+                    @forelse($alertasAdherencia as $alerta)
+                        <div class="alert-item {{ $alerta->tipo }}"
+                            style="justify-content: space-between; align-items: center;">
+                            <div style="display:flex; align-items:flex-start; gap:.9rem; flex:1; min-width:0;">
+                                <div class="alert-avatar">
+                                    {{ strtoupper(substr($alerta->paciente->name ?? 'P', 0, 1)) }}
+                                </div>
+
+                                <div class="alert-info">
+                                    <div class="alert-name">{{ $alerta->paciente->name ?? 'Paciente' }}</div>
+                                    <div class="alert-message">{{ $alerta->mensaje }}</div>
+                                    <div class="alert-time" style="color:#ff9800; font-weight:600;">
+                                        {{ $alerta->detalle }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (!empty($alerta->paciente?->id))
+                                <a href="{{ route('especialista.pacientes.chequeos', $alerta->paciente->id) }}"
+                                    class="priority-btn btn-outline"
+                                    style="padding:.55rem .95rem; font-size:.8rem; white-space:nowrap;">
+                                    <i class="fas fa-eye"></i>
+                                    Ver
+                                </a>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="alert-item info">
+                            <div class="alert-avatar">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="alert-info">
+                                <div class="alert-name">Sin alertas de adherencia</div>
+                                <div class="alert-message">
+                                    No se detectaron pacientes con baja adherencia por ahora.
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
+        <!-- Sistema de notas clínicas -->
+        <div class="notes-section">
+            <div class="section-header">
                 <h2 class="section-title">
                     <i class="fas fa-notes-medical"></i>
                     Notas Clínicas
                 </h2>
+            </div>
 
-                <div class="notes-container">
-                    <div class="notes-list">
-                        <div class="note-item">
-                            <div class="note-header">
-                                <span class="note-patient">
-                                    <i class="fas fa-user-circle"></i>
-                                    María González
-                                </span>
-                                <span class="note-date">15/02/2024</span>
-                            </div>
-                            <div class="note-content">
-                                Ajuste de dosis: Sertralina de 50mg a 100mg. Paciente reporta mejoría en estado de ánimo y
-                                disminución de pensamientos intrusivos.
-                            </div>
-                            <div class="note-author">
-                                <i class="fas fa-stethoscope"></i>
-                                Dra. Ana López - Psiquiatra
-                            </div>
+            <div class="notes-container">
+                <div class="notes-list">
+                    <div class="note-item">
+                        <div class="note-header">
+                            <span class="note-patient">
+                                <i class="fas fa-user-circle"></i>
+                                María González
+                            </span>
+                            <span class="note-date">15/02/2024</span>
                         </div>
-
-                        <div class="note-item">
-                            <div class="note-header">
-                                <span class="note-patient">
-                                    <i class="fas fa-user-circle"></i>
-                                    Carlos Rodríguez
-                                </span>
-                                <span class="note-date">12/02/2024</span>
-                            </div>
-                            <div class="note-content">
-                                Paciente refiere aumento de ansiedad en situaciones sociales. Se recomienda terapia
-                                cognitivo-conductual y se ajusta horario de medicación.
-                            </div>
-                            <div class="note-author">
-                                <i class="fas fa-stethoscope"></i>
-                                Dra. Ana López - Psiquiatra
-                            </div>
+                        <div class="note-content">
+                            Ajuste de dosis: Sertralina de 50mg a 100mg. Paciente reporta mejoría en estado de ánimo y
+                            disminución de pensamientos intrusivos.
                         </div>
-
-                        <div class="note-item">
-                            <div class="note-header">
-                                <span class="note-patient">
-                                    <i class="fas fa-user-circle"></i>
-                                    Laura Mendoza
-                                </span>
-                                <span class="note-date">10/02/2024</span>
-                            </div>
-                            <div class="note-content">
-                                Buen progreso en adherencia. Reporta mejor calidad de sueño. Continuar con plan actual y
-                                próximo
-                                control en 3 semanas.
-                            </div>
-                            <div class="note-author">
-                                <i class="fas fa-stethoscope"></i>
-                                Dra. Ana López - Psiquiatra
-                            </div>
+                        <div class="note-author">
+                            <i class="fas fa-stethoscope"></i>
+                            Dra. Ana López - Psiquiatra
                         </div>
                     </div>
 
-                    <div class="note-form">
-                        <h3
-                            style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom: 1.5rem;">
-                            <i class="fas fa-plus-circle" style="color: var(--primary);"></i>
-                            Nueva Nota Clínica
-                        </h3>
-
-                        <div class="form-group">
-                            <label class="form-label">Paciente</label>
-                            <select class="form-select">
-                                <option value="">Seleccionar paciente...</option>
-                                <option value="1">María González</option>
-                                <option value="2">Carlos Rodríguez</option>
-                                <option value="3">Laura Mendoza</option>
-                                <option value="4">Juan Pérez</option>
-                            </select>
+                    <div class="note-item">
+                        <div class="note-header">
+                            <span class="note-patient">
+                                <i class="fas fa-user-circle"></i>
+                                Carlos Rodríguez
+                            </span>
+                            <span class="note-date">12/02/2024</span>
                         </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Tipo de nota</label>
-                            <select class="form-select">
-                                <option value="seguimiento">Seguimiento</option>
-                                <option value="ajuste">Ajuste de medicación</option>
-                                <option value="observacion">Observación</option>
-                                <option value="derivacion">Derivación</option>
-                            </select>
+                        <div class="note-content">
+                            Paciente refiere aumento de ansiedad en situaciones sociales. Se recomienda terapia
+                            cognitivo-conductual y se ajusta horario de medicación.
                         </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Nota clínica</label>
-                            <textarea class="form-textarea" placeholder="Escribe tus observaciones clínicas..."></textarea>
+                        <div class="note-author">
+                            <i class="fas fa-stethoscope"></i>
+                            Dra. Ana López - Psiquiatra
                         </div>
-
-                        <button class="priority-btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-save"></i>
-                            Guardar Nota
-                        </button>
                     </div>
+
+                    <div class="note-item">
+                        <div class="note-header">
+                            <span class="note-patient">
+                                <i class="fas fa-user-circle"></i>
+                                Laura Mendoza
+                            </span>
+                            <span class="note-date">10/02/2024</span>
+                        </div>
+                        <div class="note-content">
+                            Buen progreso en adherencia. Reporta mejor calidad de sueño. Continuar con plan actual y próximo
+                            control en 3 semanas.
+                        </div>
+                        <div class="note-author">
+                            <i class="fas fa-stethoscope"></i>
+                            Dra. Ana López - Psiquiatra
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-form">
+                    <h3 style="font-family:'Quicksand',sans-serif;color:var(--primary-dark);margin-bottom:1.5rem;">
+                        <i class="fas fa-plus-circle" style="color: var(--primary);"></i>
+                        Nueva Nota Clínica
+                    </h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Paciente</label>
+                        <select class="form-select">
+                            <option value="">Seleccionar paciente...</option>
+                            <option value="1">María González</option>
+                            <option value="2">Carlos Rodríguez</option>
+                            <option value="3">Laura Mendoza</option>
+                            <option value="4">Juan Pérez</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tipo de nota</label>
+                        <select class="form-select">
+                            <option value="seguimiento">Seguimiento</option>
+                            <option value="ajuste">Ajuste de medicación</option>
+                            <option value="observacion">Observación</option>
+                            <option value="derivacion">Derivación</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nota clínica</label>
+                        <textarea class="form-textarea" placeholder="Escribe tus observaciones clínicas..."></textarea>
+                    </div>
+
+                    <button class="priority-btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-save"></i>
+                        Guardar Nota
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendario de seguimiento -->
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Calendario de Seguimiento
+                </h2>
+
+                <div class="calendar-nav">
+                    <button class="calendar-nav-btn" onclick="previousMonth()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="calendar-month" id="currentMonth">Febrero 2024</span>
+                    <button class="calendar-nav-btn" onclick="nextMonth()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
 
-            <!-- Calendario de seguimiento -->
-            <div class="calendar-section">
-                <div class="calendar-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-calendar-alt"></i>
-                        Calendario de Seguimiento
-                    </h2>
-                    <div class="calendar-nav">
-                        <button class="calendar-nav-btn" onclick="previousMonth()">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <span class="calendar-month" id="currentMonth">Febrero 2024</span>
-                        <button class="calendar-nav-btn" onclick="nextMonth()">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="calendar-weekdays">
-                    <div>Lun</div>
-                    <div>Mar</div>
-                    <div>Mié</div>
-                    <div>Jue</div>
-                    <div>Vie</div>
-                    <div>Sáb</div>
-                    <div>Dom</div>
-                </div>
-
-                <div class="calendar-grid" id="calendarGrid">
-                    <!-- Se generará con JavaScript -->
-                </div>
-
-                <div class="calendar-legend">
-                    <div class="legend-item">
-                        <span class="legend-color completed"></span>
-                        <span>Todos los registros completados</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color partial"></span>
-                        <span>Registros parciales</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color missed"></span>
-                        <span>Sin registros</span>
-                    </div>
-                </div>
+            <div class="calendar-weekdays">
+                <div>Lun</div>
+                <div>Mar</div>
+                <div>Mié</div>
+                <div>Jue</div>
+                <div>Vie</div>
+                <div>Sáb</div>
+                <div>Dom</div>
             </div>
 
-            <!-- Generador de informes -->
-            <div class="reports-section">
+            <div class="calendar-grid" id="calendarGrid"></div>
+
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="legend-color completed"></span>
+                    <span>Todos los registros completados</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color partial"></span>
+                    <span>Registros parciales</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color missed"></span>
+                    <span>Sin registros</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generador de informes -->
+        <div class="reports-section">
+            <div class="section-header">
                 <h2 class="section-title">
                     <i class="fas fa-file-pdf"></i>
                     Generador de Informes
                 </h2>
+            </div>
 
-                <div class="report-generator">
-                    <div class="report-options">
-                        <h3
-                            style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark); margin-bottom: 1.5rem;">
-                            Configurar Informe
-                        </h3>
+            <div class="report-generator">
+                <div class="report-options">
+                    <h3 style="font-family:'Quicksand',sans-serif;color:var(--primary-dark);margin-bottom:1.5rem;">
+                        Configurar Informe
+                    </h3>
 
-                        <div class="form-group">
-                            <label class="form-label">Paciente</label>
-                            <select class="form-select">
-                                <option value="">Seleccionar paciente...</option>
-                                <option value="1">María González</option>
-                                <option value="2">Carlos Rodríguez</option>
-                                <option value="3">Laura Mendoza</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Periodo</label>
-                            <select class="form-select">
-                                <option value="7">Últimos 7 días</option>
-                                <option value="30">Últimos 30 días</option>
-                                <option value="90">Últimos 3 meses</option>
-                                <option value="180">Últimos 6 meses</option>
-                                <option value="custom">Personalizado</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Incluir:</label>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" checked> Resultados de tests
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" checked> Registro de adherencia
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" checked> Notas clínicas
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox"> Diario emocional (resumen)
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox"> Gráficos de evolución
-                                </label>
-                            </div>
-                        </div>
-
-                        <button class="report-btn btn-generate" onclick="generateReport()">
-                            <i class="fas fa-file-pdf"></i>
-                            Generar Informe
-                        </button>
+                    <div class="form-group">
+                        <label class="form-label">Paciente</label>
+                        <select class="form-select">
+                            <option value="">Seleccionar paciente...</option>
+                            <option value="1">María González</option>
+                            <option value="2">Carlos Rodríguez</option>
+                            <option value="3">Laura Mendoza</option>
+                        </select>
                     </div>
 
-                    <div class="report-preview">
-                        <div class="report-preview-header">
-                            <h3 class="report-preview-title">Vista Previa del Informe</h3>
-                            <div class="report-actions">
-                                <button class="report-btn btn-download">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                                <button class="report-btn btn-print">
-                                    <i class="fas fa-print"></i>
-                                </button>
-                            </div>
+                    <div class="form-group">
+                        <label class="form-label">Periodo</label>
+                        <select class="form-select">
+                            <option value="7">Últimos 7 días</option>
+                            <option value="30">Últimos 30 días</option>
+                            <option value="90">Últimos 3 meses</option>
+                            <option value="180">Últimos 6 meses</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Incluir:</label>
+                        <div style="display:flex;flex-direction:column;gap:.65rem;margin-top:.65rem;">
+                            <label style="display:flex;align-items:center;gap:.55rem;">
+                                <input type="checkbox" checked> Resultados de tests
+                            </label>
+                            <label style="display:flex;align-items:center;gap:.55rem;">
+                                <input type="checkbox" checked> Registro de adherencia
+                            </label>
+                            <label style="display:flex;align-items:center;gap:.55rem;">
+                                <input type="checkbox" checked> Notas clínicas
+                            </label>
+                            <label style="display:flex;align-items:center;gap:.55rem;">
+                                <input type="checkbox"> Diario emocional (resumen)
+                            </label>
+                            <label style="display:flex;align-items:center;gap:.55rem;">
+                                <input type="checkbox"> Gráficos de evolución
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="report-btn btn-generate" onclick="generateReport(event)">
+                        <i class="fas fa-file-pdf"></i>
+                        Generar Informe
+                    </button>
+                </div>
+
+                <div class="report-preview">
+                    <div class="report-preview-header">
+                        <h3 class="report-preview-title">Vista Previa del Informe</h3>
+                        <div class="report-actions">
+                            <button class="report-btn btn-download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="report-btn btn-print">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-preview-body">
+                        <div style="text-align:center; margin-bottom:1.5rem;">
+                            <h2 style="font-family:'Quicksand',sans-serif;color:var(--primary-dark);">Mentally</h2>
+                            <h3 style="color:var(--primary);margin:.5rem 0;">Informe de Evolución Clínica</h3>
+                            <p style="color:var(--secondary);">
+                                Paciente: María González | Periodo: 15/01/2024 - 15/02/2024
+                            </p>
                         </div>
 
-                        <div style="padding: 2rem; background: #f8fafc; border-radius: 10px;">
-                            <div style="text-align: center; margin-bottom: 2rem;">
-                                <h2 style="font-family: 'Quicksand', sans-serif; color: var(--primary-dark);">Mentally</h2>
-                                <h3 style="color: var(--primary); margin: 0.5rem 0;">Informe de Evolución Clínica</h3>
-                                <p style="color: var(--secondary);">Paciente: María González | Periodo: 15/01/2024 -
-                                    15/02/2024
-                                </p>
+                        <div class="report-summary-grid">
+                            <div>
+                                <h4 style="color:var(--primary-dark);margin-bottom:.5rem;">Resumen de Tests</h4>
+                                <div class="report-summary-box">
+                                    <p>PHQ-9: 22 → 12 (mejoría del 45%)</p>
+                                    <p>GAD-7: 18 → 10 (mejoría del 44%)</p>
+                                    <p>Adherencia: 40% → 78% (incremento del 95%)</p>
+                                </div>
                             </div>
 
-                            <div style="display: grid; gap: 1.5rem;">
-                                <div>
-                                    <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Resumen de Tests</h4>
-                                    <div style="background: white; padding: 1rem; border-radius: 10px;">
-                                        <p>PHQ-9: 22 → 12 (mejoría del 45%)</p>
-                                        <p>GAD-7: 18 → 10 (mejoría del 44%)</p>
-                                        <p>Adherencia: 40% → 78% (incremento del 95%)</p>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h4 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Notas Clínicas</h4>
-                                    <div style="background: white; padding: 1rem; border-radius: 10px;">
-                                        <p><strong>15/02/2024</strong> - Ajuste de dosis: Sertralina de 50mg a 100mg...</p>
-                                        <p><strong>01/02/2024</strong> - Paciente reporta mejoría en calidad de sueño...</p>
-                                    </div>
+                            <div>
+                                <h4 style="color:var(--primary-dark);margin-bottom:.5rem;">Notas Clínicas</h4>
+                                <div class="report-summary-box">
+                                    <p><strong>15/02/2024</strong> - Ajuste de dosis: Sertralina de 50mg a 100mg...</p>
+                                    <p><strong>01/02/2024</strong> - Paciente reporta mejoría en calidad de sueño...</p>
                                 </div>
                             </div>
                         </div>
@@ -1624,10 +1642,11 @@
                 new Chart(ctx1, {
                     type: 'line',
                     data: {
-                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Hoy'],
+                        labels: {!! json_encode($chartLabels ?? []) !!},
                         datasets: [{
-                            label: 'PHQ-9',
-                            data: [22, 19, 15, 12, 10],
+                            label: 'PHQ-9 (Promedio)',
+                            data: {!! json_encode($phq9Data ?? []) !!},
+                            spanGaps: true,
                             borderColor: '#4db8a8',
                             backgroundColor: 'rgba(77, 184, 168, 0.1)',
                             borderWidth: 3,
@@ -1665,10 +1684,11 @@
                 new Chart(ctx2, {
                     type: 'line',
                     data: {
-                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Hoy'],
+                        labels: {!! json_encode($chartLabels ?? []) !!},
                         datasets: [{
-                            label: 'GAD-7',
-                            data: [18, 16, 14, 12, 10],
+                            label: 'GAD-7 (Promedio)',
+                            data: {!! json_encode($gad7Data ?? []) !!},
+                            spanGaps: true,
                             borderColor: '#ff9800',
                             backgroundColor: 'rgba(255, 152, 0, 0.1)',
                             borderWidth: 3,
@@ -1704,28 +1724,27 @@
 
             function initCalendar() {
                 const calendarGrid = document.getElementById('calendarGrid');
-                const daysInMonth = 29; // Febrero 2024 (año bisiesto)
+                const daysInMonth = 29;
 
                 let html = '';
-                // Días vacíos al inicio (Febrero 2024 comienza jueves = 3 días vacíos)
+
                 for (let i = 0; i < 3; i++) {
-                    html += '<div class="calendar-day" style="opacity: 0.3; cursor: default;"></div>';
+                    html += '<div class="calendar-day empty"></div>';
                 }
 
-                // Días del mes
                 for (let day = 1; day <= daysInMonth; day++) {
-                    const status = Math.random(); // Simulación - en producción vendría de BD
                     let statusClass = '';
+
                     if (day < 10) statusClass = 'completed';
                     else if (day < 20) statusClass = 'partial';
                     else statusClass = 'missed';
 
                     html += `
-                <div class="calendar-day has-event ${statusClass}" onclick="showDayDetails(${day})">
-                    <span class="calendar-day-number">${day}</span>
-                    <div class="calendar-day-indicator"></div>
-                </div>
-            `;
+            <div class="calendar-day has-event ${statusClass}" onclick="showDayDetails(${day})">
+                <span class="calendar-day-number">${day}</span>
+                <div class="calendar-day-indicator"></div>
+            </div>
+        `;
                 }
 
                 calendarGrid.innerHTML = html;
@@ -1755,16 +1774,14 @@
                 console.log('Mostrar detalles del día:', day);
             }
 
-            function generateReport() {
-                const btn = event.target.closest('button');
+            function generateReport(event) {
+                const btn = event.currentTarget;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
                 btn.disabled = true;
 
                 setTimeout(() => {
                     btn.innerHTML = '<i class="fas fa-file-pdf"></i> Generar Informe';
                     btn.disabled = false;
-
-                    // Simular descarga
                     showNotification('Informe generado exitosamente', 'success');
                 }, 2000);
             }
