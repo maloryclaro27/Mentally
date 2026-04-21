@@ -1,0 +1,52 @@
+FROM composer:2 AS composer
+
+WORKDIR /app
+
+COPY composer.json composer.lock* ./
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-scripts
+
+COPY . .
+RUN php -r "file_exists('.env') || copy('.env.example', '.env');"
+RUN rm -f bootstrap/cache/*.php
+RUN php artisan package:discover --ansi
+
+
+FROM node:20 AS frontend
+
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+
+FROM php:8.2-apache
+
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    libxml2-dev \
+    libonig-dev \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-install pdo pdo_mysql mbstring xml zip \
+    && a2enmod rewrite
+
+WORKDIR /var/www/html
+
+COPY --from=composer /app /var/www/html
+COPY --from=frontend /app/public/build /var/www/html/public/build
+
+RUN mkdir -p /var/www/html/storage/framework/views \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+COPY docker/apache-vhost.conf /etc/apache2/sites-available/000-default.conf
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]

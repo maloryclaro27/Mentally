@@ -1,0 +1,13 @@
+.git
+node_modules
+vendor
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+public/storage
+docker-data
+backup_mentally.sql
+backup_mentally_clean.sql
+chatbot/chatbot/model
+phpmyadmin

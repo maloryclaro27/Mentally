@@ -1,6 +1,7 @@
 *.log
 .DS_Store
 .env
+.env.*
 .env.backup
 .env.production
 .phpactor.json
@@ -26,3 +27,6 @@ modelo_bert/
 chatbot/chatbot/app/__pycache__/
 *.pyc
 chatbot/chatbot/model/model.safetensors
+*.sql
+backup_mentally.sql
+backup_mentally_clean.sql
