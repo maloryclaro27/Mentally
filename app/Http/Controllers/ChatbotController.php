@@ -63,6 +63,8 @@ class ChatbotController extends Controller
                     'previous_messages' => $previousMessages,
                 ]);
 
+                \Log::info('Chatbot result', ['result' => $result]);
+
                 $reply = filled($result['reply'] ?? null)
                     ? $result['reply']
                     : $this->fallbackReply($detectedEmotion, $detectedTopic);
@@ -80,6 +82,11 @@ class ChatbotController extends Controller
                 $botEmotion = $detectedEmotion;
             }
         } catch (\Throwable $e) {
+            \Log::error('Chatbot controller error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             $reply = 'Lo siento, el asistente no está disponible en este momento.';
             $botEmotion = 'error';
         }
@@ -174,7 +181,7 @@ class ChatbotController extends Controller
         return $options[array_rand($options)];
     }
 
-    
+
 
     protected function sanitizeReply(string $reply, ?string $emotion, string $topic): string
     {
@@ -225,5 +232,19 @@ class ChatbotController extends Controller
         return $responses[$emotion][$topic]
             ?? $responses[$emotion]['general']
             ?? 'Te leo. ¿Qué es lo que más te gustaría expresar ahora?';
+    }
+
+    protected function isTooSimilar(string $a, string $b): bool
+    {
+        $a = trim(mb_strtolower($a));
+        $b = trim(mb_strtolower($b));
+
+        if ($a === '' || $b === '') {
+            return false;
+        }
+
+        similar_text($a, $b, $percent);
+
+        return $percent >= 85;
     }
 }

@@ -16,4 +16,8 @@ return [
         'api_key' => env('OLLAMA_API_KEY', 'ollama'),
     ],
 
+    'local_api' => [
+        'base_url' => env('CHATBOT_LOCAL_API_URL', 'https://mentally-chatbot.wittyflower-1160ab01.eastus2.azurecontainerapps.io'),
+    ],
+
 ];

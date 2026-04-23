@@ -35,6 +35,7 @@ class ChatProviderManager
         return match ($provider) {
             'openai' => $this->callOpenAI($payload),
             'ollama' => $this->callOllama($payload),
+            'local_api' => $this->callLocalApi($payload),
             default => throw new \InvalidArgumentException("Proveedor no soportado: {$provider}"),
         };
     }
@@ -85,6 +86,34 @@ class ChatProviderManager
         return [
             'provider' => 'ollama',
             'text' => data_get($data, 'choices.0.message.content', ''),
+            'raw' => $data,
+        ];
+    }
+
+    protected function callLocalApi(array $payload): array
+    {
+        $baseUrl = rtrim(config('chatbot.local_api.base_url'), '/');
+        $messages = $payload['messages'] ?? [];
+
+        $lastUserMessage = collect($messages)
+            ->reverse()
+            ->firstWhere('role', 'user');
+
+        $messageText = $lastUserMessage['content'] ?? '';
+
+        $response = Http::timeout(60)->post($baseUrl . '/get_response', [
+            'message' => $messageText,
+        ]);
+
+        if (! $response->successful()) {
+            throw new \RuntimeException('Error Local API: ' . $response->body());
+        }
+
+        $data = $response->json();
+
+        return [
+            'provider' => 'local_api',
+            'text' => data_get($data, 'reply', ''),
             'raw' => $data,
         ];
     }
