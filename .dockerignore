@@ -11,3 +11,6 @@ backup_mentally.sql
 backup_mentally_clean.sql
 chatbot/chatbot/model
 phpmyadmin
+modelo_bert
+.venv
+chatbot
