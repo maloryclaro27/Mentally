@@ -10,6 +10,12 @@ return [
         'model' => env('OPENAI_MODEL', 'gpt-5-mini'),
     ],
 
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
+        'base_url' => env('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1beta'),
+    ],
+
     'ollama' => [
         'base_url' => env('OLLAMA_BASE_URL', 'http://host.docker.internal:11434/v1'),
         'model' => env('OLLAMA_MODEL', 'qwen3:8b'),

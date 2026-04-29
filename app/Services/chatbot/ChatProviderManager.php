@@ -34,6 +34,7 @@ class ChatProviderManager
     {
         return match ($provider) {
             'openai' => $this->callOpenAI($payload),
+            'gemini' => $this->callGemini($payload),
             'ollama' => $this->callOllama($payload),
             'local_api' => $this->callLocalApi($payload),
             default => throw new \InvalidArgumentException("Proveedor no soportado: {$provider}"),
@@ -60,6 +61,83 @@ class ChatProviderManager
         return [
             'provider' => 'openai',
             'text' => data_get($data, 'choices.0.message.content', ''),
+            'raw' => $data,
+        ];
+    }
+
+    protected function callGemini(array $payload): array
+    {
+        $apiKey = config('chatbot.gemini.api_key');
+        $model = config('chatbot.gemini.model');
+        $baseUrl = rtrim(config('chatbot.gemini.base_url'), '/');
+
+        if (empty($apiKey)) {
+            throw new \RuntimeException('Gemini API key no configurada.');
+        }
+
+        $messages = $payload['messages'] ?? [];
+
+        $systemInstruction = collect($messages)
+            ->where('role', 'system')
+            ->pluck('content')
+            ->filter()
+            ->implode("\n\n");
+
+        $contents = collect($messages)
+            ->filter(fn($message) => in_array($message['role'] ?? '', ['user', 'assistant']))
+            ->map(function ($message) {
+                $role = ($message['role'] ?? '') === 'assistant' ? 'model' : 'user';
+
+                return [
+                    'role' => $role,
+                    'parts' => [
+                        [
+                            'text' => $message['content'] ?? '',
+                        ],
+                    ],
+                ];
+            })
+            ->values()
+            ->all();
+
+        if (empty($contents)) {
+            throw new \RuntimeException('No hay mensajes válidos para enviar a Gemini.');
+        }
+
+        $requestBody = [
+            'contents' => $contents,
+            'generationConfig' => [
+                'temperature' => $payload['temperature'] ?? 0.7,
+                'maxOutputTokens' => max((int) ($payload['max_tokens'] ?? 300), 800),
+            ],
+        ];
+
+        if (! empty($systemInstruction)) {
+            $requestBody['systemInstruction'] = [
+                'parts' => [
+                    [
+                        'text' => $systemInstruction,
+                    ],
+                ],
+            ];
+        }
+
+        $response = Http::withHeaders([
+            'x-goog-api-key' => $apiKey,
+        ])
+            ->timeout(45)
+            ->post($baseUrl . '/models/' . $model . ':generateContent', $requestBody);
+
+        if (! $response->successful()) {
+            throw new \RuntimeException('Error Gemini: ' . $response->body());
+        }
+
+        $data = $response->json();
+        $text = data_get($data, 'candidates.0.content.parts.0.text', '');
+
+        return [
+            'provider' => 'gemini',
+            'text' => $text,
             'raw' => $data,
         ];
     }
