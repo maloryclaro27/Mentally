@@ -59,8 +59,11 @@ class EnviarRecordatoriosMedicamentos extends Command
                 [
                     'schedule' => $medicamento->id,
                     'user' => $medicamento->user_id,
-                ]
+                ],
+                false
             );
+
+            $confirmUrl = rtrim(config('app.url'), '/') . $confirmUrl;
 
             Mail::to($medicamento->usuario->email)->send(
                 new RecordatorioMedicamento($medicamento, $confirmUrl)
