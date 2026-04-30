@@ -134,7 +134,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/medicamentos/confirmar-toma/{schedule}/{user}', [MedicationReminderController::class, 'confirm'])
         ->name('medications.confirm-intake')
-        ->middleware('signed');
+        ->middleware('signed:relative');
     Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot.index');
     Route::post('/chatbot/send', [ChatbotController::class, 'send'])->name('chatbot.send');
 
